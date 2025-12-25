@@ -2797,9 +2797,19 @@
                     <span>共享联系人</span>
                     <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
                   </div>
+                  <!-- 🔥 删除联系人选项（仅当已是联系人时显示） -->
+                  <div class="contact-option-item danger" id="deleteContactOption" onclick="deleteCurrentContact()" style="display: none;">
+                    <span>删除联系人</span>
+                    <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"/></svg>
+                  </div>
                   <div class="contact-option-item danger" onclick="blockNumber()">
                     <span>屏蔽此号码</span>
                     <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+                  </div>
+                  <!-- 🔥 删除此号码选项（仅当是随机陌生人时显示） -->
+                  <div class="contact-option-item danger" id="deleteStrangerOption" onclick="deleteStrangerNumber()" style="display: none;">
+                    <span>删除此号码</span>
+                    <svg viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                   </div>
                 </div>
               </div>
@@ -2818,7 +2828,7 @@
                 <div class="sms-contact-name" id="smsContactName">联系人</div>
                 <div class="sms-contact-status" id="smsContactStatus">iMessage</div>
               </div>
-              <button class="sms-edit-btn">Edit</button>
+              <button class="sms-edit-btn" id="smsEditBtn" onclick="toggleSmsEditMode()">Edit</button>
             </div>
 
             <!-- Action Bar -->
@@ -2852,7 +2862,7 @@
 
             <!-- Input Area -->
             <div class="sms-input-area">
-              <button class="sms-camera-btn" onclick="smsAttachImage()">
+              <button class="sms-camera-btn" onclick="smsRegenerateAIResponse()">
                 <svg viewBox="0 0 24 24">
                   <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z"/>
                   <circle cx="12" cy="13" r="4"/>
@@ -2862,6 +2872,24 @@
                 <input type="text" class="sms-input" id="smsInput" placeholder="Text Message" onkeydown="handleSmsKeyPress(event)">
               </div>
               <button class="sms-send-btn" onclick="sendSmsToAI()">Send</button>
+            </div>
+
+            <!-- 🔥 编辑模式工具栏 -->
+            <div class="sms-edit-toolbar" id="smsEditToolbar" style="display: none;">
+              <button class="sms-edit-tool-btn" id="smsSelectAllBtn" onclick="smsSelectAll()">
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 11l3 3L22 4"/>
+                  <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                </svg>
+                <span>全选</span>
+              </button>
+              <div class="sms-edit-toolbar-spacer"></div>
+              <button class="sms-edit-tool-btn danger" id="smsDeleteBtn" onclick="smsDeleteSelected()" disabled>
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"/>
+                </svg>
+                <span id="smsDeleteBtnText">删除</span>
+              </button>
             </div>
           </div>
 

@@ -18496,7 +18496,7 @@
 }
 
 .contact-history-detail.expanded {
-  max-height: 400px;
+  max-height: 500px; /* 🔥 增加高度，留足空间 */
 }
 
 .contact-history-detail-inner {
@@ -18504,6 +18504,29 @@
   background: var(--bg-tertiary);
   border-radius: 12px 4px 12px 4px;
   margin-top: 10px;
+  /* 🔥 添加滚动功能，通话记录再长也能看全！ */
+  max-height: 360px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 🔥 美化滚动条 - 保持整体设计风格 */
+.contact-history-detail-inner::-webkit-scrollbar {
+  width: 4px;
+}
+
+.contact-history-detail-inner::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contact-history-detail-inner::-webkit-scrollbar-thumb {
+  background: var(--text-tertiary);
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+.contact-history-detail-inner::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
 }
 
 .contact-transcript-item {
@@ -21118,6 +21141,124 @@
 
 .sms-send-btn:active {
   transform: scale(0.95);
+}
+
+/* ========== SMS 编辑模式工具栏 ========== */
+.sms-edit-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--sms-header-bg);
+  border-top: 1px solid var(--sms-header-border);
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+}
+
+.sms-edit-tool-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--sms-send-bg);
+  border: 1px solid var(--sms-header-border);
+  border-radius: 8px;
+  color: var(--sms-header-text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.sms-edit-tool-btn:active {
+  transform: scale(0.96);
+}
+
+.sms-edit-tool-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sms-edit-tool-btn.danger {
+  color: var(--sms-header-text);
+}
+
+.sms-edit-tool-btn.danger:disabled {
+  color: var(--sms-header-text);
+}
+
+.sms-edit-tool-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+.sms-edit-toolbar-spacer {
+  flex: 1;
+}
+
+/* 编辑模式下的消息复选框 */
+.sms-message-checkbox {
+  display: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--sms-header-border);
+  border-radius: 50%;
+  background: var(--sms-send-bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.sms-edit-mode .sms-message-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sms-message-checkbox.checked {
+  background: #4a4a4a;
+  border-color: #4a4a4a;
+}
+
+[data-theme="dark"] .sms-message-checkbox.checked {
+  background: #d0d0d0;
+  border-color: #d0d0d0;
+}
+
+.sms-message-checkbox.checked::after {
+  content: '';
+  width: 6px;
+  height: 10px;
+  border: solid #f5f5f5;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+[data-theme="dark"] .sms-message-checkbox.checked::after {
+  border-color: #2a2a2a;
+}
+
+/* 编辑模式下的消息容器 */
+.sms-edit-mode .sms-message {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 85%;
+}
+
+.sms-edit-mode .sms-message.user {
+  flex-direction: row-reverse;
+}
+
+.sms-edit-mode .sms-message-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ========== SMS Empty State ========== */
