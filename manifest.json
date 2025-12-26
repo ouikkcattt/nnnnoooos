@@ -1,6 +1,6 @@
 {
   "name": "咩咩在这里",
-  "short_name": "你喜欢咩咩吗",
+  "short_name": "咩咩在这里",
   "description": "一个完整的手机OS模拟器",
   "start_url": "./index.html",
   "display": "fullscreen",
