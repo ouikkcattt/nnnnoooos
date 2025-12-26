@@ -4573,6 +4573,63 @@
               </div>
             </div>
           </div>
+
+          <!-- 全屏适配区域 -->
+          <div class="typography-section">
+            <div class="typography-section-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; opacity: 0.6;">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>全屏适配</span>
+            </div>
+
+            <!-- 全屏适配选项列表 -->
+            <div class="fullscreen-options-list">
+              <!-- 隐藏刘海屏 -->
+              <div class="fullscreen-option-item">
+                <div class="fullscreen-option-info">
+                  <div class="fullscreen-option-name">隐藏刘海屏</div>
+                  <div class="fullscreen-option-desc">在全屏模式下隐藏刘海屏装饰</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="hideNotchToggle" onchange="toggleHideNotch()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <!-- 时间框贴顶 -->
+              <div class="fullscreen-option-item">
+                <div class="fullscreen-option-info">
+                  <div class="fullscreen-option-name">时间框贴顶</div>
+                  <div class="fullscreen-option-desc">将状态栏时间框移至页面最顶端</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="statusBarTopToggle" onchange="toggleStatusBarTop()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <!-- 灵动岛贴顶 -->
+              <div class="fullscreen-option-item">
+                <div class="fullscreen-option-info">
+                  <div class="fullscreen-option-name">灵动岛贴顶</div>
+                  <div class="fullscreen-option-desc">将灵动岛移至页面最顶端</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="dynamicIslandTopToggle" onchange="toggleDynamicIslandTop()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="custom-font-hint">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 12px; height: 12px; margin-right: 6px; opacity: 0.4;">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01" stroke-linecap="round"/>
+              </svg>
+              <span>全屏模式下可隐藏刘海屏并调整UI位置以获得更好的显示效果</span>
+            </div>
+          </div>
         </div>
       </div>
 

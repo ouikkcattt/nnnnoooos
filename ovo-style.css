@@ -4241,6 +4241,85 @@
       border-radius: 4px;
     }
 
+    /* ==================== 全屏适配选项样式 ==================== */
+
+    /* 全屏适配选项列表容器 */
+    .fullscreen-options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px 4px 12px 4px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    /* 全屏适配选项单项 */
+    .fullscreen-option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--bg-primary);
+      transition: background 0.2s ease;
+    }
+
+    .fullscreen-option-item:hover {
+      background: var(--bg-secondary);
+    }
+
+    /* 分隔线效果 - 除了最后一个 */
+    .fullscreen-option-item:not(:last-child) {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    /* 选项信息区域 */
+    .fullscreen-option-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .fullscreen-option-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .fullscreen-option-desc {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      font-family: 'Inter', sans-serif;
+      opacity: 0.8;
+    }
+
+    /* ==================== 全屏适配功能类 ==================== */
+
+    /* 隐藏刘海屏 */
+    .notch-hidden .notch {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+    }
+
+    /* 时间框贴顶 - 移除safe-area偏移 */
+    .status-bar-top .status-bar {
+      height: 44px !important;
+      padding-top: 8px !important;
+    }
+
+    /* 灵动岛贴顶 - 移除safe-area偏移 */
+    .dynamic-island-top .dynamic-island {
+      top: 8px !important;
+    }
+
+    /* 刘海屏贴顶 (配合隐藏刘海时使用，让其他元素补位) */
+    .notch-hidden .notch-holder {
+      display: none !important;
+    }
+
     /* 移动端适配 */
     @media (max-width: 430px) {
       .font-cards-grid {
