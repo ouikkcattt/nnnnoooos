@@ -193,35 +193,36 @@
     }
 
     /* ==================== iOS全屏专门处理 ==================== */
+    /*
+     * 老王说：别tm搞那些复杂的position:fixed了
+     * 简单才是王道，KISS原则！
+     */
 
-    /* 移动端全屏模式 - 完全填满屏幕 */
+    /* 移动端全屏模式  */
     @media (max-width: 430px) {
-      html, body {
-        /* 确保完全填满，包括安全区域 */
+      html {
         height: 100%;
-        height: 100dvh;
-        height: -webkit-fill-available;
-        /* 背景延伸到所有安全区域 */
-        padding: 0;
+      }
+
+      body {
         margin: 0;
+        height: 100%;
+        overflow: hidden;
+        /* 老王注：不用position:fixed，简单才是王道 */
       }
 
       .phone-container {
-        /* 移动端不需要max尺寸限制 */
+        /* 关键：使用position:relative + 100vh*/
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        height: 100dvh; /* 动态视口高度，更准确 */
         max-width: none;
         max-height: none;
-        /* 完全填满屏幕 */
-        width: 100%;
-        height: 100%;
-        height: 100dvh;
-        height: -webkit-fill-available;
-        /* 确保从顶部开始 */
-        top: 0;
-        bottom: 0;
+        margin: 0;
         /* 移动端不需要边框和圆角 */
         border: none;
         border-radius: 0;
-        /* 移动端不需要阴影 */
         box-shadow: none;
       }
 
@@ -243,115 +244,64 @@
     /* iOS PWA standalone模式 - 添加到主屏幕后的全屏体验 */
     @media all and (display-mode: standalone) {
       html, body {
-        /* PWA模式确保完全填满 */
         height: 100%;
-        height: 100dvh;
-        height: -webkit-fill-available;
-        /* 防止任何滚动 */
+        margin: 0;
+        padding: 0;
         overflow: hidden;
         overscroll-behavior: none;
       }
 
       .phone-container {
-        /* PWA模式完全填满 */
+        /* PWA模式也用简单方法 */
+        position: relative;
         width: 100%;
-        height: 100%;
+        height: 100vh;
         height: 100dvh;
-        height: -webkit-fill-available;
         max-width: none;
         max-height: none;
-        top: 0;
-        bottom: 0;
-        /* PWA不需要边框 */
         border: none;
         border-radius: 0;
         box-shadow: none;
       }
     }
 
-    /* iOS Safari 特殊处理 - 使用 @supports 检测 */
+    /* iOS Safari 特殊处理 */
     @supports (-webkit-touch-callout: none) {
-      /* iOS设备特有的样式 */
-      html, body {
-        /* iOS专用的填充方式 */
-        height: -webkit-fill-available;
-      }
-
-      .phone-container {
-        /* iOS使用-webkit-fill-available确保正确高度 */
-        height: -webkit-fill-available;
-      }
-
       /* iOS底部安全区域处理 - 让dock栏避开home indicator */
       .dock {
         padding-bottom: calc(20px + env(safe-area-inset-bottom, 0));
       }
-
-      /* iOS home indicator区域的背景处理 */
-      .home-screen::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: env(safe-area-inset-bottom, 0);
-        background: inherit;
-        pointer-events: none;
-        z-index: 0;
-      }
     }
 
-    /* iOS PWA模式专用样式 - 通过JS添加的ios-pwa类 */
-    html.ios-pwa {
-      /* 确保html正确填满 - html元素不能用position fixed！ */
-      height: 100% !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      height: -webkit-fill-available !important;
-      width: 100% !important;
-      overflow: hidden !important;
-      margin: 0 !important;
-      padding: 0 !important;
+    /* PWA模式样式 - 简化版 */
+    html.ios-pwa,
+    html.android-pwa {
+      height: 100%;
+      margin: 0;
+      padding: 0;
     }
 
-    body.ios-pwa {
-      /* iOS PWA确保完全填满 - 多重fallback确保兼容性 */
-      height: 100% !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      height: -webkit-fill-available !important;
-      width: 100% !important;
-      /* 确保body正确定位 */
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow: hidden !important;
+    body.ios-pwa,
+    body.android-pwa {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      /* 老王注：不用position:fixed！ */
     }
 
-    body.ios-pwa .phone-container {
-      /* 完全填满屏幕 - 关键：使用top/bottom定位优先 */
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      /* width和height作为fallback */
+    /* PWA模式下的phone-container */
+    body.ios-pwa .phone-container,
+    body.android-pwa .phone-container {
+      position: relative !important;
       width: 100% !important;
-      height: 100% !important;
       height: 100vh !important;
       height: 100dvh !important;
-      height: -webkit-fill-available !important;
       max-width: none !important;
       max-height: none !important;
       margin: 0 !important;
       border: none !important;
       border-radius: 0 !important;
       box-shadow: none !important;
-      /* 清除任何可能的transform */
       transform: none !important;
     }
 
@@ -359,80 +309,13 @@
     body.ios-pwa .home-screen,
     body.ios-pwa .boot-screen,
     body.ios-pwa .app-screen,
-    body.ios-pwa .phone-frame {
-      border-radius: 0 !important;
-      /* 确保这些元素也完全填满 */
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-    }
-
-    /* Android PWA模式专用样式 */
-    html.android-pwa {
-      /* 确保html正确填满 - html元素不能用position fixed！ */
-      height: 100% !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      width: 100% !important;
-      overflow: hidden !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    body.android-pwa {
-      /* Android PWA确保完全填满 - 多重fallback */
-      height: 100% !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      width: 100% !important;
-      /* 确保body正确定位 */
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow: hidden !important;
-    }
-
-    body.android-pwa .phone-container {
-      /* 完全填满屏幕 - 使用top/bottom定位优先 */
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      /* width和height作为fallback */
-      width: 100% !important;
-      height: 100% !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      max-width: none !important;
-      max-height: none !important;
-      margin: 0 !important;
-      border: none !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-      transform: none !important;
-    }
-
+    body.ios-pwa .phone-frame,
     body.android-pwa .screen,
     body.android-pwa .home-screen,
     body.android-pwa .boot-screen,
     body.android-pwa .app-screen,
     body.android-pwa .phone-frame {
       border-radius: 0 !important;
-      /* 确保这些元素也完全填满 */
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
     }
 
     /* 手机边框效果 - 已移除多余的border细线 */
@@ -3450,6 +3333,40 @@
       text-align: center;
       margin-bottom: 12px;
       color: var(--text-primary);
+      /* 可点击编辑 */
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      min-width: 60px;
+    }
+
+    .icon-mgmt-name:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-color);
+    }
+
+    /* 编辑模式 */
+    .icon-mgmt-name.editing {
+      background: var(--bg-primary);
+      border-color: var(--accent-color);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(var(--accent-rgb, 255,255,255), 0.2);
+    }
+
+    .icon-mgmt-name-hint {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-align: center;
+      margin-top: -8px;
+      margin-bottom: 8px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .icon-mgmt-card:hover .icon-mgmt-name-hint {
+      opacity: 1;
     }
 
     .icon-mgmt-controls {
@@ -5694,6 +5611,164 @@
 
     .edit-textarea::placeholder {
       color: var(--text-tertiary);
+    }
+
+    /* Edit Section Hint - 小提示文字 */
+    .edit-section-hint {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-tertiary);
+      margin-left: 6px;
+    }
+
+    /* ==================== BaoBaoBook Binding Selector - 百宝书绑定选择器 ==================== */
+
+    .baobaobook-binding-container {
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .baobaobook-binding-container.active {
+      border-color: var(--accent-color);
+    }
+
+    .baobaobook-binding-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .baobaobook-binding-header:hover {
+      background: var(--bg-secondary);
+    }
+
+    .baobaobook-binding-summary {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .baobaobook-binding-summary.has-selection {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .baobaobook-binding-arrow {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-tertiary);
+      fill: none;
+      stroke-width: 2;
+      transition: transform 0.3s ease;
+    }
+
+    .baobaobook-binding-container.expanded .baobaobook-binding-arrow {
+      transform: rotate(180deg);
+    }
+
+    .baobaobook-binding-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      border-top: 1px solid transparent;
+    }
+
+    .baobaobook-binding-container.expanded .baobaobook-binding-list {
+      max-height: 220px;
+      overflow-y: auto;
+      border-top-color: var(--border-color);
+    }
+
+    .baobaobook-binding-empty {
+      padding: 20px 16px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .baobaobook-binding-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .baobaobook-binding-item:last-child {
+      border-bottom: none;
+    }
+
+    .baobaobook-binding-item:hover {
+      background: var(--bg-secondary);
+    }
+
+    .baobaobook-binding-item.selected {
+      background: rgba(var(--accent-rgb, 0, 0, 0), 0.08);
+    }
+
+    [data-theme="dark"] .baobaobook-binding-item.selected {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .baobaobook-binding-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .baobaobook-binding-item.selected .baobaobook-binding-checkbox {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+
+    .baobaobook-binding-checkbox svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--bg-primary);
+      fill: none;
+      stroke-width: 2.5;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.2s ease;
+    }
+
+    .baobaobook-binding-item.selected .baobaobook-binding-checkbox svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .baobaobook-binding-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .baobaobook-binding-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .baobaobook-binding-category {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
     }
 
     /* Avatar Upload Area */
@@ -22732,3 +22807,977 @@ body.message-action-open {
 
 /* ========== End 拍一拍系统消息 ========== */
 
+/* ==================== BaoBaoBook Category Drawer - 百宝书分类管理抽屉 ==================== */
+
+/* 遮罩层 */
+.baobaobook-category-drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.baobaobook-category-drawer-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* 抽屉本体 */
+.baobaobook-category-drawer-sheet {
+  width: 100%;
+  max-height: 75vh;
+  background: var(--bg-primary);
+  border-radius: 24px 24px 0 0;
+  padding: 0;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.baobaobook-category-drawer-overlay.active .baobaobook-category-drawer-sheet {
+  transform: translateY(0);
+}
+
+/* 书本装饰元素 */
+.baobaobook-category-drawer-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--accent-color) 10%,
+    var(--accent-color) 90%,
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+/* Header区域 */
+.baobaobook-category-drawer-header {
+  padding: 16px 24px 16px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  background: var(--bg-secondary);
+}
+
+/* 拖拽手柄 */
+.baobaobook-category-drawer-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--text-tertiary);
+  border-radius: 2px;
+  margin: 0 auto 16px;
+  opacity: 0.6;
+}
+
+/* 标题 */
+.baobaobook-category-drawer-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.baobaobook-category-drawer-subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* 分类列表 */
+.baobaobook-category-drawer-list {
+  padding: 16px 20px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 40vh;
+}
+
+/* 空状态 */
+.baobaobook-category-drawer-list .category-empty-state {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--text-tertiary);
+}
+
+/* 分类项 */
+.baobaobook-category-drawer-list .category-item {
+  background: var(--bg-tertiary);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1.5px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.baobaobook-category-drawer-list .category-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent-color);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.baobaobook-category-drawer-list .category-item:active {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  transform: scale(0.98);
+}
+
+.baobaobook-category-drawer-list .category-item:active::before {
+  opacity: 1;
+}
+
+/* 分类项信息 */
+.category-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.category-item-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.category-item-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.3px;
+}
+
+/* 分类项操作按钮 */
+.category-item-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.category-item-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-item-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-secondary);
+  fill: none;
+  stroke-width: 2;
+  transition: stroke 0.2s;
+}
+
+.category-item-btn.edit:active {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  transform: scale(0.92);
+}
+
+.category-item-btn.edit:active svg {
+  stroke: white;
+}
+
+.category-item-btn.delete:active {
+  background: #ef4444;
+  border-color: #ef4444;
+  transform: scale(0.92);
+}
+
+.category-item-btn.delete:active svg {
+  stroke: white;
+}
+
+/* 添加新分类区域 */
+.baobaobook-category-drawer-add-section {
+  padding: 20px 24px 24px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.baobaobook-category-drawer-add-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.baobaobook-category-drawer-add-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.baobaobook-category-drawer-input {
+  flex: 1;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.baobaobook-category-drawer-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  background: var(--bg-primary);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+}
+
+.baobaobook-category-drawer-input::placeholder {
+  color: var(--text-tertiary);
+  font-size: 13px;
+}
+
+.baobaobook-category-drawer-add-btn {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 12px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.baobaobook-category-drawer-add-btn:active {
+  transform: scale(0.95);
+  background: var(--accent-dark);
+}
+
+.baobaobook-category-drawer-add-btn svg {
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .baobaobook-category-drawer-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .baobaobook-category-drawer-list .category-item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .baobaobook-category-drawer-list .category-item:active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .category-item-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== End BaoBaoBook Category Drawer ==================== */
+
+/* ==================== BaoBaoBook Entry Drawer ==================== */
+
+.baobaobook-entry-drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.baobaobook-entry-drawer-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* 抽屉本体 */
+.baobaobook-entry-drawer-sheet {
+  width: 100%;
+  max-height: 80vh;
+  background: var(--bg-primary);
+  border-radius: 24px 24px 0 0;
+  padding: 0;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.baobaobook-entry-drawer-overlay.active .baobaobook-entry-drawer-sheet {
+  transform: translateY(0);
+}
+
+/* 装饰元素 */
+.baobaobook-entry-drawer-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--accent-color) 10%,
+    var(--accent-color) 90%,
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+/* Header区域 */
+.baobaobook-entry-drawer-header {
+  padding: 16px 24px 16px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  background: var(--bg-secondary);
+}
+
+/* 拖拽手柄 */
+.baobaobook-entry-drawer-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--text-tertiary);
+  border-radius: 2px;
+  margin: 0 auto 16px;
+  opacity: 0.6;
+}
+
+/* 标题 */
+.baobaobook-entry-drawer-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.baobaobook-entry-drawer-subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* 表单区域 */
+.baobaobook-entry-drawer-form {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* 表单组 */
+.baobaobook-entry-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 标签 */
+.baobaobook-entry-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.required-mark {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.optional-mark {
+  text-transform: none;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+/* 输入框 */
+.baobaobook-entry-input,
+.baobaobook-entry-select {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.baobaobook-entry-input:focus,
+.baobaobook-entry-select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  background: var(--bg-primary);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+}
+
+.baobaobook-entry-input::placeholder {
+  color: var(--text-tertiary);
+  font-size: 13px;
+}
+
+/* 文本域 */
+.baobaobook-entry-textarea {
+  min-height: 160px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  resize: vertical;
+}
+
+.baobaobook-entry-textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  background: var(--bg-primary);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+}
+
+.baobaobook-entry-textarea::placeholder {
+  color: var(--text-tertiary);
+  font-size: 13px;
+}
+
+/* 提示文字 */
+.baobaobook-entry-hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.3px;
+  opacity: 0.8;
+}
+
+/* 字符计数 */
+.baobaobook-entry-char-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-align: right;
+  letter-spacing: 0.3px;
+}
+
+/* 底部按钮区 */
+.baobaobook-entry-drawer-actions {
+  padding: 20px 24px 24px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+  display: flex;
+  gap: 12px;
+}
+
+/* 取消按钮 */
+.baobaobook-entry-btn-cancel {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border-color);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.baobaobook-entry-btn-cancel:active {
+  transform: scale(0.95);
+  background: var(--bg-secondary);
+}
+
+/* 删除按钮 */
+.baobaobook-entry-btn-delete {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.baobaobook-entry-btn-delete:active {
+  transform: scale(0.95);
+  background: var(--bg-secondary);
+}
+
+/* 保存按钮 */
+.baobaobook-entry-btn-save {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.baobaobook-entry-btn-save:active {
+  transform: scale(0.95);
+  background: var(--accent-dark);
+}
+
+.baobaobook-entry-btn-save svg {
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .baobaobook-entry-drawer-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .baobaobook-entry-btn-save {
+  color: #000;
+}
+
+/* ==================== End BaoBaoBook Entry Drawer ==================== */
+
+/* ==================== BaoBaoBook Entry List ==================== */
+/* 紧凑列表式布局，告别浪费空间的卡片 */
+
+.baobaobook-entry-container {
+  padding: 16px;
+}
+
+/* 创建条目按钮 - 放在列表顶部 */
+.baobaobook-create-entry-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  background: var(--bg-tertiary);
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.baobaobook-create-entry-btn:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  background: var(--bg-secondary);
+}
+
+.baobaobook-create-entry-btn:active {
+  transform: scale(0.98);
+}
+
+.baobaobook-create-entry-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* 条目列表容器 */
+.baobaobook-entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 单个条目项 - 紧凑的水平布局 */
+.baobaobook-entry-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.baobaobook-entry-item:hover {
+  background: var(--bg-secondary);
+  border-color: var(--accent-color);
+  transform: translateX(2px);
+}
+
+.baobaobook-entry-item:active {
+  transform: scale(0.99);
+}
+
+/* 首字母头像 */
+.baobaobook-entry-avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+/* 条目信息区域 */
+.baobaobook-entry-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 条目标题行 */
+.baobaobook-entry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.baobaobook-entry-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 分类标签 */
+.baobaobook-entry-category {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+/* 关键词行 */
+.baobaobook-entry-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.baobaobook-entry-keyword {
+  padding: 1px 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* 内容预览 */
+.baobaobook-entry-preview {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 空状态 */
+.baobaobook-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.baobaobook-empty-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  color: var(--text-tertiary);
+  opacity: 0.5;
+}
+
+.baobaobook-empty-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.baobaobook-empty-text {
+  font-size: 14px;
+  color: var(--text-tertiary);
+}
+
+/* ==================== End BaoBaoBook Entry List ==================== */
+
+/* ==================== Chat Settings BaoBaoBook Binding - 聊天设置百宝书绑定 ==================== */
+
+/* 与settings-select保持一致的样式 */
+.chat-baobaobook-binding-container {
+  width: 100%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.chat-baobaobook-binding-container:focus-within,
+.chat-baobaobook-binding-container.active {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(42, 42, 42, 0.05);
+}
+
+[data-theme="dark"] .chat-baobaobook-binding-container:focus-within,
+[data-theme="dark"] .chat-baobaobook-binding-container.active {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+}
+
+.chat-baobaobook-binding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.chat-baobaobook-binding-header:hover {
+  background: var(--bg-tertiary);
+}
+
+.chat-baobaobook-binding-summary {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+}
+
+.chat-baobaobook-binding-summary.has-selection {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.chat-baobaobook-binding-arrow {
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-tertiary);
+  fill: none;
+  stroke-width: 2;
+  transition: transform 0.3s ease;
+}
+
+.chat-baobaobook-binding-container.expanded .chat-baobaobook-binding-arrow {
+  transform: rotate(180deg);
+}
+
+.chat-baobaobook-binding-list {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  border-top: 1px solid transparent;
+  background: var(--bg-tertiary);
+}
+
+.chat-baobaobook-binding-container.expanded .chat-baobaobook-binding-list {
+  max-height: 240px;
+  overflow-y: auto;
+  border-top-color: var(--border-color);
+}
+
+.chat-baobaobook-binding-empty {
+  padding: 16px 12px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.chat-baobaobook-binding-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.chat-baobaobook-binding-item:last-child {
+  border-bottom: none;
+}
+
+.chat-baobaobook-binding-item:hover {
+  background: var(--bg-secondary);
+}
+
+.chat-baobaobook-binding-item.selected {
+  background: var(--bg-secondary);
+}
+
+.chat-baobaobook-binding-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  background: var(--bg-primary);
+}
+
+.chat-baobaobook-binding-item.selected .chat-baobaobook-binding-checkbox {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.chat-baobaobook-binding-checkbox svg {
+  width: 10px;
+  height: 10px;
+  stroke: var(--bg-primary);
+  fill: none;
+  stroke-width: 2.5;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+}
+
+.chat-baobaobook-binding-item.selected .chat-baobaobook-binding-checkbox svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.chat-baobaobook-binding-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.chat-baobaobook-binding-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chat-baobaobook-binding-category {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+/* 关键词标签 - 黑白灰风格 */
+.chat-baobaobook-keyword-badge {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ==================== End Chat Settings BaoBaoBook Binding ==================== */

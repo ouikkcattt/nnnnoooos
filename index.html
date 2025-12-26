@@ -271,7 +271,17 @@
               <div class="app-label">外观</div>
             </div>
           </div>
-          <div class="grid-cell" data-grid-index="6"></div>
+          <!-- 网格6 - BaoBaoBook 百宝书 -->
+          <div class="grid-cell" data-grid-index="6">
+            <div class="app-icon" data-app="baobaobook">
+              <div class="app-icon-img">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="app-label">百宝书</div>
+            </div>
+          </div>
           <div class="grid-cell" data-grid-index="7"></div>
           <div class="grid-cell" data-grid-index="8"></div>
           <div class="grid-cell" data-grid-index="9"></div>
@@ -1490,6 +1500,31 @@
               </div>
             </div>
 
+            <!-- 百宝书绑定 - 聊天框级别 -->
+            <div class="settings-section">
+              <div class="settings-section-header">
+                <span>百宝书绑定</span>
+              </div>
+              <div class="settings-card">
+                <div class="chat-baobaobook-binding-container" id="chatBaobaobookBindingContainer">
+                  <div class="chat-baobaobook-binding-header" onclick="toggleChatBaobaobookBindingList()">
+                    <span class="chat-baobaobook-binding-summary" id="chatBaobaobookBindingSummary">未选择任何条目</span>
+                    <svg class="chat-baobaobook-binding-arrow" viewBox="0 0 24 24" id="chatBaobaobookBindingArrow">
+                      <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </div>
+                  <div class="chat-baobaobook-binding-list" id="chatBaobaobookBindingList">
+                    <div class="chat-baobaobook-binding-empty" id="chatBaobaobookBindingEmpty">
+                      暂无百宝书条目，请先在百宝书App中创建
+                    </div>
+                  </div>
+                </div>
+                <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 10px;">
+                  无关键词条目固定触发，有关键词条目需匹配用户消息
+                </div>
+              </div>
+            </div>
+
             <!-- 聊天记忆 -->
             <div class="settings-section">
               <div class="settings-section-header">聊天记忆</div>
@@ -2540,6 +2575,166 @@
         </div>
       </div>
 
+      <!-- BaoBaoBook App Screen - 百宝书（类似角色列表的设计） -->
+      <div class="app-screen" id="baobaobookScreen">
+        <div class="app-content" style="padding-top: 68px;">
+          <!-- Header Section - 复用character-header样式 -->
+          <div class="character-header">
+            <div class="character-logo-area">
+              <div class="character-logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="character-logo-text">百宝书</div>
+            </div>
+            <div class="character-header-actions">
+              <!-- 分类管理按钮 -->
+              <div class="character-icon-btn" onclick="showBaobaobookCategoryManager()" title="管理分类">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <!-- 关闭按钮 -->
+              <div class="character-icon-btn" onclick="closeApp()" title="关闭">
+                <svg viewBox="0 0 24 24">
+                  <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- 分类滑动导航 - 复用worldview-tabs样式 -->
+          <div class="worldview-tabs" id="baobaobookCategoryTabs">
+            <div class="worldview-tab active" data-category-id="all" onclick="filterBaobaobookByCategory('all')">全部</div>
+            <!-- 其他分类标签将通过JavaScript动态加载 -->
+          </div>
+
+          <!-- 百宝书条目列表 - 紧凑列表式布局 -->
+          <div class="baobaobook-entry-container" id="baobaobookGrid">
+            <!-- 创建按钮和条目列表将通过JS动态渲染 -->
+          </div>
+
+          <!-- 空状态提示（当没有条目时显示） -->
+          <div class="baobaobook-empty-state" id="baobaobookEmptyState" style="display: none;">
+            <div style="text-align: center; padding: 40px 20px; color: var(--text-tertiary);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 64px; height: 64px; margin: 0 auto 16px; opacity: 0.4;">
+                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div style="font-size: 15px; font-weight: 500; margin-bottom: 8px;">还没有知识条目</div>
+              <div style="font-size: 13px; opacity: 0.7; line-height: 1.5;">
+                点击「新建条目」添加你的第一个知识条目<br>
+                AI角色可以在对话中参考这些知识
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- BaoBaoBook Create Entry Drawer - 新建条目抽屉 -->
+        <div class="baobaobook-entry-drawer-overlay" id="baobaobookEntryDrawerOverlay" onclick="closeCreateBaobaobookModal()">
+          <div class="baobaobook-entry-drawer-sheet" onclick="event.stopPropagation()">
+            <!-- Drawer Header -->
+            <div class="baobaobook-entry-drawer-header">
+              <div class="baobaobook-entry-drawer-handle"></div>
+              <div class="baobaobook-entry-drawer-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;">
+                  <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                  <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                  <path d="M2 2l7.586 7.586"/>
+                  <circle cx="11" cy="11" r="2"/>
+                </svg>
+                <span id="baobaobookEntryDrawerTitleText">新建条目</span>
+              </div>
+              <div class="baobaobook-entry-drawer-subtitle" id="baobaobookEntryDrawerSubtitle">记录你的知识到百宝书</div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="baobaobook-entry-drawer-form">
+              <!-- 条目名称 -->
+              <div class="baobaobook-entry-form-group">
+                <label class="baobaobook-entry-label">条目名称 <span class="required-mark">*</span></label>
+                <input type="text" id="baobaobookEntryNameInput" class="baobaobook-entry-input" placeholder="例如：魔法系统设定" maxlength="50">
+              </div>
+
+              <!-- 触发关键词 -->
+              <div class="baobaobook-entry-form-group">
+                <label class="baobaobook-entry-label">触发关键词 <span class="optional-mark">(选填)</span></label>
+                <input type="text" id="baobaobookEntryKeywordsInput" class="baobaobook-entry-input" placeholder="用英文逗号分隔，例如：魔法,magic,法术">
+                <div class="baobaobook-entry-hint">检测到这些关键词时会参考此条目，若空则默认使用</div>
+              </div>
+
+              <!-- 选择分类 -->
+              <div class="baobaobook-entry-form-group">
+                <label class="baobaobook-entry-label">所属分类 <span class="required-mark">*</span></label>
+                <select id="baobaobookEntryCategorySelect" class="baobaobook-entry-select">
+                  <option value="">请选择分类</option>
+                  <!-- 分类选项将动态加载 -->
+                </select>
+                <div class="baobaobook-entry-hint">如果没有合适的分类，请先在分类管理中创建</div>
+              </div>
+
+              <!-- 条目内容 -->
+              <div class="baobaobook-entry-form-group">
+                <label class="baobaobook-entry-label">条目内容 <span class="required-mark">*</span></label>
+                <textarea id="baobaobookEntryContentTextarea" class="baobaobook-entry-textarea" placeholder="详细描述这个知识条目的内容...&#10;&#10;支持多行文本，可以写得尽可能详细。" rows="8"></textarea>
+                <div class="baobaobook-entry-char-count">
+                  <span id="baobaobookEntryCharCount">0</span> 字符
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="baobaobook-entry-drawer-actions" id="baobaobookEntryDrawerActions">
+              <button class="baobaobook-entry-btn-cancel" id="baobaobookEntryBtnLeft" onclick="closeCreateBaobaobookModal()">取消</button>
+              <button class="baobaobook-entry-btn-save" onclick="saveBaobaobookEntry()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                  <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 21v-8H7v8M7 3v5h8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>保存</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BaoBaoBook Category Management Drawer - 百宝书分类管理抽屉（放在app-content外，baobaobookScreen内） -->
+        <div class="baobaobook-category-drawer-overlay" id="baobaobookCategoryDrawerOverlay" onclick="closeBaobaobookCategoryManager()">
+          <div class="baobaobook-category-drawer-sheet" onclick="event.stopPropagation()">
+            <!-- Drawer Header -->
+            <div class="baobaobook-category-drawer-header">
+              <div class="baobaobook-category-drawer-handle"></div>
+              <div class="baobaobook-category-drawer-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;">
+                  <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>分类管理</span>
+              </div>
+              <div class="baobaobook-category-drawer-subtitle">管理你的百宝书分类</div>
+            </div>
+
+            <!-- Category List -->
+            <div class="baobaobook-category-drawer-list" id="baobaobookCategoryManagementList">
+              <!-- 分类列表将在这里动态渲染 -->
+            </div>
+
+            <!-- Add New Category Section -->
+            <div class="baobaobook-category-drawer-add-section">
+              <div class="baobaobook-category-drawer-add-title">创建新分类</div>
+              <div class="baobaobook-category-drawer-add-form">
+                <input type="text" id="baobaobookNewCategoryNameInput" class="baobaobook-category-drawer-input" placeholder="输入分类名称（1-20字符）" maxlength="20">
+                <button class="baobaobook-category-drawer-add-btn" onclick="event.stopPropagation(); createBaobaobookCategory()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                    <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <span>添加</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Phone Dialer App Screen -->
       <div class="app-screen" id="phoneScreen">
         <div class="phone-dialer-main">
@@ -3485,6 +3680,38 @@
                   </svg>
                 </button>
                 <button class="icon-mgmt-btn restore" onclick="restoreDefaultIcon('appearance')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 019-9 9.75 9.75 0 016.74 2.74L21 8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 3v5h-5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- BaoBaoBook Icon - 百宝书 -->
+            <div class="icon-mgmt-card" data-app="baobaobook">
+              <div class="icon-mgmt-preview">
+                <div class="icon-mgmt-preview-icon" id="preview-baobaobook">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="icon-mgmt-name">百宝书</div>
+              <div class="icon-mgmt-controls">
+                <input type="file" id="file-baobaobook" accept="image/*" style="display: none;" onchange="handleIconFileUpload('baobaobook', this)">
+                <button class="icon-mgmt-btn upload" onclick="document.getElementById('file-baobaobook').click()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <input type="text" class="icon-mgmt-url-input" id="url-baobaobook" placeholder="或输入URL">
+                <button class="icon-mgmt-btn apply" onclick="applyIconFromUrl('baobaobook')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button class="icon-mgmt-btn restore" onclick="restoreDefaultIcon('baobaobook')">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 12a9 9 0 019-9 9.75 9.75 0 016.74 2.74L21 8" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M21 3v5h-5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -4904,6 +5131,28 @@
                 <option value="">未绑定</option>
                 <!-- 选项将通过JavaScript动态加载 -->
               </select>
+            </div>
+
+            <!-- BaoBaoBook Binding - 百宝书绑定（固定触发，无需关键词） -->
+            <div class="edit-section">
+              <div class="edit-section-label">
+                百宝书绑定
+                <span class="edit-section-hint">（固定触发，无需关键词匹配）</span>
+              </div>
+              <div class="baobaobook-binding-container" id="baobaobookBindingContainer">
+                <div class="baobaobook-binding-header" onclick="toggleBaobaobookBindingList()">
+                  <span class="baobaobook-binding-summary" id="baobaobookBindingSummary">未选择任何条目</span>
+                  <svg class="baobaobook-binding-arrow" viewBox="0 0 24 24" id="baobaobookBindingArrow">
+                    <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <div class="baobaobook-binding-list" id="baobaobookBindingList">
+                  <!-- 百宝书条目列表将通过JavaScript动态加载 -->
+                  <div class="baobaobook-binding-empty" id="baobaobookBindingEmpty">
+                    暂无百宝书条目，请先在百宝书App中创建
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Character Bio -->
