@@ -339,10 +339,10 @@
             <div class="settings-section-header">预设管理</div>
             <div class="settings-card">
               <div class="preset-selector">
-                <select class="settings-select" id="presetSelect">
+                <select class="settings-select" id="presetSelect" onchange="handlePresetChange()">
                   <option value="">-- 选择预设 --</option>
                 </select>
-                <div class="preset-manager-btn" onclick="loadSelectedPreset()" title="加载预设">
+                <div class="preset-manager-btn" onclick="updateCurrentPreset()" title="更新当前预设">
                   <svg viewBox="0 0 24 24">
                     <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
@@ -397,6 +397,20 @@
           <div class="settings-section">
             <div class="settings-section-header">数据管理</div>
             <div class="settings-card">
+              <!-- 🔥 【老王新增】存储使用情况 -->
+              <div class="data-management-item">
+                <div class="data-management-info">
+                  <div class="data-management-title">
+                    <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 6px;">
+                      <path d="M3 3h18v18H3V3zm2 2v14h14V5H5zm2 2h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" fill="currentColor"/>
+                    </svg>
+                    存储使用情况
+                  </div>
+                  <div class="data-management-desc" id="storageUsageInfo">正在检测...</div>
+                </div>
+                <button class="settings-btn" onclick="checkStorageUsage()">刷新</button>
+              </div>
+              <div class="data-management-divider"></div>
               <div class="data-management-item">
                 <div class="data-management-info">
                   <div class="data-management-title">
@@ -454,10 +468,10 @@
             <div class="settings-section-header">API预设</div>
             <div class="settings-card">
               <div class="preset-selector">
-                <select class="settings-select" id="apiPresetSelect">
+                <select class="settings-select" id="apiPresetSelect" onchange="handleAPIPresetChange()">
                   <option value="">-- 选择API预设 --</option>
                 </select>
-                <div class="preset-manager-btn" onclick="loadSelectedAPIPreset()" title="加载预设">
+                <div class="preset-manager-btn" onclick="updateCurrentAPIPreset()" title="更新当前预设">
                   <svg viewBox="0 0 24 24">
                     <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
