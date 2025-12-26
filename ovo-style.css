@@ -303,21 +303,24 @@
 
     /* iOS PWA模式专用样式 - 通过JS添加的ios-pwa类 */
     html.ios-pwa {
-      /* 确保html正确填满 */
+      /* 确保html正确填满 - html元素不能用position fixed！ */
       height: 100% !important;
+      height: 100vh !important;
+      height: 100dvh !important;
       height: -webkit-fill-available !important;
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
+      width: 100% !important;
       overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
 
     body.ios-pwa {
-      /* iOS PWA确保完全填满 */
+      /* iOS PWA确保完全填满 - 多重fallback确保兼容性 */
       height: 100% !important;
+      height: 100vh !important;
+      height: 100dvh !important;
       height: -webkit-fill-available !important;
+      width: 100% !important;
       /* 确保body正确定位 */
       position: fixed !important;
       top: 0 !important;
@@ -330,14 +333,17 @@
     }
 
     body.ios-pwa .phone-container {
-      /* 完全填满屏幕 - 关键定位属性 */
+      /* 完全填满屏幕 - 关键：使用top/bottom定位优先 */
       position: fixed !important;
       top: 0 !important;
       left: 0 !important;
       right: 0 !important;
       bottom: 0 !important;
+      /* width和height作为fallback */
       width: 100% !important;
       height: 100% !important;
+      height: 100vh !important;
+      height: 100dvh !important;
       height: -webkit-fill-available !important;
       max-width: none !important;
       max-height: none !important;
@@ -355,24 +361,33 @@
     body.ios-pwa .app-screen,
     body.ios-pwa .phone-frame {
       border-radius: 0 !important;
-    }
-
-    /* Android PWA模式专用样式 */
-    html.android-pwa {
-      /* 确保html正确填满 */
-      height: 100% !important;
-      height: 100dvh !important;
-      position: fixed !important;
+      /* 确保这些元素也完全填满 */
       top: 0 !important;
       left: 0 !important;
       right: 0 !important;
       bottom: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* Android PWA模式专用样式 */
+    html.android-pwa {
+      /* 确保html正确填满 - html元素不能用position fixed！ */
+      height: 100% !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      width: 100% !important;
       overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
 
     body.android-pwa {
+      /* Android PWA确保完全填满 - 多重fallback */
       height: 100% !important;
+      height: 100vh !important;
       height: 100dvh !important;
+      width: 100% !important;
       /* 确保body正确定位 */
       position: fixed !important;
       top: 0 !important;
@@ -385,14 +400,16 @@
     }
 
     body.android-pwa .phone-container {
-      /* 完全填满屏幕 - 关键定位属性 */
+      /* 完全填满屏幕 - 使用top/bottom定位优先 */
       position: fixed !important;
       top: 0 !important;
       left: 0 !important;
       right: 0 !important;
       bottom: 0 !important;
+      /* width和height作为fallback */
       width: 100% !important;
       height: 100% !important;
+      height: 100vh !important;
       height: 100dvh !important;
       max-width: none !important;
       max-height: none !important;
@@ -409,6 +426,13 @@
     body.android-pwa .app-screen,
     body.android-pwa .phone-frame {
       border-radius: 0 !important;
+      /* 确保这些元素也完全填满 */
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
     }
 
     /* 手机边框效果 - 已移除多余的border细线 */
