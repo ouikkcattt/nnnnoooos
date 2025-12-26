@@ -136,48 +136,79 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* ========== iOS/Android全屏适配 ========== */
+    html {
+      height: 100%;
+      height: -webkit-fill-available;
+      /* 防止iOS Safari橡皮筋效果 */
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+    }
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-secondary);
       color: var(--text-primary);
+      /* 使用dvh处理移动端动态视口（iOS Safari地址栏收缩时） */
       min-height: 100vh;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
       display: flex;
       justify-content: center;
       align-items: center;
+      /* 不要在body加padding，否则会挤压phone-container */
       padding: 0;
       margin: 0;
       overflow: hidden;
       transition: background 0.3s ease, color 0.3s ease;
+      /* 防止iOS橡皮筋滚动 */
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      /* 关键：让背景色延伸到安全区域 */
+      background: var(--phone-frame-color);
     }
 
-    /* Phone Container - 全屏设计 */
+    /* Phone Container - 真·全屏设计（覆盖系统状态栏） */
     .phone-container {
       width: 100vw;
+      width: 100svw; /* 小视口宽度 */
+      /* 使用dvh确保在iOS上正确计算高度 */
       height: 100vh;
+      height: 100dvh;
+      height: -webkit-fill-available;
       max-width: 430px;
       max-height: 932px;
-      background: var(--phone-frame-color);
-      position: relative;
+      background: var(--bg-primary);
+      position: fixed;
+      /* 关键修复：不用transform居中，改用margin auto，避免亚像素渲染缝隙 */
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      /* 删除transform，它会导致亚像素问题产生缝隙 */
       overflow: hidden;
       box-shadow: var(--shadow-xl);
     }
 
-    /* 手机边框效果 */
+    /* 手机边框效果 - 已移除多余的border细线 */
     .phone-frame {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      border: 1px solid var(--phone-frame-color);
+      /* 这条1px的border看着很突兀，跟手机框不是一体的，已删除 */
       pointer-events: none;
       z-index: 9999;
     }
 
-    /* 刘海屏设计 */
+    /* 刘海屏设计 - 适配iOS/Android safe-area */
     .notch {
       position: absolute;
-      top: 0;
+      /* 关键：在safe-area内部显示，覆盖系统状态栏 */
+      top: env(safe-area-inset-top, 0);
       left: 50%;
       transform: translateX(-50%);
       width: 160px;
@@ -213,11 +244,18 @@
 
     /* Screen Content */
     .screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      position: relative;
       background: var(--bg-primary);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       z-index: 10;
     }
 
@@ -228,7 +266,12 @@
       left: 0;
       right: 0;
       bottom: 0;
+      width: 100%;
+      height: 100%;
       background: var(--bg-primary);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       z-index: 9000;
       opacity: 1;
       transition: opacity 0.5s ease;
@@ -861,10 +904,18 @@
 
     /* Home Screen */
     .home-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       width: 100%;
       height: 100%;
       display: flex;
       flex-direction: column;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       opacity: 0;
       animation: fadeIn 0.5s ease 2.2s forwards;
     }
@@ -875,9 +926,11 @@
 
     /* Status Bar */
     .status-bar {
-      height: 44px;
+      /* 高度需要考虑safe-area */
+      height: calc(44px + env(safe-area-inset-top, 0));
       padding: 0 24px;
-      padding-top: 12px;
+      /* padding-top需要加上safe-area的高度 */
+      padding-top: calc(12px + env(safe-area-inset-top, 0));
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -1162,7 +1215,7 @@
       width: 64px;
       height: 64px;
       background: var(--bg-tertiary);
-      border: 1px solid var(--border-color);
+      /* border: 1px solid var(--border-color); */ /* 老王注释：取消图标边框，更简洁 */
       border-radius: 16px;
       display: flex;
       align-items: center;
@@ -1374,13 +1427,20 @@
     }
 
     /* App Screen Base */
+    /* App Screen - 确保完全覆盖无缝隙 */
     .app-screen {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
+      width: 100%;
+      height: 100%;
       background: var(--bg-primary);
+      /* 确保背景图片正确覆盖 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       z-index: 8000;
       display: none;
       flex-direction: column;
@@ -1511,11 +1571,17 @@
     }
 
     /* App Content */
+    /* App Content - 确保背景完全覆盖无缝隙 */
     .app-content {
       flex: 1;
       overflow-y: auto;
       padding: 20px;
       scrollbar-width: none;
+      /* 确保背景图片正确覆盖 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-origin: border-box;
     }
 
     .app-content::-webkit-scrollbar {
@@ -3209,6 +3275,31 @@
       color: var(--text-tertiary);
     }
 
+    /* Icon Management Modal - 新样式 (与Typography Modal统一) */
+    .icon-management-modal .wallpaper-container {
+      max-height: 85vh;
+    }
+
+    .icon-management-container .typography-section {
+      padding: 20px 20px 24px 20px;
+    }
+
+    .icon-management-container .typography-section:not(:last-child) {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .icon-management-container .icon-mgmt-grid {
+      margin-top: 16px;
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .icon-management-container .icon-mgmt-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
     /* Scrollbar styling for icon management */
     .icon-management-content::-webkit-scrollbar {
       width: 6px;
@@ -3239,7 +3330,8 @@
     /* Dynamic Island - iOS Style (在手机框内部) */
     .dynamic-island {
       position: absolute;
-      top: 8px;
+      /* 考虑safe-area让Dynamic Island在正确位置显示 */
+      top: calc(8px + env(safe-area-inset-top, 0));
       left: 50%;
       transform: translateX(-50%);
       /* 使用手机颜色专用变量，不受主题影响 */
@@ -3341,7 +3433,7 @@
       color: rgba(255, 255, 255, 0.75);
     }
 
-    /* Responsive Design */
+    /* Responsive Design - 大屏幕样式（桌面端查看时有圆角效果）*/
     @media (min-width: 431px) {
       body {
         padding: 20px;
@@ -3357,6 +3449,15 @@
       }
 
       .screen {
+        border-radius: 36px;
+      }
+
+      .home-screen,
+      .boot-screen {
+        border-radius: 36px;
+      }
+
+      .app-screen {
         border-radius: 36px;
       }
 
@@ -6211,6 +6312,7 @@
     }
 
     /* Messages Area */
+    /* Chat Messages Area - 确保背景完全覆盖无缝隙 */
     .chat-messages-area {
       flex: 1;
       overflow-y: auto;
@@ -6219,6 +6321,12 @@
       flex-direction: column;
       gap: 12px;
       scrollbar-width: none;
+      /* 确保背景图片正确覆盖 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      /* 确保背景延伸到padding区域 */
+      background-origin: border-box;
     }
 
     .chat-messages-area::-webkit-scrollbar {

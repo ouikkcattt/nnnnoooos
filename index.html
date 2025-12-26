@@ -2,26 +2,33 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>咩咩在这里</title>
   
-  <!-- ========== PWA配置开始 ========== -->
-  
+  <!-- ========== PWA配置开始 - iOS/Android真全屏适配 ========== -->
+
   <!-- iOS Safari全屏支持 -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <!-- black-translucent让状态栏透明，内容可以延伸到状态栏区域 -->
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="你喜欢咩咩吗" />
-  
-  <!-- iOS启动画面背景色 -->
-  <meta name="theme-color" content="#0a0a0a" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  
+
+  <!-- iOS启动画面背景色 - 使用深色确保状态栏文字可见 -->
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: light)" />
+
   <!-- Android Chrome全屏支持 -->
   <meta name="mobile-web-app-capable" content="yes" />
-  
+
+  <!-- 禁用iOS自动检测 -->
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="format-detection" content="date=no" />
+  <meta name="format-detection" content="address=no" />
+  <meta name="format-detection" content="email=no" />
+
   <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json" />
-  
+
   <!-- ========== PWA配置结束 ========== -->
   
   <!-- Dexie.js - IndexedDB Wrapper -->
@@ -3232,12 +3239,47 @@
       </div>
 
       <!-- Icon Management Modal -->
-      <div class="irregular-modal" id="iconManagementModal" style="width: 90%; max-width: 600px; max-height: 85vh;">
-        <div class="modal-title">应用图标管理</div>
-        <div class="modal-subtitle" style="font-size: 13px; color: var(--text-secondary); margin-top: 4px; margin-bottom: 16px;">
-          自定义你的应用图标，支持本地上传或URL链接
-        </div>
-        <div class="modal-content icon-management-content">
+      <div class="wallpaper-modal icon-management-modal" id="iconManagementModal">
+        <div class="wallpaper-container icon-management-container">
+          <!-- 装饰性像素元素 -->
+          <div class="wallpaper-deco-pixels">
+            <div class="deco-pixel-dot" style="top: 10%; left: 6%;"></div>
+            <div class="deco-pixel-dot" style="top: 15%; right: 8%;"></div>
+            <div class="deco-pixel-dot" style="bottom: 20%; left: 10%;"></div>
+            <div class="deco-star-small" style="top: 25%; right: 15%;"></div>
+            <div class="deco-star-small" style="bottom: 30%; right: 6%;"></div>
+          </div>
+
+          <!-- Header -->
+          <div class="wallpaper-header icon-management-header">
+            <div class="wallpaper-title-area">
+              <svg class="wallpaper-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+              </svg>
+              <div>
+                <div class="wallpaper-title">应用图标管理</div>
+                <div class="wallpaper-subtitle">[ icon_customization ]</div>
+              </div>
+            </div>
+            <div class="wallpaper-close icon-management-close" onclick="closeIconManagementModal()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- 主屏图标区域 -->
+          <div class="typography-section">
+            <div class="typography-section-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; opacity: 0.6;">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M9 3v18M3 9h18M3 15h18M15 3v18" stroke-linecap="round" />
+              </svg>
+              <span>主屏图标</span>
+            </div>
 
           <!-- Icon Grid -->
           <div class="icon-mgmt-grid">
@@ -3437,32 +3479,49 @@
               </div>
             </div>
 
-            <!-- Messages Icon (Dock) -->
-            <div class="icon-mgmt-card" data-app="messages">
+          </div>
+          </div>
+
+          <!-- Dock 图标区域 -->
+          <div class="typography-section">
+            <div class="typography-section-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; opacity: 0.6;">
+                <rect x="3" y="18" width="18" height="4" rx="2" />
+                <circle cx="7" cy="20" r="1" />
+                <circle cx="12" cy="20" r="1" />
+                <circle cx="17" cy="20" r="1" />
+              </svg>
+              <span>Dock 图标</span>
+            </div>
+
+          <div class="icon-mgmt-grid">
+
+            <!-- Phone Icon (Dock) -->
+            <div class="icon-mgmt-card" data-app="phone">
               <div class="icon-mgmt-preview">
-                <div class="icon-mgmt-preview-icon dock-icon-preview" id="preview-messages">
+                <div class="icon-mgmt-preview-icon dock-icon-preview" id="preview-phone">
                   <svg viewBox="0 0 24 24">
-                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke-linecap="round" />
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
               </div>
-              <div class="icon-mgmt-name">消息 (Dock)</div>
+              <div class="icon-mgmt-name">电话 (Dock)</div>
               <div class="icon-mgmt-controls">
-                <input type="file" id="file-messages" accept="image/*" style="display: none;" onchange="handleIconFileUpload('messages', this)">
-                <button class="icon-mgmt-btn upload" onclick="document.getElementById('file-messages').click()">
+                <input type="file" id="file-phone" accept="image/*" style="display: none;" onchange="handleIconFileUpload('phone', this)">
+                <button class="icon-mgmt-btn upload" onclick="document.getElementById('file-phone').click()">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </button>
-                <input type="text" class="icon-mgmt-url-input" id="url-messages" placeholder="或输入URL">
-                <button class="icon-mgmt-btn apply" onclick="applyIconFromUrl('messages')">
+                <input type="text" class="icon-mgmt-url-input" id="url-phone" placeholder="或输入URL">
+                <button class="icon-mgmt-btn apply" onclick="applyIconFromUrl('phone')">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </button>
-                <button class="icon-mgmt-btn restore" onclick="restoreDefaultIcon('messages')">
+                <button class="icon-mgmt-btn restore" onclick="restoreDefaultIcon('phone')">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 12a9 9 0 019-9 9.75 9.75 0 016.74 2.74L21 8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 12a9 9 0 919-9 9.75 9.75 0 016.74 2.74L21 8" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M21 3v5h-5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </button>
@@ -3537,9 +3596,9 @@
 
           </div>
 
-        </div>
-        <div class="modal-actions">
-          <div class="modal-btn primary" onclick="closeIconManagementModal()">完成</div>
+          </div>
+          </div>
+
         </div>
       </div>
 
