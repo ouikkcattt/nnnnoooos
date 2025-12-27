@@ -136,104 +136,71 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* ========== iOS/Android全屏适配 ========== */
+    /* ==========================================================
+     * 🔥 老王极简全屏方案 - KISS原则！
+     *
+     * 设计理念：
+     * 1. html/body 铺满视口，禁止滚动
+     * 2. phone-container 在桌面居中，在手机端填满
+     * 3. 使用 inset:0 替代四个方向单独设置
+     * 4. 只用一种高度单位：100%（最兼容）
+     * 5. 不依赖JS添加class，纯CSS媒体查询搞定
+     * ========================================================== */
+
     html {
       height: 100%;
-      height: -webkit-fill-available;
-      /* 防止iOS Safari橡皮筋效果 */
       overflow: hidden;
-      position: fixed;
-      width: 100%;
+      /* 禁止iOS橡皮筋效果 */
+      overscroll-behavior: none;
+      -webkit-overflow-scrolling: touch;
     }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-secondary);
+      /* 核心：固定定位铺满整个视口 */
+      position: fixed;
+      inset: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      /* 禁止iOS橡皮筋效果 */
+      overscroll-behavior: none;
+      /* 背景色 - 在安全区域之外显示 */
+      background: var(--phone-frame-color);
       color: var(--text-primary);
-      /* 使用dvh处理移动端动态视口（iOS Safari地址栏收缩时） */
-      min-height: 100vh;
-      min-height: 100dvh;
-      min-height: -webkit-fill-available;
+      /* 桌面端居中显示 */
       display: flex;
       justify-content: center;
       align-items: center;
-      /* 不要在body加padding，否则会挤压phone-container */
-      padding: 0;
-      margin: 0;
-      overflow: hidden;
       transition: background 0.3s ease, color 0.3s ease;
-      /* 防止iOS橡皮筋滚动 */
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      /* 关键：让背景色延伸到安全区域 */
-      background: var(--phone-frame-color);
     }
 
-    /* Phone Container - 真·全屏设计（覆盖系统状态栏） */
+    /* Phone Container - 桌面端样式（默认） */
     .phone-container {
-      width: 100vw;
-      width: 100svw; /* 小视口宽度 */
-      /* 使用dvh确保在iOS上正确计算高度 */
-      height: 100vh;
-      height: 100dvh;
-      height: -webkit-fill-available;
+      position: relative;
+      width: 100%;
+      height: 100%;
       max-width: 430px;
       max-height: 932px;
       background: var(--bg-primary);
-      position: fixed;
-      /* 关键修复：不用transform居中，改用margin auto，避免亚像素渲染缝隙 */
-      top: 0;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      /* 删除transform，它会导致亚像素问题产生缝隙 */
       overflow: hidden;
       box-shadow: var(--shadow-xl);
+      border-radius: 0;
     }
 
-    /* ==================== iOS全屏专门处理 ==================== */
-    /*
-     * 老王说：别tm搞那些复杂的position:fixed了
-     * 简单才是王道，KISS原则！
-     */
-
-    /* 移动端全屏模式  */
-    @media (max-width: 430px) {
-      html {
-        height: 100%;
-      }
-
-      body {
-        margin: 0;
-        height: 100%;
-        overflow: hidden;
-        /* 老王注：不用position:fixed，简单才是王道 */
-      }
-
+    /* ==========================================================
+     * 📱 移动端全屏模式（宽度<=430px 或 PWA/standalone模式）
+     * 一个媒体查询搞定所有移动端场景！
+     * ========================================================== */
+    @media (max-width: 430px), (display-mode: standalone), (display-mode: fullscreen) {
       .phone-container {
-        /* 关键：使用position:relative + 100vh*/
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        height: 100dvh; /* 动态视口高度，更准确 */
         max-width: none;
         max-height: none;
-        margin: 0;
-        /* 移动端不需要边框和圆角 */
-        border: none;
-        border-radius: 0;
         box-shadow: none;
       }
 
-      .phone-frame {
-        border-radius: 0;
-      }
-
-      .screen {
-        border-radius: 0;
-      }
-
+      .phone-frame,
+      .screen,
       .home-screen,
       .boot-screen,
       .app-screen {
@@ -241,81 +208,18 @@
       }
     }
 
-    /* iOS PWA standalone模式 - 添加到主屏幕后的全屏体验 */
-    @media all and (display-mode: standalone) {
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        overscroll-behavior: none;
-      }
-
-      .phone-container {
-        /* PWA模式也用简单方法 */
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        height: 100dvh;
-        max-width: none;
-        max-height: none;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-      }
-    }
-
-    /* iOS Safari 特殊处理 */
-    @supports (-webkit-touch-callout: none) {
-      /* iOS底部安全区域处理 - 让dock栏避开home indicator */
+    /* iOS底部安全区域 - dock栏避开home indicator */
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
       .dock {
         padding-bottom: calc(20px + env(safe-area-inset-bottom, 0));
       }
     }
 
-    /* PWA模式样式 - 简化版 */
-    html.ios-pwa,
-    html.android-pwa {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    body.ios-pwa,
-    body.android-pwa {
-      margin: 0;
-      height: 100%;
-      overflow: hidden;
-      /* 老王注：不用position:fixed！ */
-    }
-
-    /* PWA模式下的phone-container */
-    body.ios-pwa .phone-container,
-    body.android-pwa .phone-container {
-      position: relative !important;
-      width: 100% !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      max-width: none !important;
-      max-height: none !important;
-      margin: 0 !important;
-      border: none !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-      transform: none !important;
-    }
-
-    body.ios-pwa .screen,
-    body.ios-pwa .home-screen,
-    body.ios-pwa .boot-screen,
-    body.ios-pwa .app-screen,
-    body.ios-pwa .phone-frame,
-    body.android-pwa .screen,
-    body.android-pwa .home-screen,
-    body.android-pwa .boot-screen,
-    body.android-pwa .app-screen,
-    body.android-pwa .phone-frame {
-      border-radius: 0 !important;
+    /* 🔥 PWA/Standalone模式额外优化（通过JS添加class触发） */
+    html.fullscreen-mode,
+    html.fullscreen-mode body {
+      /* 确保不会有任何多余的间距 */
+      touch-action: manipulation;
     }
 
     /* 手机边框效果 - 已移除多余的border细线 */
