@@ -215,13 +215,6 @@
       }
     }
 
-    /* 🔥 PWA/Standalone模式额外优化（通过JS添加class触发） */
-    html.fullscreen-mode,
-    html.fullscreen-mode body {
-      /* 确保不会有任何多余的间距 */
-      touch-action: manipulation;
-    }
-
     /* 手机边框效果 - 已移除多余的border细线 */
     .phone-frame {
       position: absolute;
