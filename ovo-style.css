@@ -136,25 +136,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* ==========================================================
-     * 🔥 老王极简全屏方案 - KISS原则！
-     *
-     * 设计理念：
-     * 1. html/body 铺满视口，禁止滚动
-     * 2. phone-container 在桌面居中，在手机端填满
-     * 3. 使用 inset:0 替代四个方向单独设置
-     * 4. 只用一种高度单位：100%（最兼容）
-     * 5. 不依赖JS添加class，纯CSS媒体查询搞定
-     * ========================================================== */
-
-    html {
-      height: 100%;
-      overflow: hidden;
-      /* 禁止iOS橡皮筋效果 */
-      overscroll-behavior: none;
-      -webkit-overflow-scrolling: touch;
-    }
-
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-secondary);
