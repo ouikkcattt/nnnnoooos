@@ -16863,6 +16863,178 @@
   letter-spacing: 1px;
 }
 
+/* 目录页右上角：笔记去重（简约黑白灰小纸条） */
+.diary-idx-action-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 6px 10px 8px 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 110;
+  transform: rotate(-1.5deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 64px;
+  backdrop-filter: blur(8px);
+}
+
+/* 小纸条顶部的半透明胶带 */
+.diary-idx-action-btn::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.diary-idx-action-btn:hover {
+  transform: rotate(0deg) translateY(-1px);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.diary-idx-action-btn.armed {
+  border: 1.5px solid rgba(0, 0, 0, 0.25);
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, 0.06),
+    0 2px 6px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  animation: diary-note-pulse 1s ease-in-out infinite;
+}
+
+@keyframes diary-note-pulse {
+  0%, 100% {
+    transform: rotate(-1.5deg) scale(1);
+    box-shadow:
+      0 0 0 3px rgba(0, 0, 0, 0.06),
+      0 2px 6px rgba(0, 0, 0, 0.12),
+      0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  }
+  50% {
+    transform: rotate(-1.5deg) scale(1.04);
+    box-shadow:
+      0 0 0 4px rgba(0, 0, 0, 0.08),
+      0 3px 8px rgba(0, 0, 0, 0.14),
+      0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+  }
+}
+
+.diary-idx-action-btn:active {
+  transform: rotate(-1.5deg) scale(0.96);
+}
+
+.diary-note-heart {
+  font-size: 16px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.65);
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.diary-idx-action-btn:hover .diary-note-heart {
+  color: rgba(0, 0, 0, 0.85);
+  transform: scale(1.08);
+}
+
+.diary-idx-action-btn.armed .diary-note-heart {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+/* 手写字体文字 */
+.diary-idx-action-btn .diary-note-text {
+  font-family: 'Caveat', cursive;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.75);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.diary-idx-action-btn:hover .diary-note-text {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.diary-idx-action-btn.armed .diary-note-text {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 700;
+}
+
+/* 暗黑模式适配 */
+[data-theme="dark"] .diary-idx-action-btn {
+  background: rgba(30, 30, 30, 0.9);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+[data-theme="dark"] .diary-idx-action-btn::before {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .diary-idx-action-btn:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+[data-theme="dark"] .diary-idx-action-btn.armed {
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+
+[data-theme="dark"] .diary-idx-action-btn .diary-note-text {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="dark"] .diary-idx-action-btn:hover .diary-note-text {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+[data-theme="dark"] .diary-idx-action-btn.armed .diary-note-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 700;
+}
+
+[data-theme="dark"] .diary-note-heart {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="dark"] .diary-idx-action-btn:hover .diary-note-heart {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] .diary-idx-action-btn.armed .diary-note-heart {
+  color: rgba(255, 255, 255, 0.85);
+}
+
 /* 目录列表 */
 .diary-idx-list {
   flex: 1;
