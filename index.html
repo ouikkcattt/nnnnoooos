@@ -4546,8 +4546,8 @@
             <!-- 默认字体标签 -->
             <div class="font-section-label">默认字体</div>
 
-            <!-- 默认字体网格 - 固定2x2布局 -->
-            <div class="font-cards-grid default-fonts-grid" id="defaultFontsGrid">
+            <!-- 默认字体 - 横向滚动 -->
+            <div class="default-fonts-scroll" id="defaultFontsGrid">
               <!-- 默认字体：Inter -->
               <div class="font-card active" data-font="Inter" onclick="selectFont('Inter', 'default')">
                 <div class="font-card-preview" style="font-family: 'Inter', sans-serif;">
@@ -4565,15 +4565,457 @@
                 </div>
               </div>
 
-              <!-- JetBrains Mono -->
-              <div class="font-card" data-font="JetBrains Mono" onclick="selectFont('JetBrains Mono', 'default')">
-                <div class="font-card-preview" style="font-family: 'JetBrains Mono', monospace;">
+              <!-- Roboto -->
+              <div class="font-card" data-font="Roboto" onclick="selectFont('Roboto', 'default')">
+                <div class="font-card-preview" style="font-family: 'Roboto', sans-serif;">
                   <div class="font-preview-text">Aa</div>
                   <div class="font-preview-sample">The quick brown fox</div>
                 </div>
                 <div class="font-card-label">
-                  <div class="font-card-name">JetBrains Mono</div>
-                  <div class="font-card-type">代码 · Monospace</div>
+                  <div class="font-card-name">Roboto</div>
+                  <div class="font-card-type">Android · Sans-serif</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Open Sans -->
+              <div class="font-card" data-font="Open Sans" onclick="selectFont('Open Sans', 'default')">
+                <div class="font-card-preview" style="font-family: 'Open Sans', sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Open Sans</div>
+                  <div class="font-card-type">清晰 · Sans-serif</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Poppins -->
+              <div class="font-card" data-font="Poppins" onclick="selectFont('Poppins', 'default')">
+                <div class="font-card-preview" style="font-family: 'Poppins', sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Poppins</div>
+                  <div class="font-card-type">圆润 · Sans-serif</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Montserrat -->
+              <div class="font-card" data-font="Montserrat" onclick="selectFont('Montserrat', 'default')">
+                <div class="font-card-preview" style="font-family: 'Montserrat', sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Montserrat</div>
+                  <div class="font-card-type">几何 · Sans-serif</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Lato -->
+              <div class="font-card" data-font="Lato" onclick="selectFont('Lato', 'default')">
+                <div class="font-card-preview" style="font-family: 'Lato', sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Lato</div>
+                  <div class="font-card-type">温暖 · Sans-serif</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Raleway -->
+              <div class="font-card" data-font="Raleway" onclick="selectFont('Raleway', 'default')">
+                <div class="font-card-preview" style="font-family: 'Raleway', sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Raleway</div>
+                  <div class="font-card-type">优雅 · Sans-serif</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Oswald -->
+              <div class="font-card" data-font="Oswald" onclick="selectFont('Oswald', 'default')">
+                <div class="font-card-preview" style="font-family: 'Oswald', sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Oswald</div>
+                  <div class="font-card-type">紧凑 · Sans-serif</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Noto Sans SC -->
+              <div class="font-card" data-font="Noto Sans SC" onclick="selectFont('Noto Sans SC', 'default')">
+                <div class="font-card-preview" style="font-family: 'Noto Sans SC', sans-serif;">
+                  <div class="font-preview-text">你好</div>
+                  <div class="font-preview-sample">落霞与孤鹜齐飞</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">思源黑体</div>
+                  <div class="font-card-type">推荐 · 黑体</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Noto Serif SC -->
+              <div class="font-card" data-font="Noto Serif SC" onclick="selectFont('Noto Serif SC', 'default')">
+                <div class="font-card-preview" style="font-family: 'Noto Serif SC', serif;">
+                  <div class="font-preview-text">你好</div>
+                  <div class="font-preview-sample">落霞与孤鹜齐飞</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">思源宋体</div>
+                  <div class="font-card-type">推荐 · 宋体</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- ZCOOL KuaiLe -->
+              <div class="font-card" data-font="ZCOOL KuaiLe" onclick="selectFont('ZCOOL KuaiLe', 'default')">
+                <div class="font-card-preview" style="font-family: 'ZCOOL KuaiLe', cursive;">
+                  <div class="font-preview-text">你好</div>
+                  <div class="font-preview-sample">落霞与孤鹜齐飞</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">站酷快乐体</div>
+                  <div class="font-card-type">可爱 · 艺术</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- ZCOOL QingKe HuangYou -->
+              <div class="font-card" data-font="ZCOOL QingKe HuangYou" onclick="selectFont('ZCOOL QingKe HuangYou', 'default')">
+                <div class="font-card-preview" style="font-family: 'ZCOOL QingKe HuangYou', cursive;">
+                  <div class="font-preview-text">你好</div>
+                  <div class="font-preview-sample">落霞与孤鹜齐飞</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">站酷庆科黄油体</div>
+                  <div class="font-card-type">圆润 · 艺术</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- ZCOOL XiaoWei -->
+              <div class="font-card" data-font="ZCOOL XiaoWei" onclick="selectFont('ZCOOL XiaoWei', 'default')">
+                <div class="font-card-preview" style="font-family: 'ZCOOL XiaoWei', serif;">
+                  <div class="font-preview-text">你好</div>
+                  <div class="font-preview-sample">落霞与孤鹜齐飞</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">站酷小薇体</div>
+                  <div class="font-card-type">优雅 · 艺术</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Ma Shan Zheng -->
+              <div class="font-card" data-font="Ma Shan Zheng" onclick="selectFont('Ma Shan Zheng', 'default')">
+                <div class="font-card-preview" style="font-family: 'Ma Shan Zheng', cursive;">
+                  <div class="font-preview-text">你好</div>
+                  <div class="font-preview-sample">落霞与孤鹜齐飞</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">马善政楷书</div>
+                  <div class="font-card-type">毛笔 · 书法</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Zhi Mang Xing -->
+              <div class="font-card" data-font="Zhi Mang Xing" onclick="selectFont('Zhi Mang Xing', 'default')">
+                <div class="font-card-preview" style="font-family: 'Zhi Mang Xing', cursive;">
+                  <div class="font-preview-text">你好</div>
+                  <div class="font-preview-sample">落霞与孤鹜齐飞</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">知忙行书</div>
+                  <div class="font-card-type">行书 · 书法</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Long Cang -->
+              <div class="font-card" data-font="Long Cang" onclick="selectFont('Long Cang', 'default')">
+                <div class="font-card-preview" style="font-family: 'Long Cang', cursive;">
+                  <div class="font-preview-text">你好</div>
+                  <div class="font-preview-sample">落霞与孤鹜齐飞</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">龙藏体</div>
+                  <div class="font-card-type">手写 · 艺术</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Caveat -->
+              <div class="font-card" data-font="Caveat" onclick="selectFont('Caveat', 'default')">
+                <div class="font-card-preview" style="font-family: 'Caveat', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Caveat</div>
+                  <div class="font-card-type">手写 · Cursive</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Dancing Script -->
+              <div class="font-card" data-font="Dancing Script" onclick="selectFont('Dancing Script', 'default')">
+                <div class="font-card-preview" style="font-family: 'Dancing Script', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Dancing Script</div>
+                  <div class="font-card-type">优雅 · 草书</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Pacifico -->
+              <div class="font-card" data-font="Pacifico" onclick="selectFont('Pacifico', 'default')">
+                <div class="font-card-preview" style="font-family: 'Pacifico', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Pacifico</div>
+                  <div class="font-card-type">复古 · 冲浪</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Lobster -->
+              <div class="font-card" data-font="Lobster" onclick="selectFont('Lobster', 'default')">
+                <div class="font-card-preview" style="font-family: 'Lobster', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Lobster</div>
+                  <div class="font-card-type">粗体 · 草书</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Satisfy -->
+              <div class="font-card" data-font="Satisfy" onclick="selectFont('Satisfy', 'default')">
+                <div class="font-card-preview" style="font-family: 'Satisfy', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Satisfy</div>
+                  <div class="font-card-type">流畅 · 签名</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Great Vibes -->
+              <div class="font-card" data-font="Great Vibes" onclick="selectFont('Great Vibes', 'default')">
+                <div class="font-card-preview" style="font-family: 'Great Vibes', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Great Vibes</div>
+                  <div class="font-card-type">华丽 · 花体</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Permanent Marker -->
+              <div class="font-card" data-font="Permanent Marker" onclick="selectFont('Permanent Marker', 'default')">
+                <div class="font-card-preview" style="font-family: 'Permanent Marker', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Permanent Marker</div>
+                  <div class="font-card-type">马克笔 · 涂鸦</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Indie Flower -->
+              <div class="font-card" data-font="Indie Flower" onclick="selectFont('Indie Flower', 'default')">
+                <div class="font-card-preview" style="font-family: 'Indie Flower', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Indie Flower</div>
+                  <div class="font-card-type">可爱 · 手写</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Patrick Hand -->
+              <div class="font-card" data-font="Patrick Hand" onclick="selectFont('Patrick Hand', 'default')">
+                <div class="font-card-preview" style="font-family: 'Patrick Hand', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Patrick Hand</div>
+                  <div class="font-card-type">清晰 · 手写</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Kalam -->
+              <div class="font-card" data-font="Kalam" onclick="selectFont('Kalam', 'default')">
+                <div class="font-card-preview" style="font-family: 'Kalam', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Kalam</div>
+                  <div class="font-card-type">笔触 · 手写</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Gloria Hallelujah -->
+              <div class="font-card" data-font="Gloria Hallelujah" onclick="selectFont('Gloria Hallelujah', 'default')">
+                <div class="font-card-preview" style="font-family: 'Gloria Hallelujah', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Gloria Hallelujah</div>
+                  <div class="font-card-type">漫画 · 手写</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Comic Neue -->
+              <div class="font-card" data-font="Comic Neue" onclick="selectFont('Comic Neue', 'default')">
+                <div class="font-card-preview" style="font-family: 'Comic Neue', cursive;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Comic Neue</div>
+                  <div class="font-card-type">漫画 · 有趣</div>
                 </div>
                 <div class="font-card-checkmark">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
@@ -4590,7 +5032,7 @@
                 </div>
                 <div class="font-card-label">
                   <div class="font-card-name">Georgia</div>
-                  <div class="font-card-type">系统 · Serif</div>
+                  <div class="font-card-type">经典 · Serif</div>
                 </div>
                 <div class="font-card-checkmark">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
@@ -4599,15 +5041,134 @@
                 </div>
               </div>
 
-              <!-- Courier New -->
-              <div class="font-card" data-font="Courier New" onclick="selectFont('Courier New', 'system')">
-                <div class="font-card-preview" style="font-family: 'Courier New', monospace;">
+              <!-- Playfair Display -->
+              <div class="font-card" data-font="Playfair Display" onclick="selectFont('Playfair Display', 'default')">
+                <div class="font-card-preview" style="font-family: 'Playfair Display', serif;">
                   <div class="font-preview-text">Aa</div>
                   <div class="font-preview-sample">The quick brown fox</div>
                 </div>
                 <div class="font-card-label">
-                  <div class="font-card-name">Courier New</div>
-                  <div class="font-card-type">系统 · Monospace</div>
+                  <div class="font-card-name">Playfair Display</div>
+                  <div class="font-card-type">优雅 · 标题</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Merriweather -->
+              <div class="font-card" data-font="Merriweather" onclick="selectFont('Merriweather', 'default')">
+                <div class="font-card-preview" style="font-family: 'Merriweather', serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Merriweather</div>
+                  <div class="font-card-type">阅读 · 正文</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Lora -->
+              <div class="font-card" data-font="Lora" onclick="selectFont('Lora', 'default')">
+                <div class="font-card-preview" style="font-family: 'Lora', serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Lora</div>
+                  <div class="font-card-type">书籍 · 正文</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Times New Roman -->
+              <div class="font-card" data-font="Times New Roman" onclick="selectFont('Times New Roman', 'system')">
+                <div class="font-card-preview" style="font-family: 'Times New Roman', serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Times New Roman</div>
+                  <div class="font-card-type">正式 · 文档</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Arial -->
+              <div class="font-card" data-font="Arial" onclick="selectFont('Arial', 'system')">
+                <div class="font-card-preview" style="font-family: Arial, sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Arial</div>
+                  <div class="font-card-type">系统 · 经典</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Verdana -->
+              <div class="font-card" data-font="Verdana" onclick="selectFont('Verdana', 'system')">
+                <div class="font-card-preview" style="font-family: Verdana, sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Verdana</div>
+                  <div class="font-card-type">系统 · 宽敞</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Tahoma -->
+              <div class="font-card" data-font="Tahoma" onclick="selectFont('Tahoma', 'system')">
+                <div class="font-card-preview" style="font-family: Tahoma, sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Tahoma</div>
+                  <div class="font-card-type">系统 · 紧凑</div>
+                </div>
+                <div class="font-card-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Trebuchet MS -->
+              <div class="font-card" data-font="Trebuchet MS" onclick="selectFont('Trebuchet MS', 'system')">
+                <div class="font-card-preview" style="font-family: 'Trebuchet MS', sans-serif;">
+                  <div class="font-preview-text">Aa</div>
+                  <div class="font-preview-sample">The quick brown fox</div>
+                </div>
+                <div class="font-card-label">
+                  <div class="font-card-name">Trebuchet MS</div>
+                  <div class="font-card-type">系统 · 人文</div>
                 </div>
                 <div class="font-card-checkmark">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
