@@ -4456,6 +4456,65 @@
       overflow: hidden !important;
     }
 
+    /* 🔥 【老王新增】全局时间栏覆盖层 - 独立于homeScreen */
+    .global-status-bar-overlay {
+      display: none; /* 默认隐藏 */
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: calc(44px + env(safe-area-inset-top, 0));
+      padding: 0 24px;
+      padding-top: calc(12px + env(safe-area-inset-top, 0));
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 500;
+      z-index: 9999;
+      /* 无背景色，与原status-bar保持一致 */
+      color: var(--text-primary);
+      pointer-events: none;
+    }
+
+    .global-status-bar-overlay .status-left,
+    .global-status-bar-overlay .status-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .global-status-bar-overlay .status-icon {
+      opacity: 0.8;
+    }
+
+    /* 开启全局时间栏时显示覆盖层 */
+    .global-status-bar .global-status-bar-overlay {
+      display: flex !important;
+    }
+
+    /* 开启全局时间栏时，隐藏homeScreen内的原status-bar避免重复 */
+    .global-status-bar .home-screen .status-bar {
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
+    /* 启动画面时隐藏全局时间栏 */
+    .boot-screen:not(.hidden) ~ .global-status-bar-overlay,
+    .global-status-bar .boot-screen:not(.hidden) ~ * .global-status-bar-overlay {
+      display: none !important;
+    }
+
+    /* 时间栏贴顶时的全局时间栏适配 */
+    .status-bar-top .global-status-bar-overlay {
+      height: 44px !important;
+      padding-top: 8px !important;
+    }
+
+    /* 隐藏时间框时也隐藏全局时间栏 */
+    .status-bar-hidden .global-status-bar-overlay {
+      display: none !important;
+    }
+
     /* 移动端适配 */
     @media (max-width: 430px) {
       .font-cards-grid {
