@@ -17400,8 +17400,76 @@
   font-family: 'JetBrains Mono', monospace;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 3px;
   opacity: 0.7;
+  position: relative;
+}
+
+/* 便签头部左侧信息区域 */
+.diary-sticky-head-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  gap: 4px;
+}
+
+/* 便签删除按钮 */
+.diary-sticky-delete {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  z-index: 10;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* 暗色主题删除按钮 */
+[data-theme="dark"] .diary-sticky-delete {
+  background: rgba(255, 255, 255, 0.8);
+  color: #000000;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* 鼠标悬停便签时显示删除按钮 */
+.diary-sticky:hover .diary-sticky-delete {
+  opacity: 1;
+}
+
+/* 删除按钮hover效果 */
+.diary-sticky-delete:hover {
+  transform: scale(1.15);
+  background: rgba(220, 38, 38, 0.9);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
+}
+
+[data-theme="dark"] .diary-sticky-delete:hover {
+  background: rgba(239, 68, 68, 0.9);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 点击删除按钮时阻止便签拖动 */
+.diary-sticky-delete:active {
+  transform: scale(1.05);
 }
 
 .diary-sticky-body {
