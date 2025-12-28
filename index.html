@@ -2674,6 +2674,46 @@
                 <div class="baobaobook-entry-hint">如果没有合适的分类，请先在分类管理中创建</div>
               </div>
 
+              <!-- 情景默认使用 -->
+              <div class="baobaobook-entry-form-group">
+                <label class="baobaobook-entry-label">情景默认使用 <span class="optional-mark">(选填)</span></label>
+                <div class="baobaobook-entry-checkboxes" style="display: flex; gap: 16px; margin-top: 8px;">
+                  <label class="baobaobook-entry-checkbox-item" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="baobaobookEntrySceneChat" value="chat" style="cursor: pointer;">
+                    <span>Chat</span>
+                  </label>
+                  <label class="baobaobook-entry-checkbox-item" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="baobaobookEntrySceneCall" value="call" style="cursor: pointer;">
+                    <span>Call</span>
+                  </label>
+                  <label class="baobaobook-entry-checkbox-item" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="baobaobookEntrySceneSms" value="sms" style="cursor: pointer;">
+                    <span>SMS</span>
+                  </label>
+                </div>
+                <div class="baobaobook-entry-hint">
+                  勾选后，该条目会在对应情景中自动全局生效，无需手动绑定角色或聊天框。<br>
+                  例如：勾选 Chat 后，所有聊天对话都会包含此条目的知识。
+                </div>
+              </div>
+
+              <!-- 插入位置 -->
+              <div class="baobaobook-entry-form-group">
+                <label class="baobaobook-entry-label">提示词插入位置 <span class="required-mark">*</span></label>
+                <select id="baobaobookEntryPositionSelect" class="baobaobook-entry-select">
+                  <option value="before">前（乱码层之后，前置Jailbreak之前）</option>
+                  <option value="middle" selected>中（默认位置，核心人设之后）</option>
+                  <option value="mid_after">中后（功能区之后，用户最新输入之前）</option>
+                  <option value="after">后（思维链之后，后置Jailbreak之前）</option>
+                </select>
+                <div class="baobaobook-entry-hint">
+                  <strong>前：</strong>破限指定放置处<br>
+                  <strong>中：</strong>标准位置，适合角色资料补充<br>
+                  <strong>中后：</strong>功能性玩法或额外技巧放置处<br>
+                  <strong>后：</strong>功能性玩法或额外技巧放置处，有细微差别
+                </div>
+              </div>
+
               <!-- 条目内容 -->
               <div class="baobaobook-entry-form-group">
                 <label class="baobaobook-entry-label">条目内容 <span class="required-mark">*</span></label>

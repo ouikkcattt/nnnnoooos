@@ -5693,6 +5693,148 @@
       margin-top: 2px;
     }
 
+    /* 百宝书绑定 - 分类标签栏 */
+    .baobaobook-binding-category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px 12px;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .baobaobook-binding-cat-tab {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .baobaobook-binding-cat-tab:hover {
+      background: var(--bg-primary);
+      border-color: var(--text-tertiary);
+    }
+
+    .baobaobook-binding-cat-tab:active {
+      transform: scale(0.96);
+    }
+
+    .baobaobook-binding-cat-tab.all-selected {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .baobaobook-binding-cat-tab.all-selected {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
+
+    .baobaobook-binding-cat-tab .cat-count {
+      font-size: 10px;
+      font-weight: 400;
+      opacity: 0.7;
+    }
+
+    .baobaobook-binding-cat-tab.all-selected .cat-count {
+      opacity: 0.9;
+    }
+
+    /* 百宝书绑定 - 分组标题 */
+    .baobaobook-binding-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px 6px;
+      background: var(--bg-tertiary);
+      border-top: 1px solid var(--border-color);
+      margin-top: 4px;
+    }
+
+    .baobaobook-binding-group-header:first-of-type {
+      margin-top: 0;
+      border-top: none;
+    }
+
+    .baobaobook-binding-group-header .group-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .baobaobook-binding-group-header .group-count {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .baobaobook-binding-group-header .group-count.all-selected {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* 百宝书位置徽章 - 黑白灰风格 */
+    .baobaobook-position-badge {
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-size: 9px;
+      margin-left: 6px;
+      font-weight: 600;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* 日间模式 - 深到浅的灰度渐变 */
+    .baobaobook-position-badge.position-before {
+      background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+      color: #ffffff;
+    }
+
+    .baobaobook-position-badge.position-middle {
+      background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);
+      color: #ffffff;
+    }
+
+    .baobaobook-position-badge.position-mid_after {
+      background: linear-gradient(135deg, #888888 0%, #a0a0a0 100%);
+      color: #ffffff;
+    }
+
+    .baobaobook-position-badge.position-after {
+      background: linear-gradient(135deg, #b0b0b0 0%, #c8c8c8 100%);
+      color: #333333;
+    }
+
+    /* 夜间模式 - 反向灰度保持可读性 */
+    [data-theme="dark"] .baobaobook-position-badge.position-before {
+      background: linear-gradient(135deg, #e0e0e0 0%, #c8c8c8 100%);
+      color: #1a1a1a;
+    }
+
+    [data-theme="dark"] .baobaobook-position-badge.position-middle {
+      background: linear-gradient(135deg, #a0a0a0 0%, #888888 100%);
+      color: #1a1a1a;
+    }
+
+    [data-theme="dark"] .baobaobook-position-badge.position-mid_after {
+      background: linear-gradient(135deg, #666666 0%, #555555 100%);
+      color: #ffffff;
+    }
+
+    [data-theme="dark"] .baobaobook-position-badge.position-after {
+      background: linear-gradient(135deg, #444444 0%, #333333 100%);
+      color: #e0e0e0;
+    }
+
     /* Avatar Upload Area */
     .avatar-upload-area {
       display: flex;
@@ -23969,6 +24111,95 @@ body.message-action-open {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+/* 聊天设置百宝书绑定 - 分类标签栏 */
+.chat-baobaobook-binding-category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.chat-baobaobook-binding-cat-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.chat-baobaobook-binding-cat-tab:hover {
+  background: var(--bg-primary);
+  border-color: var(--text-tertiary);
+}
+
+.chat-baobaobook-binding-cat-tab:active {
+  transform: scale(0.96);
+}
+
+.chat-baobaobook-binding-cat-tab.all-selected {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+[data-theme="dark"] .chat-baobaobook-binding-cat-tab.all-selected {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+.chat-baobaobook-binding-cat-tab .cat-count {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.chat-baobaobook-binding-cat-tab.all-selected .cat-count {
+  opacity: 0.9;
+}
+
+/* 聊天设置百宝书绑定 - 分组标题 */
+.chat-baobaobook-binding-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 6px;
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--border-color);
+  margin-top: 4px;
+}
+
+.chat-baobaobook-binding-group-header:first-of-type {
+  margin-top: 0;
+  border-top: none;
+}
+
+.chat-baobaobook-binding-group-header .group-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chat-baobaobook-binding-group-header .group-count {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.chat-baobaobook-binding-group-header .group-count.all-selected {
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 /* ==================== End Chat Settings BaoBaoBook Binding ==================== */
