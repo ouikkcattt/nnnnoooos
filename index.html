@@ -2,33 +2,31 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-visual" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>咩咩在这里</title>
   
-  <!-- ========== PWA配置开始 - iOS/Android真全屏适配 ========== -->
-
+  <!-- ========== PWA配置开始 ========== -->
+  
   <!-- iOS Safari全屏支持 -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <!-- iOS沉浸式：背景延伸到状态栏区域（不隐藏状态栏） -->
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="咩咩在这里" />
-
-  <!-- iOS启动画面背景色 - 使用深色确保状态栏文字可见 -->
-  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-  <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: light)" />
-
+  
+  <!-- iOS启动画面背景色 -->
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  
   <!-- Android Chrome全屏支持 -->
   <meta name="mobile-web-app-capable" content="yes" />
-
-  <!-- 禁用iOS自动检测 -->
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="format-detection" content="date=no" />
-  <meta name="format-detection" content="address=no" />
-  <meta name="format-detection" content="email=no" />
-
+  
+  <!-- iOS图标（如果没有图标可以先不加，或者用emoji生成） -->
+  <!-- <link rel="apple-touch-icon" href="icon-192.png" /> -->
+  <!-- <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png" /> -->
+  
   <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json" />
-
+  
+  <!-- ========== PWA配置结束 ========== -->
   <!-- ========== PWA配置结束 ========== -->
   
   <!-- Dexie.js - IndexedDB Wrapper -->
@@ -348,7 +346,7 @@
 
       <!-- Settings App Screen -->
       <div class="app-screen" id="settingsScreen">
-        <div class="app-content" style="padding-top: 68px;">
+        <div class="app-content" style="padding-top: 40px;">
           <!-- Header Section -->
           <div class="settings-header-section">
             <div class="settings-logo-area">
@@ -478,7 +476,7 @@
 
       <!-- API App Screen -->
       <div class="app-screen" id="apiScreen">
-        <div class="app-content" style="padding-top: 68px;">
+        <div class="app-content" style="padding-top: 40px;">
           <!-- Header Section -->
           <div class="settings-header-section">
             <div class="settings-logo-area">
@@ -574,7 +572,7 @@
 
       <!-- Characters App Screen -->
       <div class="app-screen" id="charactersScreen">
-        <div class="app-content" style="padding-top: 68px;">
+        <div class="app-content" style="padding-top: 40px;">
           <!-- Header Section -->
           <div class="character-header">
             <div class="character-logo-area">
@@ -1426,7 +1424,7 @@
 
         <!-- Chat Settings Screen - 聊天设置页 -->
         <div class="chat-settings-screen" id="chatSettingsScreen">
-          <div class="app-content" style="padding-top: 68px;">
+          <div class="app-content" style="padding-top: 40px;">
             <!-- Header Section -->
             <div class="settings-header-section">
               <div class="settings-logo-area">
@@ -2456,7 +2454,7 @@
 
       <!-- Appearance App Screen - 外观设置 -->
       <div class="app-screen" id="appearanceScreen">
-        <div class="app-content" style="padding-top: 68px;">
+        <div class="app-content" style="padding-top: 40px;">
           <!-- Header Section -->
           <div class="settings-header-section">
             <div class="settings-logo-area">
@@ -2602,7 +2600,7 @@
 
       <!-- BaoBaoBook App Screen - 百宝书（类似角色列表的设计） -->
       <div class="app-screen" id="baobaobookScreen">
-        <div class="app-content" style="padding-top: 68px;">
+        <div class="app-content" style="padding-top: 40px;">
           <!-- Header Section - 复用character-header样式 -->
           <div class="character-header">
             <div class="character-logo-area">
@@ -5698,6 +5696,137 @@
         </div>
       </div>
 
+      <!-- Mmpages (Threads Profile) - 角色社交主页 -->
+      <div class="mmpages-overlay" id="mmpagesScreen">
+        <div class="mmpages-container">
+          <nav class="mmpages-top-navbar">
+            <div class="mmpages-nav-left">
+              <div class="mmpages-nav-icon mmpages-back-btn" onclick="closeMmpages()">
+                <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+              </div>
+            </div>
+            <div class="mmpages-nav-right">
+              <div class="mmpages-nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+              <div class="mmpages-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" ry="6"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+              <div class="mmpages-nav-icon"><svg viewBox="0 0 24 24"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg></div>
+              <div class="mmpages-nav-icon" onclick="openMmpagesEditModal()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="8" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
+            </div>
+          </nav>
+          <section class="mmpages-profile-section">
+            <div class="mmpages-profile-header">
+              <div class="mmpages-profile-info">
+                <h1 class="mmpages-display-name" id="mmpagesDisplayName">Character Name</h1>
+                <p class="mmpages-username" id="mmpagesUsername">@username</p>
+                <p class="mmpages-bio" id="mmpagesBio">Character bio goes here...</p>
+                <p class="mmpages-bio-note" id="mmpagesBioNote">~ nono</p>
+                <p class="mmpages-followers-count" id="mmpagesFollowers">0 followers</p>
+              </div>
+              <div class="mmpages-profile-avatar"><img id="mmpagesAvatar" src="" alt="Avatar"></div>
+            </div>
+            <div class="mmpages-action-buttons">
+              <button class="mmpages-btn mmpages-btn-primary">Follow</button>
+              <button class="mmpages-btn mmpages-btn-secondary">Message</button>
+            </div>
+          </section>
+          <div class="mmpages-tabs-container">
+            <div class="mmpages-tabs">
+              <div class="mmpages-tab active" data-tab="threads">Threads</div>
+              <div class="mmpages-tab" data-tab="replies">Replies</div>
+              <div class="mmpages-tab" data-tab="media">Media</div>
+              <div class="mmpages-tab" data-tab="reposts">Reposts</div>
+            </div>
+          </div>
+          <div class="mmpages-posts-container" id="mmpagesPostsContainer">
+            <!-- Empty State -->
+            <div class="mmpages-empty-state" id="mmpagesEmptyState">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                <path d="M9 10h6M9 14h3"/>
+              </svg>
+              <div class="mmpages-empty-state-title">No threads yet</div>
+              <div class="mmpages-empty-state-desc">When this character creates threads, they'll appear here</div>
+            </div>
+            <!-- Posts will be dynamically generated here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Mmpages Edit Modal -->
+      <div class="mmpages-edit-overlay" id="mmpagesEditOverlay" onclick="closeMmpagesEditModal()">
+        <div class="mmpages-edit-sheet" onclick="event.stopPropagation()">
+          <div class="mmpages-edit-header">
+            <div class="mmpages-edit-title">编辑主页</div>
+            <div class="mmpages-edit-close" onclick="closeMmpagesEditModal()">
+              <svg viewBox="0 0 24 24">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </div>
+          </div>
+          <div class="mmpages-edit-body">
+            <!-- Avatar & Name -->
+            <div class="mmpages-edit-row">
+              <div class="mmpages-edit-section">
+                <div class="mmpages-edit-label">名字</div>
+                <div class="mmpages-edit-name-row">
+                  <div class="mmpages-edit-lock-icon">
+                    <svg viewBox="0 0 24 24">
+                      <rect x="5" y="11" width="14" height="10" rx="2" ry="2"/>
+                      <path d="M12 16v2"/>
+                      <path d="M7 11V7a5 5 0 0110 0v4"/>
+                    </svg>
+                  </div>
+                  <input type="text" class="mmpages-edit-input" id="mmpagesEditDisplayName" placeholder="Display Name" />
+                  <div class="mmpages-edit-avatar-wrapper" onclick="document.getElementById('mmpagesEditAvatarInput').click()">
+                    <img id="mmpagesEditAvatarPreview" src="" alt="Avatar" />
+                    <input type="file" id="mmpagesEditAvatarInput" accept="image/*" style="display: none;" onchange="handleMmpagesAvatarUpload(event)" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Username -->
+            <div class="mmpages-edit-row">
+              <div class="mmpages-edit-section">
+                <div class="mmpages-edit-label">用户名</div>
+                <input type="text" class="mmpages-edit-input" id="mmpagesEditUsername" placeholder="username" />
+              </div>
+            </div>
+
+            <!-- Bio -->
+            <div class="mmpages-edit-row">
+              <div class="mmpages-edit-section">
+                <div class="mmpages-edit-label">个性签名</div>
+                <textarea class="mmpages-edit-textarea" id="mmpagesEditBio" placeholder="+ 添加个性签名" rows="3"></textarea>
+              </div>
+            </div>
+
+            <!-- Bio Note -->
+            <div class="mmpages-edit-row">
+              <div class="mmpages-edit-section">
+                <div class="mmpages-edit-label">个性签名备注</div>
+                <input type="text" class="mmpages-edit-input" id="mmpagesEditBioNote" placeholder="~ 添加备注" />
+              </div>
+            </div>
+
+            <!-- Followers Count -->
+            <div class="mmpages-edit-row">
+              <div class="mmpages-edit-section">
+                <div class="mmpages-edit-label">粉丝数</div>
+                <div class="mmpages-edit-followers-row">
+                  <input type="text" class="mmpages-edit-input mmpages-edit-followers-input" id="mmpagesEditFollowers" placeholder="303" />
+                  <span class="mmpages-edit-followers-unit">K</span>
+                  <span class="mmpages-edit-followers-text">followers</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mmpages-edit-footer">
+            <button class="mmpages-edit-btn mmpages-edit-btn-cancel" onclick="closeMmpagesEditModal()">取消</button>
+            <button class="mmpages-edit-btn mmpages-edit-btn-save" onclick="saveMmpagesEdit()">保存</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Create/Edit Character Modal -->
       <div class="character-edit-modal" id="characterEditModal">
         <div class="edit-card">
@@ -5804,10 +5933,11 @@
       </div>
     </div>
 
-    <!-- 角色功能卡片背景遮罩 -->
-    <div class="char-profile-backdrop" id="charProfileBackdrop" onclick="closeCharProfile()"></div>
 
-    <!-- 角色功能卡片 - 音乐播放器风格 (放在phone-container级别) -->
+  <!-- 角色功能卡片背景遮罩 -->
+  <div class="char-profile-backdrop" id="charProfileBackdrop" onclick="closeCharProfile()"></div>
+
+    <!-- 角色功能卡片 - 音乐播放器风格 (放在phone-container外) -->
     <div class="char-profile-overlay" id="charProfileOverlay">
       <!-- Music Player View -->
       <div class="music-player-view">
@@ -5915,11 +6045,11 @@
           <div class="album-grid">
             <div class="album-thumb" id="diaryAlbumThumb">
               <img src="https://picsum.photos/100?random=11" alt="album">
-              <div class="album-thumb-label">MOMENTS</div>
-            </div>
-            <div class="album-thumb">
-              <img src="https://picsum.photos/100?random=12" alt="album">
               <div class="album-thumb-label">MEMORIES</div>
+            </div>
+            <div class="album-thumb" id="mmpagesAlbumThumb" onclick="openMmpages()">
+              <img src="https://picsum.photos/100?random=12" alt="album">
+              <div class="album-thumb-label">MOMENTS</div>
             </div>
             <div class="album-thumb">
               <img src="https://picsum.photos/100?random=13" alt="album">
@@ -6000,6 +6130,7 @@
         </div>
       </div>
     </div>
+
 
     <!-- 日记本系统 - 翻页日记 -->
     <div class="diary-overlay" id="diaryOverlay">
