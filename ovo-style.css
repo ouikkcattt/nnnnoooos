@@ -1635,7 +1635,8 @@
     /* 🔥 chatScreen的app-content不需要padding-top（因为chat-app-header有自己的padding） */
     #chatScreen > .app-content {
       padding-top: 0;
-      padding-bottom: 80px;
+      /* 🔥 底部padding需要考虑iOS安全区域，避免底栏被抬高后留下过多空白 */
+      padding-bottom: calc(80px + env(safe-area-inset-bottom, 0));
     }
 
     /* Blog App Styles */
