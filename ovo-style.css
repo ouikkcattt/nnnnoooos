@@ -5,6 +5,16 @@
       --app-height: 100vh;
       --app-width: 100vw;
 
+      /* 🔥 顶栏全局Padding管理系统 */
+      --custom-top-offset: 0px; /* 用户自定义偏移量（通过设置调整） */
+      --base-top-padding: 12px; /* 基础顶部padding */
+      --safe-area-top: env(safe-area-inset-top, 0px); /* 安全区域（刘海屏） */
+      --total-top-padding: calc(var(--base-top-padding) + var(--safe-area-top) + var(--custom-top-offset)); /* 总padding */
+
+      /* App Header专用（通常更大） */
+      --app-header-base-padding: 40px; /* App Header基础padding */
+      --app-header-total-padding: calc(var(--app-header-base-padding) + var(--safe-area-top) + var(--custom-top-offset)); /* App Header总padding */
+
       /* Light Mode Colors - 温度模块清爽配色 */
       --bg-primary: #ffffff;
       --bg-secondary: #fafafa;
@@ -910,10 +920,10 @@
     /* Status Bar */
     .status-bar {
       /* 高度需要考虑safe-area */
-      height: calc(44px + env(safe-area-inset-top, 0));
+      height: calc(44px + var(--safe-area-top) + var(--custom-top-offset));
       padding: 0 24px;
-      /* padding-top需要加上safe-area的高度 */
-      padding-top: calc(12px + env(safe-area-inset-top, 0));
+      /* 🔥 使用全局顶栏padding变量 */
+      padding-top: var(--total-top-padding);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -1558,7 +1568,8 @@
 
     /* App Header */
     .app-header {
-      padding: 40px 16px 12px;
+      /* 🔥 使用全局App Header padding变量 */
+      padding: var(--app-header-total-padding) 16px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1607,6 +1618,8 @@
       flex: 1;
       overflow-y: auto;
       padding: 20px;
+      /* 🔥 默认使用全局App Header padding变量 */
+      padding-top: var(--app-header-total-padding);
       scrollbar-width: none;
       /* 确保背景图片正确覆盖 */
       background-size: cover;
@@ -1617,6 +1630,12 @@
 
     .app-content::-webkit-scrollbar {
       display: none;
+    }
+
+    /* 🔥 chatScreen的app-content不需要padding-top（因为chat-app-header有自己的padding） */
+    #chatScreen > .app-content {
+      padding-top: 0;
+      padding-bottom: 80px;
     }
 
     /* Blog App Styles */
@@ -4082,6 +4101,139 @@
       line-height: 1.4;
     }
 
+    /* 🔥 顶部间距调整样式 */
+    /* 预设按钮容器 */
+    .padding-preset-buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    /* 预设按钮 */
+    .padding-preset-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 6px;
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .padding-preset-btn:hover {
+      background: var(--bg-secondary);
+      border-color: var(--text-tertiary);
+      transform: translateY(-2px);
+    }
+
+    .padding-preset-btn.active {
+      background: var(--text-primary);
+      border-color: var(--text-primary);
+    }
+
+    .padding-preset-btn.active .preset-value,
+    .padding-preset-btn.active .preset-label {
+      color: var(--bg-primary);
+    }
+
+    .preset-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+      letter-spacing: -0.02em;
+    }
+
+    .preset-label {
+      font-size: 9px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* 自定义输入行 */
+    .custom-padding-input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .custom-padding-input-wrapper {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .custom-padding-input {
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+
+    .custom-padding-input:focus {
+      outline: none;
+      border-color: var(--text-primary);
+      background: var(--bg-secondary);
+    }
+
+    .padding-input-unit {
+      position: absolute;
+      right: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      font-family: 'Inter', sans-serif;
+      pointer-events: none;
+    }
+
+    .custom-padding-input-row .custom-font-add-btn {
+      width: auto;
+      min-width: 100px;
+      flex-shrink: 0;
+    }
+
+    /* 当前值显示 */
+    .current-padding-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      background: var(--bg-tertiary);
+      border: 1px dashed var(--border-color);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .current-padding-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-right: 8px;
+    }
+
+    .current-padding-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.02em;
+    }
+
     /* 字体区域标签 */
     .font-section-label {
       font-size: 11px;
@@ -6009,7 +6161,8 @@
 
     /* Chat Header */
     .chat-app-header {
-      padding: 20px 20px 12px;
+      /* 🔥 使用全局App Header padding变量 */
+      padding: var(--app-header-total-padding) 20px 12px;
       background: var(--bg-primary);
       border-bottom: 1px solid var(--border-color);
       position: sticky;
@@ -6755,8 +6908,10 @@
 
     /* Chat Detail Header */
     .chat-detail-header {
-      height: 86px;
-      padding: 40px 20px 12px;
+      /* 🔥 移除固定高度，让它自适应内容 */
+      min-height: 86px;
+      /* 🔥 使用全局App Header padding变量 */
+      padding: var(--app-header-total-padding) 20px 12px;
       background: var(--bg-primary);
       border-bottom: 1px solid var(--border-color);
       display: flex;
@@ -9200,7 +9355,8 @@
 
     /* Avatar Section */
     .user-profile-avatar-section {
-      padding: 40px 24px 24px;
+      /* 🔥 使用全局App Header padding变量 */
+      padding: var(--app-header-total-padding) 24px 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -14074,7 +14230,8 @@
     /* 顶部横幅 - 居中布局 */
     .chat-style-minimal-gray .chat-app-header {
       background: linear-gradient(180deg, var(--bg-secondary) 0%, transparent 100%);
-      padding: 40px 20px 30px;
+      /* 🔥 使用全局App Header padding变量 */
+      padding: var(--app-header-total-padding) 20px 30px;
       border: none !important;
     }
 
@@ -14138,7 +14295,8 @@
 
     /* Chats标题区 */
     .chat-style-minimal-gray .chat-list-header-mini {
-      padding: 40px 20px 16px;
+      /* 🔥 使用全局App Header padding变量 */
+      padding: var(--app-header-total-padding) 20px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -16616,6 +16774,21 @@
   transform: rotateY(-180deg);
 }
 
+/* 🔥 懒加载占位符样式 */
+.diary-page.diary-lazy {
+  background: var(--diary-bg, #f5f1e8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diary-page.diary-lazy::after {
+  content: '加载中...';
+  font-size: 14px;
+  color: var(--text-secondary, #999);
+  opacity: 0.5;
+}
+
 .diary-page-face {
   position: absolute;
   width: 100%;
@@ -18143,7 +18316,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 40px 20px 12px;
+  /* 🔥 使用全局App Header padding变量 */
+  padding: var(--app-header-total-padding) 20px 12px;
   min-height: 0;
 }
 
@@ -19043,7 +19217,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: max(40px, env(safe-area-inset-top, 20px)) 16px 12px;
+  /* 🔥 使用全局App Header padding变量（max保留以确保最小值） */
+  padding: max(var(--app-header-total-padding), 20px) 16px 12px;
   flex-shrink: 0;
 }
 
@@ -19603,7 +19778,8 @@
 
 /* Contacts Header */
 .contacts-header {
-  padding: 40px 20px 12px;
+  /* 🔥 使用全局App Header padding变量 */
+  padding: var(--app-header-total-padding) 20px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21134,7 +21310,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 40px 16px 12px;
+  /* 🔥 使用全局App Header padding变量 */
+  padding: var(--app-header-total-padding) 16px 12px;
   background: var(--bg-primary);
   position: relative;
   z-index: 100;
@@ -21794,7 +21971,8 @@
 .sms-header {
   background: var(--sms-header-bg);
   border-bottom: 1px solid var(--sms-header-border);
-  padding: 40px 12px 10px 12px;
+  /* 🔥 使用全局App Header padding变量 */
+  padding: var(--app-header-total-padding) 12px 10px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -24338,7 +24516,8 @@ body.message-action-open {
   justify-content: space-between;
   align-items: center;
   height: 56px;
-  padding: 36px 16px 12px;
+  /* 🔥 使用全局App Header padding变量 */
+  padding: var(--app-header-total-padding) 16px 12px;
   position: sticky;
   top: 0;
   background-color: var(--bg-primary);
