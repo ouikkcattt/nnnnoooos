@@ -1635,8 +1635,7 @@
     /* 🔥 chatScreen的app-content不需要padding-top（因为chat-app-header有自己的padding） */
     #chatScreen > .app-content {
       padding-top: 0;
-      /* 🔥 底部padding需要考虑iOS安全区域，避免底栏被抬高后留下过多空白 */
-      padding-bottom: calc(80px + env(safe-area-inset-bottom, 0));
+      padding-bottom: 80px;
     }
 
     /* Blog App Styles */
@@ -6580,7 +6579,7 @@
       color: var(--text-secondary);
     }
 
-    /* Bottom Navigation - 添加底部安全区域支持 */
+    /* Bottom Navigation */
     .chat-bottom-nav {
       position: fixed;
       bottom: 0;
@@ -6593,8 +6592,7 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding: 12px 12px;
-      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0));
+      padding: 12px 12px 20px 12px;
       z-index: 1000;
       backdrop-filter: blur(20px);
     }
