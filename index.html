@@ -5768,7 +5768,7 @@
             </div>
             <div class="mmpages-nav-right">
               <div class="mmpages-nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-              <div class="mmpages-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" ry="6"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+              <div class="mmpages-nav-icon" onclick="openImageGalleryDrawer()" title="动态图库"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" ry="6"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></div>
               <div class="mmpages-nav-icon"><svg viewBox="0 0 24 24"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg></div>
               <div class="mmpages-nav-icon" onclick="openMmpagesEditModal()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="8" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
             </div>
@@ -5808,6 +5808,157 @@
               <div class="mmpages-empty-state-desc">When this character creates threads, they'll appear here</div>
             </div>
             <!-- Posts will be dynamically generated here -->
+          </div>
+
+          <!-- 🖼️ 动态图库抽屉 -->
+          <div class="image-gallery-drawer-overlay" id="imageGalleryDrawer" onclick="closeImageGalleryDrawerOnOverlay(event)">
+            <div class="image-gallery-drawer-sheet" onclick="event.stopPropagation()">
+
+              <!-- ===== 分类列表面板 ===== -->
+              <div class="image-gallery-category-panel" id="imageGalleryCategoryPanel">
+                <div class="image-gallery-drawer-header">
+                  <div class="image-gallery-drawer-title-row">
+                    <div class="image-gallery-drawer-title">
+                      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      动态图库
+                    </div>
+                    <button class="image-gallery-drawer-close" onclick="closeImageGalleryDrawer()">
+                      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                  </div>
+                  <div class="image-gallery-drawer-subtitle">管理动态配图分类和图片链接</div>
+                </div>
+
+                <div class="image-gallery-category-list" id="imageGalleryCategoryList">
+                  <!-- 分类列表将由JS动态生成 -->
+                </div>
+
+                <div class="image-gallery-add-section">
+                  <div class="image-gallery-add-title">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    新建分类
+                  </div>
+                  <div class="image-gallery-add-form">
+                    <div class="image-gallery-add-row">
+                      <input type="text" class="image-gallery-input" id="newGalleryCategoryName" placeholder="分类名称（如：日常、风景）">
+                      <select class="image-gallery-select" id="newGalleryCategoryTarget">
+                        <option value="">通用（所有角色）</option>
+                        <!-- 角色选项将由JS动态填充 -->
+                      </select>
+                    </div>
+                    <button class="image-gallery-add-btn" onclick="addImageGalleryCategory()">
+                      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      创建分类
+                    </button>
+                  </div>
+                </div>
+
+                <div class="image-gallery-drawer-handle"></div>
+              </div>
+
+              <!-- ===== 图片管理面板 ===== -->
+              <div class="image-gallery-images-panel" id="imageGalleryImagesPanel">
+                <div class="image-gallery-images-header">
+                  <button class="image-gallery-images-back" onclick="backToGalleryCategories()">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                  </button>
+                  <div class="image-gallery-images-title-area">
+                    <div class="image-gallery-images-title" id="currentGalleryCategoryName">分类名称</div>
+                    <div class="image-gallery-images-count" id="currentGalleryImageCount">0 张图片</div>
+                  </div>
+                  <div class="image-gallery-toggle-wrap">
+                    <span class="image-gallery-toggle-label">启用</span>
+                    <div class="image-gallery-toggle" id="currentGalleryToggle" onclick="toggleCurrentGalleryEnabled()"></div>
+                  </div>
+                </div>
+
+                <div class="image-gallery-images-grid" id="imageGalleryImagesGrid">
+                  <!-- 图片网格将由JS动态生成 -->
+                </div>
+
+                <div class="image-gallery-drawer-handle"></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 添加图片弹窗 -->
+          <div class="image-gallery-add-modal" id="imageGalleryAddModal" onclick="closeImageGalleryAddModal(event)">
+            <div class="image-gallery-add-modal-content" onclick="event.stopPropagation()">
+              <div class="image-gallery-add-modal-title">添加图片</div>
+              <div class="image-gallery-add-modal-form">
+                <div>
+                  <label class="image-gallery-add-modal-label">图片链接 *</label>
+                  <input type="text" class="image-gallery-add-modal-input" id="newImageUrl" placeholder="https://example.com/image.jpg" oninput="previewNewImage()">
+                </div>
+                <div>
+                  <label class="image-gallery-add-modal-label">预览</label>
+                  <div class="image-gallery-preview-box" id="newImagePreviewBox">
+                    <div class="preview-placeholder">
+                      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      输入链接后预览
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label class="image-gallery-add-modal-label">备注（可选，帮助AI理解图片）</label>
+                  <textarea class="image-gallery-add-modal-textarea" id="newImageDescription" placeholder="例如：海边日落、咖啡厅自拍、和朋友聚餐..."></textarea>
+                </div>
+                <div class="image-gallery-add-modal-btns">
+                  <button class="image-gallery-add-modal-btn cancel" onclick="closeImageGalleryAddModal()">取消</button>
+                  <button class="image-gallery-add-modal-btn confirm" onclick="confirmAddImage()">添加</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==========================================
+           Thread Detail Screen - 角色动态详情页
+           ========================================== -->
+      <div class="app-screen" id="threadDetailScreen">
+        <div class="thread-detail-container">
+          <!-- 顶部导航栏 -->
+          <header class="thread-header">
+            <div class="thread-header-left">
+              <button class="thread-back-btn" onclick="closeThreadDetail()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+              </button>
+              <div class="thread-header-title">
+                <h1>Thread</h1>
+                <span class="thread-views" id="threadViews">0 views</span>
+              </div>
+            </div>
+            <div class="thread-header-right">
+              <button class="thread-header-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+              </button>
+              <button class="thread-header-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                  <path d="M8 12l0 .01"/>
+                  <path d="M12 12l0 .01"/>
+                  <path d="M16 12l0 .01"/>
+                </svg>
+              </button>
+            </div>
+          </header>
+
+          <!-- 内容区域容器 - JS动态生成 -->
+          <div class="thread-detail-scroll" id="threadDetailScroll">
+            <!-- 原帖和评论将由JS动态生成 -->
+          </div>
+
+          <!-- 底部回复框 - JS动态生成 -->
+          <div class="thread-reply-bar" id="threadReplyBar">
+            <!-- 回复框将由JS动态生成 -->
           </div>
         </div>
       </div>
