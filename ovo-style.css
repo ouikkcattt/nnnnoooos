@@ -24598,6 +24598,8 @@ body.message-action-open {
   line-height: 1.35;
   margin-bottom: 4px;
   color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .mmpages-bio-note {
