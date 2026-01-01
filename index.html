@@ -1441,14 +1441,68 @@
               </div>
             </div>
 
-            <!-- 角色信息预览 -->
+            <!-- 头像管理模块 -->
             <div class="settings-section">
-              <div class="settings-section-header">角色信息</div>
-              <div class="settings-card" style="text-align: center;">
-                <div class="chat-settings-avatar" id="chatSettingsAvatar">
-                  <img src="" alt="Avatar">
+              <div class="avatar-manager" id="avatarManagerSection">
+                <!-- 背景装饰层 - 精简星星 -->
+                <div class="avatar-deco-layer">
+                  <div class="deco-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7L12 17l-6.3 4 2.3-7-6-4.6h7.6z"/></svg></div>
+                  <div class="deco-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7L12 17l-6.3 4 2.3-7-6-4.6h7.6z"/></svg></div>
                 </div>
-                <div class="chat-settings-original-name" id="chatSettingsOriginalName">Loading...</div>
+
+                <!-- 头像对区域 -->
+                <div class="avatar-pair-container">
+                  <!-- 左侧 - 角色头像 -->
+                  <div class="avatar-wrapper" onclick="changeCharacterAvatarInChat()">
+                    <div class="avatar-frame">
+                      <div class="avatar-img-container" id="chatSettingsCharacterAvatar">
+                        <div class="avatar-placeholder">
+                          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="avatar-label" id="chatSettingsCharacterName">角色</div>
+                    <div class="avatar-hint">tap to change</div>
+                  </div>
+
+                  <!-- 中间连接区域 -->
+                  <div class="connection-area">
+                    <div class="headphone-line-left">
+                      <svg viewBox="0 0 60 50"><path d="M60 25 Q45 25, 40 15 Q35 5, 25 10 Q15 15, 10 25" fill="none"/></svg>
+                    </div>
+                    <div class="heart-connector">
+                      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </div>
+                    <div class="headphone-line-right">
+                      <svg viewBox="0 0 60 50"><path d="M60 25 Q45 25, 40 15 Q35 5, 25 10 Q15 15, 10 25" fill="none"/></svg>
+                    </div>
+                  </div>
+
+                  <!-- 右侧 - 用户头像 -->
+                  <div class="avatar-wrapper" onclick="changeUserAvatarInChat()">
+                    <div class="avatar-frame">
+                      <div class="avatar-img-container" id="chatSettingsUserAvatar">
+                        <div class="avatar-placeholder">
+                          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="avatar-label" id="chatSettingsUserName">我</div>
+                    <div class="avatar-hint">tap to change</div>
+                  </div>
+                </div>
+
+                <!-- 统计信息 -->
+                <div class="stats-area">
+                  <div class="stats-text">
+                    一起聊天了 <span class="stats-highlight" id="chatStatsDays">0</span> 天
+                  </div>
+                </div>
+
+                <!-- 底部提示 -->
+                <div class="action-hint">
+                  <div class="action-hint-text">~ click avatar to change ~</div>
+                </div>
               </div>
             </div>
 
@@ -2172,7 +2226,7 @@
                 </div>
 
                 <!-- 超级HTML卡片开关 -->
-                <div class="affection-grid-label" style="border-bottom: none; padding-bottom: 0; margin-top: 16px;">
+                <div class="affection-grid-label" style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-top: 16px;">
                   <div>
                     <span style="font-size: 13px;">超级HTML卡片</span>
                     <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 4px; line-height: 1.4;">
@@ -2181,6 +2235,21 @@
                   </div>
                   <label class="affection-toggle-modern" style="margin: 0; flex-shrink: 0;">
                     <input type="checkbox" id="superHtmlCardToggle" onchange="toggleSuperHtmlCardMode(this.checked)">
+                    <span class="toggle-track"></span>
+                    <span class="toggle-thumb"></span>
+                  </label>
+                </div>
+
+                <!-- 繁忙时段自动回复开关 -->
+                <div class="affection-grid-label" style="border-bottom: none; padding-bottom: 0; margin-top: 16px;">
+                  <div>
+                    <span style="font-size: 13px;">繁忙时段自动回复</span>
+                    <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 4px; line-height: 1.4;">
+                      角色在繁忙/睡觉时自动回复，不调用AI。注意！繁忙结束后，进入聊天框自动触发ai发送信息。
+                    </div>
+                  </div>
+                  <label class="affection-toggle-modern" style="margin: 0; flex-shrink: 0;">
+                    <input type="checkbox" id="busyAutoReplyToggle" onchange="toggleBusyAutoReply(this.checked)" checked>
                     <span class="toggle-track"></span>
                     <span class="toggle-thumb"></span>
                   </label>

@@ -10051,6 +10051,269 @@
       margin-top: 8px;
     }
 
+    /* ========================================
+       头像管理模块 - Avatar Manager
+       ======================================== */
+    .avatar-manager {
+      position: relative;
+      padding: 16px 12px 20px;
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    /* 背景装饰层 */
+    .avatar-deco-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* 手绘星星 */
+    .avatar-manager .deco-star {
+      position: absolute;
+      opacity: 0.15;
+      animation: avatarTwinkle 3s ease-in-out infinite;
+    }
+
+    .avatar-manager .deco-star svg {
+      width: 100%;
+      height: 100%;
+      stroke: var(--text-primary);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .avatar-manager .deco-star:nth-child(1) {
+      top: 12%;
+      left: 8%;
+      width: 10px;
+      height: 10px;
+      animation-delay: 0s;
+    }
+
+    .avatar-manager .deco-star:nth-child(2) {
+      top: 18%;
+      right: 10%;
+      width: 8px;
+      height: 8px;
+      animation-delay: 0.8s;
+    }
+
+    @keyframes avatarTwinkle {
+      0%, 100% { opacity: 0.1; transform: scale(1); }
+      50% { opacity: 0.25; transform: scale(1.1); }
+    }
+
+    /* 头像对容器 */
+    .avatar-pair-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 0 12px;
+    }
+
+    /* 单个头像包装 */
+    .avatar-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .avatar-wrapper:active {
+      transform: scale(0.95);
+    }
+
+    /* 头像外框 */
+    .avatar-frame {
+      position: relative;
+      width: 72px;
+      height: 72px;
+    }
+
+    /* 头像图片容器 */
+    .avatar-img-container {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--border-color);
+      background: var(--bg-tertiary);
+      position: relative;
+      z-index: 2;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .avatar-wrapper:hover .avatar-img-container {
+      border-color: var(--text-tertiary);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    .avatar-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 头像占位符 */
+    .avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-tertiary);
+    }
+
+    .avatar-placeholder svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--text-tertiary);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    /* 头像标签 */
+    .avatar-label {
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+
+    /* 更换提示 */
+    .avatar-hint {
+      font-size: 9px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+      font-family: 'Caveat', cursive;
+      letter-spacing: 0.05em;
+    }
+
+    /* 心形耳机线连接 */
+    .connection-area {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 -8px;
+      z-index: 3;
+    }
+
+    /* 心形SVG */
+    .heart-connector {
+      position: absolute;
+      width: 28px;
+      height: 26px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: avatarHeartbeat 2s ease-in-out infinite;
+    }
+
+    .heart-connector svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: var(--text-primary);
+      stroke-width: 1.5;
+      opacity: 0.4;
+    }
+
+    @keyframes avatarHeartbeat {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.08); }
+    }
+
+    /* 耳机线 */
+    .headphone-line-left,
+    .headphone-line-right {
+      position: absolute;
+      top: 50%;
+      width: 50px;
+      height: 40px;
+      transform: translateY(-50%);
+    }
+
+    .headphone-line-left {
+      left: -10px;
+    }
+
+    .headphone-line-right {
+      right: -10px;
+      transform: translateY(-50%) scaleX(-1);
+    }
+
+    .headphone-line-left svg,
+    .headphone-line-right svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: var(--text-primary);
+      stroke-width: 1.5;
+      opacity: 0.25;
+    }
+
+    /* 统计信息区域 */
+    .stats-area {
+      text-align: center;
+      margin-top: 4px;
+      padding: 0 16px;
+    }
+
+    .stats-text {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      font-family: 'Noto Sans JP', 'Inter', sans-serif;
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+    }
+
+    .stats-highlight {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* 底部操作提示 */
+    .action-hint {
+      text-align: center;
+      padding: 8px 16px 4px;
+      border-top: 1px dashed var(--border-color);
+      margin-top: 8px;
+    }
+
+    .action-hint-text {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      font-family: 'Caveat', cursive;
+      letter-spacing: 0.1em;
+    }
+
+    /* 响应式适配 */
+    @media (max-width: 360px) {
+      .avatar-frame {
+        width: 64px;
+        height: 64px;
+      }
+
+      .connection-area {
+        width: 60px;
+        height: 60px;
+      }
+    }
+
     .chat-background-preview {
       width: 100%;
       height: 160px;
