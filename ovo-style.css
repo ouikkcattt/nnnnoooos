@@ -24872,13 +24872,17 @@ body.message-action-open {
 }
 
 .mmpages-post-image {
-  flex-shrink: 0; /* 防止压缩，保持固定尺寸 */
-  width: 160px; /* 固定宽度 */
-  height: 213px; /* 固定高度（3:4比例，160 / 0.75） */
+  flex-shrink: 0; /* 防止压缩 */
+  /* 🔥 【老王优化】自适应图片比例 - 支持横图、竖图、方图 */
+  max-width: 280px; /* 最大宽度（横图限制） */
+  max-height: 320px; /* 最大高度（竖图限制） */
+  min-width: 140px; /* 最小宽度（避免太小） */
+  height: auto; /* 高度自适应 */
   border-radius: 12px;
   background: linear-gradient(135deg, #f0ebe6 0%, #e8e3de 100%);
   overflow: hidden;
-  object-fit: cover;
+  object-fit: contain; /* 完整显示图片，不裁剪 */
+  display: block; /* 确保图片正常显示 */
 }
 
 /* 第一张图片左对齐 */
@@ -24896,6 +24900,12 @@ body.message-action-open {
 
 /* 文字描述图特殊样式 */
 .mmpages-image-desc {
+  /* 🔥 文字图保持固定3:4比例 */
+  width: 160px !important;
+  height: 213px !important;
+  max-width: 160px !important;
+  max-height: 213px !important;
+  min-width: 160px !important;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   display: flex;
@@ -26055,7 +26065,8 @@ body.message-action-open {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
+  /* 🔥 使用全局App Header padding变量 */
+  padding: var(--app-header-total-padding) 14px 10px;
   position: sticky;
   top: 0;
   background-color: var(--thread-bg-primary);
@@ -26232,15 +26243,25 @@ body.message-action-open {
 
 .thread-post-image {
   flex-shrink: 0;
-  width: 200px;
-  height: 280px;
+  /* 🔥 【老王优化】自适应图片比例 - 支持横图、竖图、方图 */
+  max-width: 320px; /* 最大宽度（横图限制） */
+  max-height: 380px; /* 最大高度（竖图限制） */
+  min-width: 160px; /* 最小宽度（避免太小） */
+  height: auto; /* 高度自适应 */
   border-radius: 12px;
-  object-fit: cover;
+  object-fit: contain; /* 完整显示图片，不裁剪 */
   background-color: var(--thread-bg-tertiary);
+  display: block; /* 确保图片正常显示 */
 }
 
 /* 文字描述图特殊样式 - Thread Detail */
 .thread-image-desc {
+  /* 🔥 文字图保持固定比例 */
+  width: 200px !important;
+  height: 280px !important;
+  max-width: 200px !important;
+  max-height: 280px !important;
+  min-width: 200px !important;
   background: var(--thread-bg-secondary);
   border: 1px solid var(--thread-border-color);
   display: flex;
@@ -26279,7 +26300,7 @@ body.message-action-open {
 }
 
 .thread-action-item:hover {
-  color: var(--thread-accent-blue);
+  color: #888;
 }
 
 .thread-action-item svg {
@@ -26289,12 +26310,13 @@ body.message-action-open {
 }
 
 .thread-action-item:hover svg {
-  color: var(--thread-accent-blue);
+  color: #888;
+  stroke: #888;
 }
 
 .thread-action-item.thread-liked svg {
-  color: #f91880;
-  fill: #f91880;
+  fill: #888;
+  stroke: #888;
 }
 
 .thread-action-count {
@@ -26523,7 +26545,16 @@ body.message-action-open {
 }
 
 .thread-comment-action:hover {
-  color: var(--thread-accent-blue);
+  color: #888;
+}
+
+.thread-comment-action:hover svg {
+  stroke: #888;
+}
+
+.thread-comment-action.thread-liked svg {
+  fill: #888;
+  stroke: #888;
 }
 
 .thread-comment-action svg {
