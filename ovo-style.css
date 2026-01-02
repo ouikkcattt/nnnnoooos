@@ -948,26 +948,31 @@
       stroke-width: 2;
     }
 
-    /* Clock Widget */
+    /* Clock Widget - 自适应网格大小 */
     .clock-widget {
-      padding: 40px 0;
+      padding: 0;
       text-align: center;
-      animation: slideDown 0.6s ease 2.4s backwards;
       width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .clock-time {
-      font-size: 72px;
-      font-weight: 300;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-      font-family: 'Inter', sans-serif;
+      font-size: clamp(36px, 8vw, 64px);
+      font-weight: 200;
+      letter-spacing: -2px;
+      line-height: 1;
+      font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
     }
 
     .clock-date {
-      font-size: 16px;
+      font-size: clamp(12px, 3vw, 15px);
       color: var(--text-secondary);
       font-weight: 400;
+      margin-top: 4px;
     }
 
     @keyframes slideDown {
@@ -990,13 +995,13 @@
       }
     }
 
-    /* App Grid - 28网格系统（7行×4列）*/
+    /* App Grid - 32网格系统（8行×4列）*/
     .app-grid {
       flex: 1;
       padding: 20px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(7, auto);
+      grid-template-rows: repeat(8, auto);
       gap: 16px;
       align-content: start;
       justify-items: center;
@@ -1011,7 +1016,7 @@
       display: none;
     }
 
-    /* Grid Cell - 每个网格单元 */
+    /* Grid Cell - 每个网格单元（正方形）*/
     .grid-cell {
       aspect-ratio: 1;
       display: flex;
@@ -1024,18 +1029,6 @@
       max-width: 100%;
       transition: background 0.2s ease;
       box-sizing: border-box;
-    }
-
-    /* 时钟组件占据2行 */
-    .grid-cell.clock-cell {
-      grid-column: 1 / 5;
-      grid-row: span 2;
-      aspect-ratio: auto;
-      min-height: auto;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .app-icon {
@@ -1082,11 +1075,24 @@
 
     /* 拖动中的图标样式 */
     .app-icon.dragging {
-      opacity: 0.6;
-      transform: scale(1.15);
+      opacity: 0.95;
       z-index: 10000;
       pointer-events: none;
-      animation: none !important;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+      transition: none;
+    }
+
+    /* 拖拽抬起动画 */
+    @keyframes dragLift {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.12);
+      }
+      100% {
+        transform: scale(1.08);
+      }
     }
 
     /* 占位符效果 */
@@ -1097,8 +1103,9 @@
       opacity: 0.5;
     }
 
-    /* 编辑模式指示器 - 移到底栏上方 */
+    /* 编辑模式指示器 - 已被WIDGETS按钮替代，隐藏此元素 */
     .edit-mode-indicator {
+      display: none !important;
       position: fixed;
       bottom: 120px;
       left: 50%;
@@ -1109,7 +1116,7 @@
       border-radius: 20px;
       font-size: 13px;
       font-weight: 600;
-      z-index: 10002;
+      z-index: 10001;
       opacity: 0;
       pointer-events: none;
       transition: all 0.3s ease;
@@ -1192,6 +1199,1376 @@
         transform: translateY(0);
       }
     }
+
+    /* ========== 🎨 桌面美化系统样式 - INS风格 ========== */
+
+    /* 添加组件按钮 - 胶囊异形设计 */
+    .add-widget-btn {
+      position: fixed;
+      bottom: 115px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      padding: 10px 18px 10px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 10002;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      font-family: -apple-system, 'SF Pro Display', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .add-widget-btn-icon {
+      width: 26px;
+      height: 26px;
+      background: var(--bg-primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .add-widget-btn-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-primary);
+      stroke-width: 1.5;
+    }
+
+    .add-widget-btn-text {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .add-widget-btn-star {
+      font-size: 10px;
+      opacity: 0.6;
+      animation: starFloat 2s ease-in-out infinite;
+    }
+
+    @keyframes starFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    .add-widget-btn.active {
+      opacity: 1;
+      pointer-events: auto;
+      animation: buttonPopIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes buttonPopIn {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px) scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+    }
+
+    .add-widget-btn:hover {
+      transform: translateX(-50%) translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .add-widget-btn:active {
+      transform: translateX(-50%) scale(0.96);
+    }
+
+    /* 桌面组件基础样式 - 严格按网格大小 */
+    .desktop-widget {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 音乐播放器组件 */
+    .desktop-widget.widget-music .ipod-widget {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Album组件允许唱片溢出 */
+    .desktop-widget.widget-album {
+      overflow: visible;
+    }
+
+    /* 编辑模式下允许删除按钮溢出 */
+    .app-grid.edit-mode .desktop-widget {
+      overflow: visible;
+    }
+
+    /* 组件装饰角标 */
+    .desktop-widget::before {
+      content: '✦';
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 8px;
+      color: var(--text-tertiary);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .desktop-widget:hover::before {
+      opacity: 0.5;
+    }
+
+    .desktop-widget:hover {
+      transform: scale(1.015);
+      border-color: var(--text-tertiary);
+    }
+
+
+    /* 编辑模式下组件样式 */
+    .app-grid.edit-mode .desktop-widget {
+      animation: widgetWiggle 0.35s ease-in-out infinite alternate !important;
+    }
+
+
+    @keyframes widgetWiggle {
+      0% { transform: rotate(-0.5deg); }
+      100% { transform: rotate(0.5deg); }
+    }
+
+    /* 组件占位符 - 黑白风格 */
+    .widget-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 100%;
+      padding: 14px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    }
+
+    .widget-placeholder-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--text-primary);
+      border-radius: 10px;
+      opacity: 0.9;
+    }
+
+    .widget-placeholder-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--bg-primary);
+      stroke-width: 1.5;
+    }
+
+    .widget-placeholder-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: -0.2px;
+    }
+
+    /* ========== 时钟组件 - 2x2尺寸 ========== */
+    .widget-clock {
+      background: transparent;
+      border: none;
+      aspect-ratio: 1;
+    }
+
+    .widget-clock::before {
+      display: none;
+    }
+
+    .widget-clock .clock-widget {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .widget-clock .clock-time {
+      font-size: clamp(32px, 8vw, 48px);
+      font-weight: 200;
+      letter-spacing: -2px;
+      font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .widget-clock .clock-date {
+      font-size: clamp(10px, 2.5vw, 12px);
+      color: var(--text-secondary);
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
+
+    /* ========== iOS音乐组件 - 4x2尺寸 ========== */
+    .widget-music {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+    }
+
+    .widget-music::before,
+    .widget-music::after {
+      display: none !important;
+    }
+
+    .ios-music-widget {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 14px;
+      gap: 14px;
+      background: #404040;
+      border-radius: 22px;
+      position: relative;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    }
+
+    /* 磨砂质感 - 噪点层 */
+    .ios-music-widget::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 22px;
+    }
+
+    /* 微光泽层 */
+    .ios-music-widget::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.05) 100%);
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 22px;
+    }
+
+    /* 专辑封面 */
+    .ios-music-widget .music-album {
+      width: 142px;
+      height: 142px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 2;
+    }
+
+    .ios-music-widget .music-album img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* 右侧内容 */
+    .ios-music-widget .music-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-width: 0;
+      justify-content: space-between;
+      padding: 6px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 歌曲信息 */
+    .ios-music-widget .music-info {
+      text-align: center;
+    }
+
+    .ios-music-widget .music-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.3px;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ios-music-widget .music-artist {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.6);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 控制按钮 */
+    .ios-music-widget .music-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .ios-music-widget .music-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.9);
+      transition: transform 0.1s ease, opacity 0.1s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ios-music-widget .music-btn:active {
+      transform: scale(0.9);
+      opacity: 0.6;
+    }
+
+    .ios-music-widget .music-btn.skip-btn svg {
+      width: 36px;
+      height: 36px;
+      fill: currentColor;
+    }
+
+    .ios-music-widget .music-btn.play-btn svg {
+      width: 48px;
+      height: 48px;
+      fill: currentColor;
+    }
+
+    /* 进度条区域 */
+    .ios-music-widget .music-progress {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ios-music-widget .progress-track {
+      flex: 1;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2.5px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ios-music-widget .progress-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 2.5px;
+      transition: width 0.15s linear;
+    }
+
+    .ios-music-widget .music-time {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.55);
+      font-variant-numeric: tabular-nums;
+      min-width: 32px;
+    }
+
+    .ios-music-widget .music-time.current {
+      text-align: right;
+    }
+
+    .ios-music-widget .music-time.total {
+      text-align: left;
+    }
+
+    /* 专辑封面编辑提示 */
+    .ios-music-widget .music-album {
+      cursor: pointer;
+    }
+
+    .ios-music-widget .music-album-edit-hint {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      border-radius: 10px;
+    }
+
+    .ios-music-widget .music-album-edit-hint svg {
+      width: 32px;
+      height: 32px;
+      stroke: #fff;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .ios-music-widget .music-album:hover .music-album-edit-hint,
+    .ios-music-widget .music-album:active .music-album-edit-hint {
+      opacity: 1;
+    }
+
+    /* 歌曲名/歌手名可编辑样式 */
+    .ios-music-widget .music-title,
+    .ios-music-widget .music-artist {
+      cursor: pointer;
+      transition: background 0.15s ease;
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin: -2px -6px;
+    }
+
+    .ios-music-widget .music-title:hover,
+    .ios-music-widget .music-artist:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .ios-music-widget .music-title:active,
+    .ios-music-widget .music-artist:active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ========== 组件选择器 - INS风格重设计 ========== */
+
+    /* 遮罩层 - 毛玻璃效果 */
+    .widget-picker-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 20000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .widget-picker-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* 主面板 - 异形设计 */
+    .widget-picker-sheet {
+      width: 100%;
+      max-width: 400px;
+      max-height: 75vh;
+      background: var(--bg-primary);
+      border-radius: 28px 28px 0 0;
+      padding: 0;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    /* 装饰星星 */
+    .widget-picker-sheet::before {
+      content: '✦';
+      position: absolute;
+      top: 16px;
+      right: 60px;
+      font-size: 10px;
+      color: var(--text-tertiary);
+      opacity: 0.5;
+      animation: starTwinkle 2s ease-in-out infinite;
+    }
+
+    .widget-picker-sheet::after {
+      content: '✧';
+      position: absolute;
+      top: 24px;
+      right: 45px;
+      font-size: 8px;
+      color: var(--text-tertiary);
+      opacity: 0.3;
+      animation: starTwinkle 2s ease-in-out infinite 0.5s;
+    }
+
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.2); }
+    }
+
+    .widget-picker-overlay.active .widget-picker-sheet {
+      transform: translateY(0);
+    }
+
+    /* 顶部拖拽手柄 - 像素风格 */
+    .widget-picker-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--text-tertiary);
+      border-radius: 2px;
+      margin: 14px auto 6px;
+      position: relative;
+    }
+
+    /* 头部区域 */
+    .widget-picker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .widget-picker-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+      font-family: -apple-system, 'SF Pro Display', sans-serif;
+    }
+
+    /* 关闭按钮 - 异形胶囊设计 */
+    .widget-picker-close {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .widget-picker-close:hover {
+      background: var(--text-primary);
+    }
+
+    .widget-picker-close:hover svg {
+      stroke: var(--bg-primary);
+    }
+
+    .widget-picker-close svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--text-secondary);
+      stroke-width: 2;
+    }
+
+    /* 内容区域 */
+    .widget-picker-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px 28px;
+      scroll-behavior: smooth;
+    }
+
+    .widget-picker-grid::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .widget-picker-grid::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .widget-picker-grid::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 2px;
+    }
+
+    /* 分类区块 */
+    .widget-picker-category {
+      margin-bottom: 18px;
+    }
+
+    .widget-picker-category:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 分类标题 - 胶囊标签样式 */
+    .widget-picker-category-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+      padding: 4px 10px;
+      background: var(--bg-secondary);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .widget-picker-category-title::before {
+      content: '◆';
+      font-size: 6px;
+      opacity: 0.6;
+    }
+
+    /* 组件网格 - 紧凑布局 */
+    .widget-picker-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* 组件项 - 列表卡片样式（仿文件列表） */
+    .widget-picker-item {
+      position: relative;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .widget-picker-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--text-tertiary);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .widget-picker-item:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--text-tertiary);
+      transform: translateX(4px);
+    }
+
+    .widget-picker-item:hover::before {
+      opacity: 1;
+    }
+
+    .widget-picker-item:active {
+      transform: translateX(4px) scale(0.99);
+    }
+
+    /* 图标容器 - 方形圆角 */
+    .widget-picker-item-icon {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* 使用SVG图标替代emoji */
+    .widget-picker-item-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-primary);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    /* 文字信息区 */
+    .widget-picker-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .widget-picker-item-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
+      margin-bottom: 2px;
+    }
+
+    /* 尺寸标签 - 胶囊样式 */
+    .widget-picker-item-size {
+      display: inline-block;
+      font-size: 10px;
+      color: var(--text-tertiary);
+      background: var(--bg-primary);
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      font-family: 'SF Mono', monospace;
+    }
+
+    /* 多尺寸标记 - 右侧箭头 */
+    .widget-picker-item-multi {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      padding: 3px 8px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      font-size: 9px;
+      border-radius: 8px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    /* 右侧箭头指示 */
+    .widget-picker-item-arrow {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.4;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .widget-picker-item:hover .widget-picker-item-arrow {
+      opacity: 0.8;
+      transform: translateX(2px);
+    }
+
+    .widget-picker-item-arrow svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-primary);
+      stroke-width: 2;
+    }
+
+    /* ========== 组件删除按钮 - 轻磨砂风格 ========== */
+    .widget-delete-btn {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      width: 18px;
+      height: 18px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      transition: all 0.15s ease;
+    }
+
+    [data-theme="dark"] .widget-delete-btn {
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .widget-delete-btn:hover {
+      transform: scale(1.15);
+      background: rgba(220, 50, 50, 0.75);
+      border-color: rgba(255, 100, 100, 0.4);
+    }
+
+    .widget-delete-btn:active {
+      transform: scale(0.9);
+    }
+
+    .widget-delete-btn svg {
+      width: 9px;
+      height: 9px;
+      stroke: #fff;
+      stroke-width: 2.5;
+    }
+
+    .app-grid.edit-mode .widget-delete-btn {
+      display: flex;
+      animation: deleteButtonPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes deleteButtonPop {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* 拖拽中的组件样式 */
+    .desktop-widget.dragging {
+      opacity: 0.92;
+      z-index: 10000;
+      pointer-events: none;
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
+      transition: none;
+    }
+
+    /* ========== Spotify音乐组件 - 4x2 ========== */
+    .spotify-widget {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      display: flex;
+      padding: 16px 20px;
+      gap: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    }
+
+    /* 黑色主题 */
+    .spotify-widget.theme-dark {
+      background: #000;
+    }
+    .spotify-widget.theme-dark .spotify-album-label { color: #fff; }
+    .spotify-widget.theme-dark .spotify-song-title { color: #fff; }
+    .spotify-widget.theme-dark .spotify-artist { color: #b3b3b3; }
+    .spotify-widget.theme-dark .spotify-heart svg { stroke: #b3b3b3; }
+    .spotify-widget.theme-dark .spotify-progress-bar { background: #4d4d4d; }
+    .spotify-widget.theme-dark .spotify-progress-fill { background: #fff; }
+    .spotify-widget.theme-dark .spotify-progress-thumb { background: #fff; }
+    .spotify-widget.theme-dark .spotify-time { color: #b3b3b3; }
+    .spotify-widget.theme-dark .spotify-ctrl-btn svg { fill: #fff; }
+    .spotify-widget.theme-dark .spotify-play-btn { background: #fff; }
+    .spotify-widget.theme-dark .spotify-play-btn svg { fill: #000; }
+
+    /* 白色主题 */
+    .spotify-widget.theme-light {
+      background: #fff;
+    }
+    .spotify-widget.theme-light .spotify-album-label { color: #000; }
+    .spotify-widget.theme-light .spotify-song-title { color: #000; }
+    .spotify-widget.theme-light .spotify-artist { color: #666; }
+    .spotify-widget.theme-light .spotify-heart svg { stroke: #666; }
+    .spotify-widget.theme-light .spotify-progress-bar { background: #ddd; }
+    .spotify-widget.theme-light .spotify-progress-fill { background: #000; }
+    .spotify-widget.theme-light .spotify-progress-thumb { background: #000; }
+    .spotify-widget.theme-light .spotify-time { color: #666; }
+    .spotify-widget.theme-light .spotify-ctrl-btn svg { fill: #000; }
+    .spotify-widget.theme-light .spotify-play-btn { background: #000; }
+    .spotify-widget.theme-light .spotify-play-btn svg { fill: #fff; }
+
+    /* 左侧专辑区域 */
+    .spotify-album-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 120px;
+      flex-shrink: 0;
+    }
+
+    .spotify-album-label {
+      font-size: 7px;
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+      line-height: 1.3;
+      font-weight: 500;
+      max-width: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      cursor: pointer;
+    }
+
+    .spotify-album-label span {
+      font-style: italic;
+    }
+
+    .spotify-album-cover {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .spotify-album-cover.playing {
+      animation: spotifyAlbumSpin 8s linear infinite;
+    }
+
+    @keyframes spotifyAlbumSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .spotify-album-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .spotify-album-cover .upload-hint {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      border-radius: 50%;
+    }
+
+    .spotify-album-cover:hover .upload-hint {
+      opacity: 1;
+    }
+
+    .spotify-album-cover .upload-hint svg {
+      width: 24px;
+      height: 24px;
+      stroke: #fff;
+      stroke-width: 2;
+    }
+
+    /* 右侧控制区域 */
+    .spotify-control-section {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .spotify-song-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    .spotify-song-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .spotify-heart {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .spotify-heart svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .spotify-artist {
+      font-size: 13px;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
+    /* 进度条 */
+    .spotify-progress-wrapper {
+      margin-bottom: 10px;
+    }
+
+    .spotify-progress-bar {
+      width: 100%;
+      height: 3px;
+      border-radius: 1.5px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .spotify-progress-fill {
+      height: 100%;
+      border-radius: 1.5px;
+      width: 25%;
+      position: relative;
+      transition: width 0.3s linear;
+    }
+
+    .spotify-progress-thumb {
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .spotify-time-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+
+    .spotify-time {
+      font-size: 10px;
+      font-weight: 400;
+    }
+
+    /* 控制按钮 */
+    .spotify-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+    }
+
+    .spotify-ctrl-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spotify-ctrl-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .spotify-play-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .spotify-play-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* 颜色/效果选择预览 */
+    .widget-color-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .widget-color-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 12px;
+      background: var(--bg-secondary);
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .widget-color-option:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-color);
+      background: var(--bg-tertiary);
+    }
+
+    .widget-color-preview {
+      width: 100%;
+      aspect-ratio: 2/1;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .widget-color-option:hover .widget-color-preview {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .widget-color-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* 分组标题 */
+    .widget-size-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      padding: 12px 16px 8px;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .widget-size-section {
+      margin-bottom: 8px;
+    }
+
+    /* ========== 尺寸选择器 - INS风格 ========== */
+    .widget-size-selector {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 4px 0;
+    }
+
+    .widget-size-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+
+    /* 返回按钮 - 方形圆角 */
+    .widget-size-back {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+
+    .widget-size-back:hover {
+      background: var(--text-primary);
+      border-color: var(--text-primary);
+    }
+
+    .widget-size-back:hover svg {
+      stroke: var(--bg-primary);
+    }
+
+    .widget-size-back svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-secondary);
+      stroke-width: 2;
+    }
+
+    .widget-size-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    /* 图标容器 - 使用SVG替代emoji */
+    .widget-size-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+
+    .widget-size-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-primary);
+      stroke-width: 1.5;
+    }
+
+    /* 尺寸选项网格 */
+    .widget-size-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 12px;
+    }
+
+    /* 尺寸选项卡片 */
+    .widget-size-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .widget-size-option::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--text-primary);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .widget-size-option:hover {
+      border-color: var(--text-tertiary);
+      background: var(--bg-tertiary);
+      transform: translateY(-2px);
+    }
+
+    .widget-size-option:hover::before {
+      opacity: 1;
+    }
+
+    .widget-size-option:active {
+      transform: translateY(-2px) scale(0.98);
+    }
+
+    /* 选中状态 */
+    .widget-size-option.selected {
+      border-color: var(--text-primary);
+      background: var(--bg-tertiary);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .widget-size-option.selected::before {
+      opacity: 1;
+    }
+
+    /* 尺寸预览框 - 黑白风格 */
+    .widget-size-preview {
+      background: var(--text-primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      min-height: 36px;
+      max-width: 140px;
+      max-height: 100px;
+      position: relative;
+    }
+
+    /* 像素网格装饰 */
+    .widget-size-preview::after {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 1px dashed var(--bg-primary);
+      border-radius: 6px;
+      opacity: 0.3;
+    }
+
+    .widget-size-preview-icon {
+      font-size: 18px;
+      color: var(--bg-primary);
+      opacity: 0;
+    }
+
+    .widget-size-preview svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--bg-primary);
+      stroke-width: 1.5;
+      opacity: 0.8;
+    }
+
+    /* 尺寸标签 */
+    .widget-size-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-family: 'SF Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    .widget-size-desc {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      padding: 2px 8px;
+      background: var(--bg-primary);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .widget-picker-item {
+      position: relative;
+    }
+
+    /* ========== 桌面美化系统样式结束 ========== */
 
     @keyframes fadeInUp {
       from {
@@ -27058,4 +28435,473 @@ body.message-action-open {
 }
 
 /* ==================== End Thread Detail ==================== */
+
+/* ========================================
+ * 📸 图片组件 Photo Widget
+ * 支持 2x2 和 4x2 尺寸
+ * 纯CSS自适应，无需特殊处理
+ * ======================================== */
+
+/* 图片组件容器 - flex column布局 */
+.photo-widget {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 图片内容区域 - flex: 1 自适应 */
+.photo-widget-content {
+  flex: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.photo-widget-content:hover {
+  transform: scale(1.02);
+}
+
+/* 图片元素 - 100%填充 */
+.photo-widget-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* 透明底图片 - contain模式 */
+.photo-widget-image.transparent-mode {
+  object-fit: contain;
+  background:
+    linear-gradient(45deg, rgba(255,255,255,0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255,255,255,0.08) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.08) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.08) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+/* 效果层 - 伪元素 */
+.photo-widget-content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+/* 无效果 */
+.photo-widget-content.effect-none::after {
+  display: none;
+}
+
+/* 磨砂效果 */
+.photo-widget-content.effect-frosted::after {
+  backdrop-filter: blur(0.5px) brightness(1.02);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+}
+
+/* 玻璃效果 */
+.photo-widget-content.effect-glass::after {
+  backdrop-filter: blur(1px) saturate(1.1);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* 底部文字标签 - 在图片外面 */
+.photo-widget-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-align: center;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 4px;
+  line-height: 1.2;
+}
+
+/* 隐藏标签 */
+.photo-widget-label.hidden {
+  display: none;
+}
+
+/* 占位符（空组件状态） */
+.photo-widget-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.photo-widget-placeholder svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  opacity: 0.6;
+}
+
+/* ========== End Photo Widget ========== */
+
+/* ========================================
+ * 📸 Polaroid Widget - 4x2
+ * 三张拍立得 + 星星装饰（点击上传）
+ * ======================================== */
+
+.polaroid-widget {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between polaroids, adjusted to fit */
+  padding: 23px 9px; /* Padding for stars to overlap, adjusted to fit 368x176 */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.polaroid-star {
+  position: absolute;
+  width: 50px; /* Adjusted star size to fit smaller cards */
+  height: 50px; /* Adjusted star size */
+  background-color: #555; /* Dark gray color, explicitly background-color */
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+  z-index: 1; /* Keep it above polaroids */
+}
+
+.polaroid-star-1 {
+  top: 0px;
+  left: 0px;
+  transform: rotate(-20deg);
+  width: 70px; /* Adjusted size */
+  height: 70px; /* Adjusted size */
+}
+
+.polaroid-star-2 {
+  top: 10px;
+  right: 100px; /* Changed from left to right for better spread */
+  transform: rotate(30deg);
+  width: 50px; /* Default star size */
+  height: 50px; /* Default star size */
+}
+
+.polaroid-star-3 {
+  bottom: 0px;
+  right: 0px;
+  transform: rotate(-10deg);
+  width: 85px; /* Adjusted size */
+  height: 85px; /* Adjusted size */
+}
+
+.polaroid-card {
+  --polaroid-rot: 0deg; /* Keep the variable definition */
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 29.89%; /* Adjusted to scale proportionally to 90px content width */
+  height: 73.86%; /* Adjusted to scale proportionally to 90px image height + padding */
+  background: #fff;
+  border-radius: 2px; /* Match preview's implied radius or small explicit one */
+  padding: 10px 10px 30px 10px; /* Thicker bottom border, proportional to preview */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow, consistent with preview */
+  box-sizing: content-box; /* Ensures padding adds to total size, consistent with preview */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  z-index: 0;/* Keep it above stars as per current implementation, and preview's card default */
+  transform: rotate(var(--polaroid-rot)) translateZ(0); /* Dynamic rotation, consistent variable */
+  transition: transform 0.2s ease-in-out; /* Keep the transition */
+}
+
+.polaroid-card.p-1 { --polaroid-rot: -5deg; }
+.polaroid-card.p-2 { --polaroid-rot: 5deg; }
+.polaroid-card.p-3 { --polaroid-rot: -3deg; }
+
+.polaroid-card:active {
+  transform: rotate(var(--polaroid-rot)) scale(0.985) translateZ(0);
+}
+
+.polaroid-frame {
+  width: 100%;
+  height: 90px; /* Square image area, adjusted to fit */
+  flex: 1; /* Keep flex property */
+  overflow: hidden;
+  background-color: #000; /* Dark background, explicitly background-color */
+  position: relative;
+}
+
+.polaroid-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.polaroid-img.img-1 { object-position: 20% 20%; }
+.polaroid-img.img-2 { object-position: 50% 50%; }
+.polaroid-img.img-3 { object-position: 80% 80%; }
+
+.polaroid-upload-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: opacity 0.16s ease;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.polaroid-upload-hint svg {
+  width: 22px;
+  height: 22px;
+}
+
+@media (hover: hover) {
+  .polaroid-card:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+  }
+  .polaroid-card:hover .polaroid-upload-hint {
+    opacity: 1;
+  }
+}
+
+.polaroid-card.is-empty .polaroid-upload-hint {
+  opacity: 1;
+}
+
+.polaroid-caption {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1;
+  height: 12px;
+}
+
+/* ========== End Polaroid Widget ========== */
+
+/* ========================================
+ * 💿 Album Widget - 响应式布局
+ * 封套居中，唱片贴右边缘并向右露出一半
+ * ======================================== */
+
+.album-widget {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: visible;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.album-widget-sleeve {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1;
+  z-index: 2;
+  padding: 7.14%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.album-widget-sleeve-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  filter: blur(3px);
+}
+
+.album-widget-pause-icon {
+  width: 11%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 11%;
+}
+
+.album-widget-pause-icon::before,
+.album-widget-pause-icon::after {
+  content: '';
+  width: 22%;
+  height: 85%;
+  background: white;
+  border-radius: 2px;
+}
+
+.album-widget-lyrics {
+  margin-top: auto;
+  width: 100%;
+  cursor: pointer;
+}
+
+.album-widget-lyrics p {
+  color: white;
+  font-size: clamp(16px, 10%, 28px);
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: left;
+  padding-left: 2%;
+}
+
+.album-widget-lyrics p.last-line .faded-text {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.album-widget-record {
+  position: absolute;
+  height: 89.3%;
+  aspect-ratio: 1;
+  background-color: #1a1a1a;
+  border-radius: 50%;
+  left: 40%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background-image: radial-gradient(circle at 50% 50%, #333 0%, #333 1%, #1a1a1a 2%, #1a1a1a 3%, #333 4%, #333 5%, #1a1a1a 6%, #1a1a1a 7%, #333 8%, #333 9%, #1a1a1a 10%, #1a1a1a 11%, #333 12%, #333 13%, #1a1a1a 14%, #1a1a1a 15%, #333 16%, #333 17%, #1a1a1a 18%, #1a1a1a 19%, #333 20%, #333 21%, #1a1a1a 22%, #1a1a1a 23%, #333 24%, #333 25%, #1a1a1a 26%, #1a1a1a 27%, #333 28%, #333 29%, #1a1a1a 30%, #1a1a1a 31%, #333 32%, #333 33%, #1a1a1a 34%, #1a1a1a 35%, #333 36%, #333 37%, #1a1a1a 38%, #1a1a1a 39%, #333 40%, #333 41%, #1a1a1a 42%, #1a1a1a 43%, #333 44%, #333 45%, #1a1a1a 46%, #1a1a1a 47%, #333 48%, #333 49%, #1a1a1a 50%, transparent 51%);
+}
+
+.album-widget-record-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: white;
+  border: 2px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.album-widget-record-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(2.2) translateY(-10%);
+  filter: grayscale(100%) brightness(0.8) contrast(1.2);
+}
+
+/* 歌词编辑器（仅用于该组件的 JS 编辑） */
+.album-widget-lyrics-editor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  aspect-ratio: 1;
+  z-index: 20;
+  border-radius: 14px;
+  background: rgba(15, 15, 15, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.album-widget-lyrics-textarea {
+  width: 100%;
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  background: rgba(0, 0, 0, 0.28);
+  color: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.35;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+}
+
+.album-widget-lyrics-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.album-widget-lyrics-btn {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.album-widget-lyrics-btn.save {
+  background: rgba(255, 255, 255, 0.92);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+/* ========== End Album Widget ========== */
 

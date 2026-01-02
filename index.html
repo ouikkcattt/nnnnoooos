@@ -63,6 +63,39 @@
     <!-- Edit Done Button -->
     <button class="edit-done-btn" id="editDoneBtn">完成</button>
 
+    <!-- 🎨 Add Widget Button (编辑模式显示) - INS风格 -->
+    <button class="add-widget-btn" id="addWidgetBtn" onclick="DesktopManager.openWidgetPicker()">
+      <span class="add-widget-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="3"/>
+          <path d="M12 8v8M8 12h8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="add-widget-btn-text">Widgets</span>
+      <span class="add-widget-btn-star">✦</span>
+    </button>
+
+    <!-- 🎨 Widget Picker Overlay (组件选择器) - INS风格 -->
+    <div class="widget-picker-overlay" id="widgetPickerOverlay" onclick="DesktopManager.closeWidgetPicker()">
+      <div class="widget-picker-sheet" onclick="event.stopPropagation()">
+        <!-- Handle -->
+        <div class="widget-picker-handle"></div>
+        <!-- Header -->
+        <div class="widget-picker-header">
+          <div class="widget-picker-title">Widgets ✧</div>
+          <div class="widget-picker-close" onclick="DesktopManager.closeWidgetPicker()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <!-- Widget Grid -->
+        <div class="widget-picker-grid" id="widgetPickerGrid">
+          <!-- 由JS动态渲染 -->
+        </div>
+      </div>
+    </div>
+
     <!-- Screen -->
     <div class="screen">
       <!-- 🔥 【老王新增】全局时间栏 - 独立于homeScreen，可在所有页面显示 -->
@@ -205,15 +238,9 @@
           </div>
         </div>
 
-        <!-- App Grid - 28网格系统（7行×4列）-->
+        <!-- App Grid - 32网格系统（8行×4列），由DesktopManager动态渲染 -->
         <div class="app-grid" id="appGrid">
-          <!-- 时钟组件占据前2行（8个网格）-->
-          <div class="grid-cell clock-cell">
-            <div class="clock-widget">
-              <div class="clock-time" id="clockTime">12:00</div>
-              <div class="clock-date" id="clockDate">Loading...</div>
-            </div>
-          </div>
+          <!-- 内容由 DesktopManager.renderHomeScreen() 动态生成 -->
 
           <!-- 网格0 - Settings -->
           <div class="grid-cell" data-grid-index="0">
