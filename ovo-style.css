@@ -30198,10 +30198,10 @@ body.message-action-open {
   flex: 1 1 0;
   min-width: 0;
   max-width: 29.89%; /* Adjusted to scale proportionally to 90px content width */
-  height: 73.86%; /* Adjusted to scale proportionally to 90px image height + padding */
+  height: 85%; /* 增大高度让照片区域更大 */
   background: #fff;
   border-radius: 2px; /* Match preview's implied radius or small explicit one */
-  padding: 10px 10px 30px 10px; /* Thicker bottom border, proportional to preview */
+  padding: 5px 5px 16px 5px; /* 减少padding让照片更大 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow, consistent with preview */
   box-sizing: border-box; /* 改为border-box防止溢出 */
   display: flex;
