@@ -83,10 +83,25 @@
         <!-- Header -->
         <div class="widget-picker-header">
           <div class="widget-picker-title">Widgets ✧</div>
-          <div class="widget-picker-close" onclick="DesktopManager.closeWidgetPicker()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <div class="widget-picker-header-actions">
+            <!-- 编辑台按钮 -->
+            <div class="widget-picker-action-btn" onclick="CustomWidgetManager.openWorkbench()" title="自定义组件编辑台">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19.875 6.27a2.225 2.225 0 0 1 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033z" />
+                <path d="M15.5 9.43a1 1 0 0 1 .5 .874v3.268a1 1 0 0 1 -.515 .874l-3 1.917a1 1 0 0 1 -.97 0l-3 -1.917a1 1 0 0 1 -.515 -.873v-3.269a1 1 0 0 1 .514 -.874l3 -1.786c.311 -.173 .69 -.173 1 0l3 1.787h-.014z" />
+                <path d="M12 21v-9l-7.5 -4.5" />
+                <path d="M12 12l7.5 -4.5" />
+                <path d="M12 3v4.5" />
+                <path d="M19.5 16l-3.5 -2" />
+                <path d="M8 14l-3.5 2" />
+              </svg>
+            </div>
+            <!-- 关闭按钮 -->
+            <div class="widget-picker-close" onclick="DesktopManager.closeWidgetPicker()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
           </div>
         </div>
         <!-- Widget Grid -->
@@ -207,6 +222,248 @@
               <div class="boot-pulse-text">BOOTING</div>
               <div class="boot-pulse-progress">
                 <div class="boot-pulse-progress-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Widget Workbench Overlay 自定义组件工作台 -->
+      <div class="cww-overlay" id="customWidgetWorkbench" onclick="CustomWidgetManager.closeWorkbench()">
+        <div class="cww-sheet" onclick="event.stopPropagation()">
+          <div class="cww-handle"></div>
+          <div class="cww-header">
+            <div class="cww-title">Custom Widgets</div>
+            <div class="cww-header-actions">
+              <div class="cww-action-btn" onclick="CustomWidgetManager.triggerImport()" title="Import">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="cww-action-btn" id="cwwExportBtn" onclick="CustomWidgetManager.showExportDialog()" title="Export">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="cww-action-btn" id="cwwSelectBtn" onclick="CustomWidgetManager.toggleSelectMode()" title="Select">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="cww-close-btn" onclick="CustomWidgetManager.closeWorkbench()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <input type="file" id="cwwImportInput" accept=".json,.cwwidget" multiple style="display:none" onchange="CustomWidgetManager.handleImport(this.files)">
+          <div class="cww-select-bar" id="cwwSelectBar">
+            <span><span id="cwwSelectCount">0</span> selected</span>
+            <div class="cww-select-actions">
+              <button onclick="CustomWidgetManager.selectAll()">All</button>
+              <button class="danger" onclick="CustomWidgetManager.deleteSelected()">Delete</button>
+            </div>
+          </div>
+          <div class="cww-content">
+            <div class="cww-category">
+              <div class="cww-category-title">Create New</div>
+              <div class="cww-create-item" onclick="CustomWidgetManager.openEditor()">
+                <div class="cww-item-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="cww-item-info">
+                  <div class="cww-item-name">New Widget</div>
+                  <div class="cww-item-desc">Create with CSS & HTML</div>
+                </div>
+                <div class="cww-item-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="cww-category" id="cwwMyWidgets">
+              <div class="cww-category-title">My Widgets</div>
+              <div class="cww-items" id="cwwWidgetList"></div>
+              <div class="cww-empty" id="cwwEmptyState">
+                <div class="cww-empty-text">No custom widgets yet</div>
+              </div>
+            </div>
+          </div>
+          <!-- Export Dialog -->
+          <div class="cww-export-dialog" id="cwwExportDialog">
+            <div class="cww-export-content">
+              <div class="cww-export-title">Export Widgets</div>
+              <div class="cww-export-count" id="cwwExportCount">0 widgets selected</div>
+              <div class="cww-export-author">
+                <label>
+                  <input type="checkbox" id="cwwAuthorCheck" onchange="CustomWidgetManager.toggleAuthorInput()">
+                  <span>Add author signature</span>
+                </label>
+                <input type="text" id="cwwAuthorName" placeholder="Your name" maxlength="30" disabled>
+              </div>
+              <div class="cww-export-actions">
+                <button class="cww-export-cancel" onclick="CustomWidgetManager.hideExportDialog()">Cancel</button>
+                <button class="cww-export-confirm" onclick="CustomWidgetManager.confirmExport()">Export</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Widget Editor Overlay 自定义组件编辑器 -->
+      <div class="cwe-overlay" id="customWidgetEditor" onclick="CustomWidgetManager.closeEditor()">
+        <div class="cwe-sheet" onclick="event.stopPropagation()">
+          <div class="cwe-handle"></div>
+          <div class="cwe-header">
+            <div class="cwe-title" id="cweTitle">New Widget</div>
+            <div class="cwe-header-actions">
+              <button class="cwe-save-btn" onclick="CustomWidgetManager.saveFromEditor()">Save</button>
+              <div class="cwe-close-btn" onclick="CustomWidgetManager.closeEditor()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="cwe-content">
+            <div class="cwe-category">
+              <div class="cwe-category-title">Basic Info</div>
+              <div class="cwe-form">
+                <div class="cwe-form-item">
+                  <label>Name</label>
+                  <input type="text" id="cweWidgetName" placeholder="My Widget" maxlength="20">
+                </div>
+                <div class="cwe-form-item">
+                  <label>Size</label>
+                  <select id="cweWidgetSize" onchange="CustomWidgetManager.onSizeChange()">
+                    <optgroup label="1 Column (80px)">
+                      <option value="1x1">1x1 (80x80)</option>
+                      <option value="1x2">1x2 (80x176)</option>
+                      <option value="1x3">1x3 (80x272)</option>
+                      <option value="1x4">1x4 (80x368)</option>
+                    </optgroup>
+                    <optgroup label="2 Columns (176px)">
+                      <option value="2x1">2x1 (176x80)</option>
+                      <option value="2x2" selected>2x2 (176x176)</option>
+                      <option value="2x3">2x3 (176x272)</option>
+                      <option value="2x4">2x4 (176x368)</option>
+                      <option value="2x5">2x5 (176x464)</option>
+                      <option value="2x6">2x6 (176x560)</option>
+                      <option value="2x7">2x7 (176x656)</option>
+                      <option value="2x8">2x8 (176x752)</option>
+                    </optgroup>
+                    <optgroup label="3 Columns (272px)">
+                      <option value="3x1">3x1 (272x80)</option>
+                      <option value="3x2">3x2 (272x176)</option>
+                      <option value="3x3">3x3 (272x272)</option>
+                      <option value="3x4">3x4 (272x368)</option>
+                    </optgroup>
+                    <optgroup label="4 Columns (368px)">
+                      <option value="4x1">4x1 (368x80)</option>
+                      <option value="4x2">4x2 (368x176)</option>
+                      <option value="4x3">4x3 (368x272)</option>
+                      <option value="4x4">4x4 (368x368)</option>
+                      <option value="4x5">4x5 (368x464)</option>
+                      <option value="4x6">4x6 (368x560)</option>
+                      <option value="4x7">4x7 (368x656)</option>
+                      <option value="4x8">4x8 (368x752)</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="cwe-category">
+              <div class="cwe-category-title">Code</div>
+              <div class="cwe-code-hint">Use &lt;style&gt; for CSS, {{image:name}} for images</div>
+              <textarea class="cwe-code-area" id="cweCodeEditor" placeholder="<style>&#10;.widget { width: 100%; height: 100%; }&#10;</style>&#10;<div class='widget'>Content</div>" spellcheck="false" oninput="CustomWidgetManager.onCodeChange()"></textarea>
+            </div>
+            <div class="cwe-category" id="cweImageSection" style="display:none;">
+              <div class="cwe-category-title">Image Slots</div>
+              <div class="cwe-slots" id="cweImageSlots"></div>
+            </div>
+            <div class="cwe-category">
+              <div class="cwe-category-title">Preview <span class="cwe-preview-size" id="cwePreviewSize">176x176</span></div>
+              <div class="cwe-preview-area">
+                <div class="cwe-preview" id="cwePreviewContent"></div>
+              </div>
+            </div>
+            <div class="cwe-category">
+              <div class="cwe-category-title">Reference</div>
+              <div class="cwe-ref-tabs">
+                <button class="active" data-tab="sizes" onclick="CustomWidgetManager.switchRefTab('sizes')">Sizes</button>
+                <button data-tab="templates" onclick="CustomWidgetManager.switchRefTab('templates')">Templates</button>
+                <button data-tab="txt" onclick="CustomWidgetManager.switchRefTab('txt')">TXT</button>
+              </div>
+              <div class="cwe-ref-content active" id="cweRefSizes">
+                <div class="cwe-size-table">
+                  <div class="cwe-size-group">
+                    <div class="cwe-size-group-title">1 Col (80px)</div>
+                    <div class="cwe-size-row"><span>1x1</span><span>80x80</span></div>
+                    <div class="cwe-size-row"><span>1x2</span><span>80x176</span></div>
+                    <div class="cwe-size-row"><span>1x3</span><span>80x272</span></div>
+                    <div class="cwe-size-row"><span>1x4</span><span>80x368</span></div>
+                  </div>
+                  <div class="cwe-size-group">
+                    <div class="cwe-size-group-title">2 Cols (176px)</div>
+                    <div class="cwe-size-row"><span>2x1</span><span>176x80</span></div>
+                    <div class="cwe-size-row"><span>2x2</span><span>176x176</span></div>
+                    <div class="cwe-size-row"><span>2x3</span><span>176x272</span></div>
+                    <div class="cwe-size-row"><span>2x4</span><span>176x368</span></div>
+                    <div class="cwe-size-row"><span>2x5</span><span>176x464</span></div>
+                    <div class="cwe-size-row"><span>2x6</span><span>176x560</span></div>
+                    <div class="cwe-size-row"><span>2x7</span><span>176x656</span></div>
+                    <div class="cwe-size-row"><span>2x8</span><span>176x752</span></div>
+                  </div>
+                  <div class="cwe-size-group">
+                    <div class="cwe-size-group-title">3 Cols (272px)</div>
+                    <div class="cwe-size-row"><span>3x1</span><span>272x80</span></div>
+                    <div class="cwe-size-row"><span>3x2</span><span>272x176</span></div>
+                    <div class="cwe-size-row"><span>3x3</span><span>272x272</span></div>
+                    <div class="cwe-size-row"><span>3x4</span><span>272x368</span></div>
+                  </div>
+                  <div class="cwe-size-group">
+                    <div class="cwe-size-group-title">4 Cols (368px)</div>
+                    <div class="cwe-size-row"><span>4x1</span><span>368x80</span></div>
+                    <div class="cwe-size-row"><span>4x2</span><span>368x176</span></div>
+                    <div class="cwe-size-row"><span>4x3</span><span>368x272</span></div>
+                    <div class="cwe-size-row"><span>4x4</span><span>368x368</span></div>
+                    <div class="cwe-size-row"><span>4x5</span><span>368x464</span></div>
+                    <div class="cwe-size-row"><span>4x6</span><span>368x560</span></div>
+                    <div class="cwe-size-row"><span>4x7</span><span>368x656</span></div>
+                    <div class="cwe-size-row"><span>4x8</span><span>368x752</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="cwe-ref-content" id="cweRefTemplates">
+                <div class="cwe-tpl-items">
+                  <div class="cwe-tpl-item" onclick="CustomWidgetManager.useTemplate('star-photo')">
+                    <span>Star Photo</span><span class="cwe-tpl-size">2x2</span>
+                  </div>
+                  <div class="cwe-tpl-item" onclick="CustomWidgetManager.useTemplate('simple-card')">
+                    <span>Simple Card</span><span class="cwe-tpl-size">2x2</span>
+                  </div>
+                  <div class="cwe-tpl-item" onclick="CustomWidgetManager.useTemplate('photo-frame')">
+                    <span>Photo Frame</span><span class="cwe-tpl-size">2x2</span>
+                  </div>
+                  <div class="cwe-tpl-item" onclick="CustomWidgetManager.useTemplate('full-card')">
+                    <span>Full Card</span><span class="cwe-tpl-size">4x4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="cwe-ref-content" id="cweRefTxt">
+                <div class="cwe-txt-prompt">
+                  <div class="cwe-txt-title">AI Prompt</div>
+                  <div class="cwe-txt-desc">Copy and send to AI for widget creation</div>
+                  <div class="cwe-txt-box" id="cweTxtContent">Select size to generate prompt...</div>
+                  <button class="cwe-txt-copy" onclick="CustomWidgetManager.copyPrompt()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    Copy Prompt
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -5511,6 +5768,94 @@
                 </svg>
                 <span>可以分别设置手机框、刘海屏和灵动岛的颜色</span>
               </div>
+            </div>
+          </div>
+
+          <!-- 底栏切换区域 -->
+          <div class="typography-section">
+            <div class="typography-section-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; opacity: 0.6;">
+                <rect x="3" y="16" width="18" height="5" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="7" cy="18.5" r="1" fill="currentColor"/>
+                <circle cx="12" cy="18.5" r="1" fill="currentColor"/>
+                <circle cx="17" cy="18.5" r="1" fill="currentColor"/>
+              </svg>
+              <span>底栏切换</span>
+            </div>
+
+            <!-- 底栏样式标签 -->
+            <div class="font-section-label">底栏样式</div>
+
+            <!-- 底栏样式横向滚动 -->
+            <div class="dock-styles-scroll" id="dockStylesScroll">
+              <!-- 默认样式 -->
+              <div class="dock-style-card active" data-style="default" onclick="selectDockStyle('default')">
+                <div class="dock-style-preview">
+                  <div class="dock-preview-bg dock-preview-default">
+                    <div class="dock-preview-icon"></div>
+                    <div class="dock-preview-icon"></div>
+                    <div class="dock-preview-icon"></div>
+                  </div>
+                </div>
+                <div class="dock-style-label">
+                  <div class="dock-style-name">默认</div>
+                  <div class="dock-style-desc">纯色背景</div>
+                </div>
+                <div class="dock-style-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- 磨砂质地 -->
+              <div class="dock-style-card" data-style="frosted" onclick="selectDockStyle('frosted')">
+                <div class="dock-style-preview">
+                  <div class="dock-preview-bg dock-preview-frosted">
+                    <div class="dock-preview-icon"></div>
+                    <div class="dock-preview-icon"></div>
+                    <div class="dock-preview-icon"></div>
+                  </div>
+                </div>
+                <div class="dock-style-label">
+                  <div class="dock-style-name">磨砂</div>
+                  <div class="dock-style-desc">毛玻璃效果</div>
+                </div>
+                <div class="dock-style-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- 液态轻模糊 -->
+              <div class="dock-style-card" data-style="liquid" onclick="selectDockStyle('liquid')">
+                <div class="dock-style-preview">
+                  <div class="dock-preview-bg dock-preview-liquid">
+                    <div class="dock-preview-icon"></div>
+                    <div class="dock-preview-icon"></div>
+                    <div class="dock-preview-icon"></div>
+                  </div>
+                </div>
+                <div class="dock-style-label">
+                  <div class="dock-style-name">液态</div>
+                  <div class="dock-style-desc">轻透模糊</div>
+                </div>
+                <div class="dock-style-checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- 提示信息 -->
+            <div class="custom-font-hint">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 12px; height: 12px; margin-right: 6px; opacity: 0.4;">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01" stroke-linecap="round"/>
+              </svg>
+              <span>切换主屏幕底部Dock栏的视觉效果，设置会自动保存</span>
             </div>
           </div>
 
