@@ -909,6 +909,7 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      overflow: hidden; /* 防止内部组件溢出导致页面拉宽 */
       opacity: 0;
       animation: fadeIn 0.5s ease 2.2s forwards;
     }
@@ -1005,6 +1006,7 @@
       gap: 16px;
       align-content: start;
       justify-items: center;
+      overflow-x: hidden; /* 防止4x2组件等溢出导致页面拉宽 */
       overflow-y: auto;
       scrollbar-width: none;
       box-sizing: border-box;
@@ -29993,6 +29995,8 @@ body.message-action-open {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  box-sizing: border-box; /* 防止溢出 */
+  overflow: hidden; /* 防止内容溢出导致页面拉宽 */
 }
 
 /* 图片内容区域 - flex: 1 自适应 */
@@ -30125,6 +30129,8 @@ body.message-action-open {
   justify-content: center;
   gap: 10px; /* Space between polaroids, adjusted to fit */
   padding: 23px 9px; /* Padding for stars to overlap, adjusted to fit 368x176 */
+  box-sizing: border-box; /* 防止padding导致溢出 */
+  overflow: hidden; /* 防止星星等元素溢出导致页面拉宽 */
   user-select: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -30184,7 +30190,7 @@ body.message-action-open {
   border-radius: 2px; /* Match preview's implied radius or small explicit one */
   padding: 10px 10px 30px 10px; /* Thicker bottom border, proportional to preview */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow, consistent with preview */
-  box-sizing: content-box; /* Ensures padding adds to total size, consistent with preview */
+  box-sizing: border-box; /* 改为border-box防止溢出 */
   display: flex;
   flex-direction: column;
   position: relative;
