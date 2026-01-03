@@ -29988,6 +29988,12 @@ body.message-action-open {
  * 纯CSS自适应，无需特殊处理
  * ======================================== */
 
+/* 4x2图片组件 - 强制限制溢出 */
+.desktop-widget.widget-photo {
+  overflow: hidden !important;
+  max-width: 100%;
+}
+
 /* 图片组件容器 - flex column布局 */
 .photo-widget {
   width: 100%;
@@ -30003,11 +30009,16 @@ body.message-action-open {
 .photo-widget-content {
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   border-radius: 16px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
   transition: transform 0.2s ease;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
 }
 
 .photo-widget-content:hover {
@@ -30018,6 +30029,8 @@ body.message-action-open {
 .photo-widget-image {
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
