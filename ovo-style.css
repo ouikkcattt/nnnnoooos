@@ -2039,6 +2039,16 @@
       animation: deleteButtonPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
+    /* 🔥 【老王修复】编辑模式下禁用Widget内部所有交互元素的事件响应
+     * 问题：Widget内部的可编辑元素使用了 event.stopPropagation()
+     *       导致事件无法冒泡到 appGrid，拖动失效且误触编辑功能
+     * 方案：编辑模式下用 pointer-events: none 禁用内部元素
+     *       只保留删除按钮可点击
+     */
+    .app-grid.edit-mode .desktop-widget > *:not(.widget-delete-btn) {
+      pointer-events: none;
+    }
+
     @keyframes deleteButtonPop {
       0% { transform: scale(0); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
