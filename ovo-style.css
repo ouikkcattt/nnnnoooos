@@ -3332,6 +3332,421 @@
       color: rgba(255, 255, 255, 0.7);
     }
 
+    /* ========================================
+     * Theme Guide Drawer - 主题教程抽屉
+     * ======================================== */
+
+    /* 遮罩层 */
+    .tgd-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 20011;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .tgd-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* 抽屉主面板 */
+    .tgd-sheet {
+      width: 100%;
+      max-height: 85vh;
+      background: var(--bg-primary);
+      border-radius: 24px 24px 0 0;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .tgd-overlay.active .tgd-sheet {
+      transform: translateY(0);
+    }
+
+    /* 拖拽手柄 */
+    .tgd-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--text-tertiary);
+      border-radius: 2px;
+      margin: 10px auto 4px;
+      opacity: 0.5;
+    }
+
+    /* 头部区域 */
+    .tgd-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .tgd-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .tgd-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* 页码指示器 */
+    .tgd-page-indicator {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .tgd-page-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--text-tertiary);
+      opacity: 0.3;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .tgd-page-dot.active {
+      opacity: 1;
+      background: var(--text-primary);
+      transform: scale(1.2);
+    }
+
+    /* 关闭按钮 */
+    .tgd-close-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tgd-close-btn:hover {
+      background: var(--text-primary);
+    }
+
+    .tgd-close-btn:hover svg {
+      stroke: var(--bg-primary);
+    }
+
+    .tgd-close-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--text-secondary);
+    }
+
+    /* 内容区域 */
+    .tgd-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 页面容器 */
+    .tgd-page {
+      padding: 20px 18px;
+      display: none;
+      animation: tgdFadeIn 0.3s ease;
+    }
+
+    .tgd-page.active {
+      display: block;
+    }
+
+    @keyframes tgdFadeIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .tgd-page-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      letter-spacing: -0.3px;
+    }
+
+    .tgd-page-title svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-primary);
+      flex-shrink: 0;
+    }
+
+    /* 内容区块 */
+    .tgd-section {
+      margin-bottom: 20px;
+    }
+
+    /* 分类标题 - 胶囊标签样式 */
+    .tgd-section-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tgd-section-title svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .tgd-text {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .tgd-text code {
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tgd-text strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* 变量表格 */
+    .tgd-var-table {
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    .tgd-var-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .tgd-var-row:last-child {
+      border-bottom: none;
+    }
+
+    .tgd-var-name {
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-size: 10px;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+    }
+
+    .tgd-var-desc {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      flex: 1;
+      text-align: right;
+      margin-left: 10px;
+    }
+
+    /* AI提示词框 */
+    .tgd-prompt-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-size: 10px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .tgd-prompt-box strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .tgd-prompt-box em {
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    /* 错误/正确标记 */
+    .tgd-error-mark {
+      color: var(--text-primary);
+      opacity: 0.5;
+      font-weight: 600;
+    }
+
+    .tgd-success-mark {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* 复制按钮 - 黑白主题 */
+    .tgd-copy-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 11px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tgd-copy-btn:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+
+    .tgd-copy-btn:active {
+      transform: translateY(0);
+    }
+
+    .tgd-copy-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--bg-primary);
+    }
+
+    /* 底部导航 */
+    .tgd-footer {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-primary);
+    }
+
+    .tgd-nav-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px 14px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tgd-nav-btn:hover:not(:disabled) {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
+
+    .tgd-nav-btn:hover:not(:disabled) svg {
+      stroke: var(--bg-primary);
+    }
+
+    .tgd-nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .tgd-nav-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+    }
+
+    /* 滚动条样式 */
+    .tgd-content::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .tgd-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .tgd-content::-webkit-scrollbar-thumb {
+      background: var(--text-tertiary);
+      border-radius: 2px;
+      opacity: 0.3;
+    }
+
+    .tgd-prompt-box::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .tgd-prompt-box::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .tgd-prompt-box::-webkit-scrollbar-thumb {
+      background: var(--text-tertiary);
+      border-radius: 2px;
+      opacity: 0.3;
+    }
+
     /* ========== 组件删除按钮 - 轻磨砂风格 ========== */
     .widget-delete-btn {
       position: absolute;
@@ -9830,18 +10245,53 @@
 
     /* Chat Detail Header */
     .chat-detail-header {
-      /* 🔥 移除固定高度，让它自适应内容 */
-      min-height: 86px;
-      /* 🔥 使用全局App Header padding变量 */
-      padding: var(--app-header-total-padding) 20px 12px;
+      /* 🔥 顶栏固定定位，不再受内容流影响 */
+      position: fixed !important; /* 使用 fixed 定位 */
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 1000 !important; /* 确保在最上层 */
+      /* 保持原有背景和边框 */
       background: var(--bg-primary);
       border-bottom: 1px solid var(--border-color);
+      /* 内部元素仍然使用 flex 布局 */
       display: flex;
       align-items: center;
       gap: 12px;
+      /* 移除 min-height 和 flex-shrink，让高度自适应内容 */
+      min-height: auto; /* 让高度根据内容自适应 */
+      height: auto; /* 确保高度自适应 */
+      /* 保持原有 padding，但需要考虑安全区域 */
+      padding: var(--app-header-total-padding) 20px 12px;
+    }
+
+    /* 🎨 主题装饰层 - 提供额外的DOM元素用于复杂主题设计 */
+    .theme-decor-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none; /* 不阻挡点击事件 */
+      z-index: 0; /* 在内容层之下 */
+      overflow: hidden;
+    }
+
+    .theme-decor {
+      position: absolute;
+      display: none; /* 默认隐藏，主题CSS可以激活 */
+      pointer-events: none;
+    }
+
+    /* 确保内容层在装饰层之上 */
+    .chat-detail-header > *:not(.theme-decor-layer) {
       position: relative;
-      z-index: 100;
-      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .chat-input-area > *:not(.theme-decor-layer) {
+      position: relative;
+      z-index: 1;
     }
 
     .chat-detail-back-btn {
@@ -9964,9 +10414,17 @@
     /* Messages Area */
     /* Chat Messages Area - 确保背景完全覆盖无缝隙 */
     .chat-messages-area {
-      flex: 1;
+      /* 🔥 消息区域绝对定位，占据头部和底部之间的空间 */
+      position: absolute !important;
+      top: var(--chat-header-height, 0px) !important;    /* 头部高度 */
+      bottom: var(--chat-input-height, 0px) !important;  /* 底部高度 */
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 50 !important; /* 在头部和底部之下 */
+
+      /* 保持滚动和Flex布局 */
       overflow-y: auto;
-      padding: 16px;
+      padding: 16px; /* 内部padding，与 fixed header/input 留出的空间无关 */
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -10580,15 +11038,24 @@
 
     /* Chat Input Area - 添加底部安全区域支持 */
     .chat-input-area {
+      /* 🔥 底部固定定位，不再受内容流影响 */
+      position: fixed !important; /* 使用 fixed 定位 */
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 1000 !important; /* 确保在最上层 */
+      /* 保持原有背景和边框 */
       padding: 12px 16px;
-      padding-bottom: calc(20px + env(safe-area-inset-bottom, 0));
+      padding-bottom: calc(20px + env(safe-area-inset-bottom, 0)); /* 继续支持底部安全区域 */
       background: var(--bg-primary);
       border-top: 1px solid var(--border-color);
+      /* 内部元素仍然使用 flex 布局 */
       display: flex;
       align-items: flex-end;
       gap: 10px;
-      position: relative;
-      flex-shrink: 0;
+      /* 移除 position: relative; 和 flex-shrink; */
+      /* position: relative; 可能会影响 fixed 元素的 z-index */
+      /* flex-shrink: 0; 对于 fixed 元素无意义 */
     }
 
     /* 键盘弹起时的固定定位模式（备用方案） */
@@ -10656,7 +11123,7 @@
       flex-direction: column;
       gap: 4px;
       animation: menuSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 9;
+      z-index: 9999999;
     }
 
     .chat-attachment-menu.active {
@@ -30488,4 +30955,611 @@ body.message-action-open {
 }
 
 /* ========== End Sleeve Widget ========== */
+
+/* ==========================================
+ * 🎨 Theme Editor 详情页主题编辑器
+ * ========================================== */
+
+/* 编辑器覆盖层 - 默认隐藏 */
+.theme-editor-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  flex-direction: column;
+  background: var(--bg-secondary);
+}
+
+.theme-editor-overlay.active {
+  display: flex;
+}
+
+/* 顶部操作栏 - 轻量化设计 */
+.theme-editor-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: var(--app-header-total-padding) 14px 10px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.theme-editor-topbar-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.theme-editor-topbar-btn span {
+  display: none;
+}
+
+.theme-editor-topbar-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-secondary);
+  fill: none;
+  stroke-width: 2;
+}
+
+.theme-editor-topbar-btn.cancel:hover {
+  background: var(--text-primary);
+}
+
+.theme-editor-topbar-btn.cancel:hover svg {
+  stroke: var(--bg-primary);
+}
+
+.theme-editor-topbar-btn.save {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.theme-editor-topbar-btn.save svg {
+  stroke: var(--bg-primary);
+}
+
+.theme-editor-topbar-btn.save:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+.theme-editor-topbar-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+/* 中间预览区 */
+.theme-editor-preview-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  min-height: 180px;
+  padding: 12px 8px;
+}
+
+/* 底部编辑面板 */
+.theme-editor-panel {
+  flex-shrink: 0;
+  max-height: 55%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  border-radius: 24px 24px 0 0;
+  overflow: hidden;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* 面板拖拽手柄 */
+.theme-editor-panel::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 4px;
+  background: var(--text-tertiary);
+  border-radius: 2px;
+  margin: 10px auto 4px;
+  opacity: 0.5;
+}
+
+/* 标签页 - 胶囊按钮样式 */
+.theme-editor-tabs {
+  display: flex;
+  padding: 8px 14px 12px;
+  gap: 6px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.theme-editor-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  background: transparent;
+}
+
+.theme-editor-tab svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.theme-editor-tab svg rect {
+  fill: currentColor;
+  stroke: none;
+}
+
+.theme-editor-tab:hover {
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+}
+
+.theme-editor-tab.active {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  font-weight: 600;
+}
+
+/* 编辑内容区 */
+.theme-editor-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.theme-editor-content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.theme-editor-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.theme-editor-content::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+/* 主题开关行 */
+.theme-editor-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.theme-editor-toggle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.theme-editor-toggle-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.theme-editor-toggle-hint {
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+/* 编辑区块 */
+.theme-editor-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.theme-editor-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 分类标题 - 胶囊标签样式 */
+.theme-editor-section-header > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 4px 10px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.theme-editor-section-header > span::before {
+  content: '◆';
+  font-size: 5px;
+  opacity: 0.5;
+}
+
+.theme-editor-section-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.theme-editor-action-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-editor-action-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--text-secondary);
+  fill: none;
+  stroke-width: 2;
+}
+
+.theme-editor-action-btn:hover {
+  background: var(--text-primary);
+}
+
+.theme-editor-action-btn:hover svg {
+  stroke: var(--bg-primary);
+}
+
+/* 预设主题列表 */
+.theme-editor-preset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 110px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.theme-editor-preset-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-editor-preset-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--text-tertiary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.theme-editor-preset-item:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--text-tertiary);
+  transform: translateX(3px);
+}
+
+.theme-editor-preset-item:hover::before {
+  opacity: 1;
+}
+
+.theme-editor-preset-item.active {
+  border-color: var(--text-primary);
+}
+
+.theme-editor-preset-item.active::before {
+  background: var(--text-primary);
+  opacity: 1;
+}
+
+/* 预设分组标签 */
+.theme-editor-preset-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 2px;
+  margin-bottom: 4px;
+}
+
+.theme-editor-preset-item-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.theme-editor-preset-item-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-primary);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.theme-editor-preset-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.theme-editor-preset-item-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+}
+
+.theme-editor-preset-item-author {
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+.theme-editor-preset-item-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.theme-editor-preset-item-btn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-editor-preset-item-btn svg {
+  width: 13px;
+  height: 13px;
+  stroke: var(--text-tertiary);
+  fill: none;
+  stroke-width: 2;
+}
+
+.theme-editor-preset-item-btn:hover {
+  background: var(--bg-primary);
+}
+
+.theme-editor-preset-item-btn:hover svg {
+  stroke: var(--text-primary);
+}
+
+.theme-editor-preset-item-btn.delete:hover svg {
+  stroke: #ff3b30;
+}
+
+/* 空状态 */
+.theme-editor-preset-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: var(--bg-secondary);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.theme-editor-preset-empty svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--text-tertiary);
+  fill: none;
+  stroke-width: 1.5;
+  margin-bottom: 6px;
+  opacity: 0.6;
+}
+
+.theme-editor-preset-empty > span {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.theme-editor-preset-empty-hint {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 3px;
+}
+
+/* CSS编辑区 */
+.theme-editor-css-hint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+.theme-editor-css-hint svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.theme-editor-css-textarea {
+  width: 100%;
+  min-height: 130px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.theme-editor-css-textarea:focus {
+  border-color: var(--text-secondary);
+}
+
+.theme-editor-css-textarea::placeholder {
+  color: var(--text-tertiary);
+  opacity: 0.7;
+}
+
+/* ========== 编辑模式下的聊天详情页缩放效果 ========== */
+
+/* 编辑模式激活时，隐藏原始内容（已被移动到wrapper中） */
+#chatDetailScreen.theme-editing-mode > .chat-detail-header,
+#chatDetailScreen.theme-editing-mode > .chat-messages-area,
+#chatDetailScreen.theme-editing-mode > .chat-input-area {
+  display: none !important;
+}
+
+/* 预览容器 - 包裹缩放内容 */
+.theme-preview-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 320px;
+  max-height: 580px;
+  transform: scale(1);
+  transform-origin: center center;
+  border-radius: 20px;
+  overflow-y: auto;  /* 允许垂直滚动查看完整顶栏 */
+  overflow-x: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  pointer-events: auto;
+}
+
+/* 隐藏滚动条但保留滚动功能 */
+.theme-preview-wrapper::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+.theme-preview-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* wrapper内的元素恢复正常显示 */
+.theme-preview-wrapper .chat-detail-header {
+  display: flex !important;
+  flex-shrink: 0;
+  position: relative !important;
+  /* 覆盖原始的 fixed 定位 */
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+}
+
+.theme-preview-wrapper .chat-messages-area {
+  display: flex !important;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative !important;
+  /* 覆盖原始的 absolute 定位 */
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+}
+
+.theme-preview-wrapper .chat-input-area {
+  display: flex !important;
+  flex-shrink: 0;
+  position: relative !important;
+  /* 覆盖原始的 fixed 定位 */
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+}
+
+/* 编辑模式下隐藏不需要的弹层 */
+#chatDetailScreen.theme-editing-mode .chat-attachment-menu,
+#chatDetailScreen.theme-editing-mode .sticker-picker-overlay,
+#chatDetailScreen.theme-editing-mode .message-action-overlay,
+#chatDetailScreen.theme-editing-mode .message-selection-toolbar {
+  display: none !important;
+}
+
+/* ========== End Theme Editor ========== */
 
