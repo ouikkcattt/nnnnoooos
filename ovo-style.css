@@ -30980,116 +30980,153 @@ body.message-action-open {
 /* ========== End Sleeve Widget ========== */
 
 /* ==========================================
- * 🎨 Theme Editor 详情页主题编辑器
+ * 🎨 Theme Editor V2 详情页主题编辑器
  * ========================================== */
 
-/* 编辑器覆盖层 - 默认隐藏 */
-.theme-editor-overlay {
+/* ========== 悬浮按钮组 FAB ========== */
+.theme-editor-fab {
+  display: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  flex-direction: column;
+  gap: 8px;
+  z-index: 9999;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-editor-fab.active {
+  display: flex;
+}
+
+/* 面板展开时隐藏FAB按钮 */
+.theme-editor-fab.panel-open {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) translateX(20px);
+}
+
+/* 双击页面：隐藏/显示 FAB（防遮挡） */
+.theme-editor-fab.fab-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) translateX(20px);
+}
+
+/* FAB 按钮基础样式 */
+.theme-fab-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.theme-fab-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--text-secondary);
+  fill: none;
+  stroke-width: 1.8;
+}
+
+.theme-fab-btn:active {
+  transform: scale(0.92);
+}
+
+/* 面板按钮 */
+.theme-fab-btn.panel {
+  background: var(--bg-secondary);
+}
+
+.theme-fab-btn.panel.expanded {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.theme-fab-btn.panel.expanded svg {
+  stroke: var(--bg-primary);
+}
+
+/* 取消按钮 */
+.theme-fab-btn.cancel:hover {
+  background: rgba(255, 59, 48, 0.1);
+  border-color: rgba(255, 59, 48, 0.3);
+}
+
+.theme-fab-btn.cancel:hover svg {
+  stroke: #ff3b30;
+}
+
+/* 保存按钮 */
+.theme-fab-btn.save {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.theme-fab-btn.save svg {
+  stroke: var(--bg-primary);
+}
+
+.theme-fab-btn.save:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ========== 面板背景遮罩 ========== */
+.theme-editor-backdrop {
   display: none;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 10000;
-  flex-direction: column;
-  background: var(--bg-secondary);
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9997;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.theme-editor-overlay.active {
-  display: flex;
+.theme-editor-backdrop.active {
+  display: block;
+  opacity: 1;
 }
 
-/* 顶部操作栏 - 轻量化设计 */
-.theme-editor-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 48px;
-  padding: var(--app-header-total-padding) 14px 10px;
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-color);
-  flex-shrink: 0;
+/* ========== 底部编辑面板容器 ========== */
+.theme-editor-panel-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9998;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
 }
 
-.theme-editor-topbar-btn {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid var(--border-color);
-  background: var(--bg-secondary);
-}
-
-.theme-editor-topbar-btn span {
-  display: none;
-}
-
-.theme-editor-topbar-btn svg {
-  width: 16px;
-  height: 16px;
-  stroke: var(--text-secondary);
-  fill: none;
-  stroke-width: 2;
-}
-
-.theme-editor-topbar-btn.cancel:hover {
-  background: var(--text-primary);
-}
-
-.theme-editor-topbar-btn.cancel:hover svg {
-  stroke: var(--bg-primary);
-}
-
-.theme-editor-topbar-btn.save {
-  background: var(--text-primary);
-  border-color: var(--text-primary);
-}
-
-.theme-editor-topbar-btn.save svg {
-  stroke: var(--bg-primary);
-}
-
-.theme-editor-topbar-btn.save:hover {
-  opacity: 0.85;
-  transform: scale(1.05);
-}
-
-.theme-editor-topbar-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: -0.3px;
-}
-
-/* 中间预览区 */
-.theme-editor-preview-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  background: var(--bg-secondary);
-  min-height: 180px;
-  padding: 12px 8px;
+.theme-editor-panel-container.expanded {
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 /* 底部编辑面板 */
 .theme-editor-panel {
-  flex-shrink: 0;
-  max-height: 55%;
   display: flex;
   flex-direction: column;
   background: var(--bg-primary);
   border-radius: 24px 24px 0 0;
   overflow: hidden;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+  max-height: 65vh;
 }
 
 /* 面板拖拽手柄 */
@@ -31500,89 +31537,49 @@ body.message-action-open {
   opacity: 0.7;
 }
 
-/* ========== 编辑模式下的聊天详情页缩放效果 ========== */
+/* ========== 编辑模式 V2 ========== */
 
-/* 编辑模式激活时，隐藏原始内容（已被移动到wrapper中） */
-#chatDetailScreen.theme-editing-mode > .chat-detail-header,
-#chatDetailScreen.theme-editing-mode > .chat-messages-area,
-#chatDetailScreen.theme-editing-mode > .chat-input-area {
-  display: none !important;
+/* 编辑模式下：内容正常显示，允许交互 */
+#chatDetailScreen.theme-editing-mode {
+  /* 不再隐藏内容，保持正常状态 */
 }
 
-/* 预览容器 - 包裹缩放内容 */
-.theme-preview-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  max-width: 320px;
-  max-height: 580px;
-  transform: scale(1);
-  transform-origin: center center;
-  border-radius: 20px;
-  overflow-y: auto;  /* 允许垂直滚动查看完整顶栏 */
-  overflow-x: hidden;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.1),
-    0 4px 20px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-primary);
-  pointer-events: auto;
+/* 编辑模式下的视觉提示边框 */
+#chatDetailScreen.theme-editing-mode::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid var(--text-primary);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 9996;
+  opacity: 0.3;
 }
 
-/* 隐藏滚动条但保留滚动功能 */
-.theme-preview-wrapper::-webkit-scrollbar {
-  width: 0;
+/* 编辑模式下的顶部提示条 */
+.theme-editing-indicator {
   display: none;
-}
-.theme-preview-wrapper {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* wrapper内的元素恢复正常显示 */
-.theme-preview-wrapper .chat-detail-header {
-  display: flex !important;
-  flex-shrink: 0;
-  position: relative !important;
-  /* 覆盖原始的 fixed 定位 */
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  width: 100% !important;
+  position: absolute;
+  top: calc(var(--app-header-total-padding) + 52px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  z-index: 9996;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
 }
 
-.theme-preview-wrapper .chat-messages-area {
-  display: flex !important;
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  position: relative !important;
-  /* 覆盖原始的 absolute 定位 */
-  top: auto !important;
-  bottom: auto !important;
-  left: auto !important;
-  right: auto !important;
+#chatDetailScreen.theme-editing-mode .theme-editing-indicator {
+  display: block;
 }
 
-.theme-preview-wrapper .chat-input-area {
-  display: flex !important;
-  flex-shrink: 0;
-  position: relative !important;
-  /* 覆盖原始的 fixed 定位 */
-  bottom: auto !important;
-  left: auto !important;
-  right: auto !important;
-  width: 100% !important;
-}
-
-/* 编辑模式下隐藏不需要的弹层 */
-#chatDetailScreen.theme-editing-mode .chat-attachment-menu,
-#chatDetailScreen.theme-editing-mode .sticker-picker-overlay,
-#chatDetailScreen.theme-editing-mode .message-action-overlay,
-#chatDetailScreen.theme-editing-mode .message-selection-toolbar {
-  display: none !important;
-}
-
-/* ========== End Theme Editor ========== */
+/* ========== End Theme Editor V2 ========== */
 

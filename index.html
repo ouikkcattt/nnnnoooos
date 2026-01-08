@@ -1192,15 +1192,6 @@
               </div>
               <div class="chat-menu-item-label">Emoji</div>
             </div>
-            <div class="chat-menu-item" onclick="chatRegenerateAIResponse()">
-              <div class="chat-menu-item-icon">
-                <svg viewBox="0 0 24 24">
-                  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
-                  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
-                </svg>
-              </div>
-              <div class="chat-menu-item-label">重回</div>
-            </div>
             <div class="chat-menu-item" onclick="openThemeEditor()">
               <div class="chat-menu-item-icon">
                 <svg viewBox="0 0 24 24">
@@ -1212,6 +1203,15 @@
                 </svg>
               </div>
               <div class="chat-menu-item-label">主题</div>
+            </div>
+            <div class="chat-menu-item" onclick="chatRegenerateAIResponse()">
+              <div class="chat-menu-item-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                </svg>
+              </div>
+              <div class="chat-menu-item-label">重回</div>
             </div>
           </div>
 
@@ -1554,31 +1554,33 @@
           </div>
           <!-- ========== End Custom Reaction Manager Modal ========== -->
 
-          <!-- ========== Theme Editor 详情页主题编辑器 ========== -->
-          <div class="theme-editor-overlay" id="themeEditorOverlay">
-            <!-- 顶部操作栏 -->
-            <div class="theme-editor-topbar">
-              <div class="theme-editor-topbar-btn cancel" onclick="closeThemeEditor(false)">
-                <svg viewBox="0 0 24 24">
-                  <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <span>取消</span>
-              </div>
-              <div class="theme-editor-topbar-title">详情页主题</div>
-              <div class="theme-editor-topbar-btn save" onclick="closeThemeEditor(true)">
-                <svg viewBox="0 0 24 24">
-                  <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <span>保存</span>
-              </div>
-            </div>
+          <!-- ========== Theme Editor 详情页主题编辑器 V2 ========== -->
 
-            <!-- 中间预览区（聊天详情页会被CSS缩放到这里显示） -->
-            <div class="theme-editor-preview-area">
-              <!-- 预览内容由JS动态插入 -->
+          <!-- 悬浮按钮组（右侧中间） -->
+          <div class="theme-editor-fab" id="themeEditorFab">
+            <div class="theme-fab-btn panel" id="themeEditorPanelBtn" onclick="toggleThemePanel()" title="编辑面板">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" stroke-linecap="round" />
+              </svg>
             </div>
+            <div class="theme-fab-btn cancel" onclick="closeThemeEditor(false)" title="取消编辑">
+              <svg viewBox="0 0 24 24">
+                <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="theme-fab-btn save" onclick="closeThemeEditor(true)" title="保存主题">
+              <svg viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
 
-            <!-- 底部编辑面板 -->
+          <!-- 面板背景遮罩（点击收起面板） -->
+          <div class="theme-editor-backdrop" id="themeEditorBackdrop" onclick="hideThemePanel()"></div>
+
+          <!-- 底部编辑面板容器 -->
+          <div class="theme-editor-panel-container" id="themeEditorPanelContainer">
             <div class="theme-editor-panel">
               <!-- 标签页切换 -->
               <div class="theme-editor-tabs">
@@ -1743,7 +1745,7 @@
               </div>
             </div>
           </div>
-          <!-- ========== End Theme Editor ========== -->
+          <!-- ========== End Theme Editor V2 ========== -->
 
           <!-- ========== Theme Guide Drawer 主题教程抽屉 ========== -->
           <div class="tgd-overlay" id="themeGuideDrawer" onclick="closeThemeGuideDrawer()">
