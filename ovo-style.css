@@ -11326,7 +11326,8 @@
     .sticker-picker-overlay {
       position: absolute;
       inset: 0;
-      z-index: 150;
+      /* 高于聊天顶栏/底栏（它们是 1000）避免被遮挡 */
+      z-index: 1200;
       display: flex;
       align-items: flex-end;
       opacity: 0;
@@ -12078,7 +12079,8 @@
     .text-image-overlay {
       position: absolute;
       inset: 0;
-      z-index: 150;
+      /* 高于聊天顶栏/底栏（它们是 1000）避免被遮挡 */
+      z-index: 1200;
       display: flex;
       align-items: flex-end;
       opacity: 0;
