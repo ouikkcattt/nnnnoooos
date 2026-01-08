@@ -10370,6 +10370,27 @@
       white-space: nowrap;
     }
 
+    /* 角色正在输入中（发送触发AI时临时显示，防止错过灵动岛提示） */
+    .chat-detail-status.is-typing {
+      font-style: italic;
+      font-family: 'JetBrains Mono', 'Inter', sans-serif;
+      color: var(--text-tertiary);
+    }
+
+    .chat-detail-status.is-typing::after {
+      content: '...';
+      display: inline-block;
+      width: 0ch;
+      overflow: hidden;
+      vertical-align: bottom;
+      margin-left: 1px;
+      animation: chatDetailTypingDots 1.2s steps(4, end) infinite;
+    }
+
+    @keyframes chatDetailTypingDots {
+      to { width: 3ch; }
+    }
+
     /* 🎭 状态更新动画 */
     @keyframes statusPulse {
       0% { opacity: 0.5; transform: scale(0.95); }
