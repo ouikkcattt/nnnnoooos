@@ -160,6 +160,12 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* 防止页面滚动条出现导致偏移 */
+    html {
+      overflow: hidden;
+      height: 100%;
+    }
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-secondary);
@@ -176,7 +182,7 @@
 
     /* Phone Container - 全屏设计 */
     .phone-container {
-      width: 100vw;
+      width: 100%; /* 修复：使用 100% 而非 100vw，避免滚动条宽度导致页面偏移 */
       height: 100vh;
       max-width: 430px;
       max-height: 932px;
@@ -4708,7 +4714,7 @@
     #x-message-detail-page,
     #live-room-container,
     #x-map-container {
-      width: 100vw !important;
+      width: 100% !important; /* 修复：使用 100% 避免滚动条宽度导致偏移 */
       height: var(--app-height) !important;
       max-width: none !important;
       max-height: none !important;
