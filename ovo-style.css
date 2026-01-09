@@ -10881,7 +10881,14 @@
       border-top: 1px solid var(--border-color);
       align-items: center;
       gap: 10px;
-      position: relative;
+      /* 🔥 修复：改为 fixed 定位，固定在输入框上方 */
+      position: fixed !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: calc(68px + env(safe-area-inset-bottom, 0)) !important; /* 输入框高度约68px + 安全区域 */
+      z-index: 999 !important; /* 低于输入框（1000），高于消息区域 */
+      max-width: 430px;
+      margin: 0 auto;
       animation: replyPreviewSlideIn 0.2s ease;
     }
 
@@ -26387,7 +26394,7 @@ body.message-action-open .message-action-highlight .chat-message-timestamp {
   opacity: 0;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
   transition-delay: 0.05s;
-  z-index: 10015;
+  z-index: 10022;
 }
 
 [data-theme='dark'] .message-action-menu {
