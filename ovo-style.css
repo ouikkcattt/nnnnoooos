@@ -30501,7 +30501,6 @@ body.message-action-open {
 /* 4x2图片组件 - 强制限制溢出 */
 .desktop-widget.widget-photo {
   overflow: hidden !important;
-  max-width: 100%;
 }
 
 /* 图片组件容器 - flex column布局 */
@@ -30510,9 +30509,12 @@ body.message-action-open {
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  box-sizing: border-box; /* 防止溢出 */
-  overflow: hidden; /* 防止内容溢出导致页面拉宽 */
+  gap: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  align-items: stretch;
 }
 
 /* 图片内容区域 - flex: 1 自适应 */
@@ -30530,7 +30532,7 @@ body.message-action-open {
 }
 
 .photo-widget-content:hover {
-  transform: scale(1.02);
+  transform: scale(0.98);
 }
 
 /* 图片元素 - 100%填充 */
@@ -30603,6 +30605,8 @@ body.message-action-open {
   text-overflow: ellipsis;
   padding: 0 4px;
   line-height: 1.2;
+  flex-shrink: 0;
+  height: 14px;
 }
 
 /* 隐藏标签 */
