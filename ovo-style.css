@@ -7939,14 +7939,12 @@
     }
 
     /* 🔥 【老王新增】隐藏时间框 - 解决iOS时间重叠问题 */
+    /* 只隐藏视觉效果，保留占位高度，防止app-grid扩展导致内容"放大" */
     .status-bar-hidden .status-bar {
       opacity: 0 !important;
       pointer-events: none !important;
       visibility: hidden !important;
-      height: 0 !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      overflow: hidden !important;
+      /* 不设置 height/padding/margin: 0，保持原有布局占位 */
     }
 
     /* 🔥 【老王新增】全局时间栏覆盖层 - 独立于homeScreen */
