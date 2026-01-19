@@ -26,7 +26,10 @@
   <!-- ========== PWA配置结束 ========== -->
   
   <!-- Dexie.js - IndexedDB Wrapper -->
-  <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.4/dist/dexie.min.js"></script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.4/dist/dexie.min.js" defer></script>
   <link rel="stylesheet" href="ovo-style.css">
   <!-- 扩展字体 - 字体选择器可用 -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+XiaoWei&family=Zhi+Mang+Xing&family=Long+Cang&family=Dancing+Script:wght@400;500;600;700&family=Pacifico&family=Lobster&family=Satisfy&family=Great+Vibes&family=Permanent+Marker&family=Indie+Flower&family=Patrick+Hand&family=Kalam:wght@300;400;700&family=Gloria+Hallelujah&family=Comic+Neue:wght@300;400;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Merriweather:wght@300;400;700&family=Lora:wght@400;500;600;700&display=swap">
@@ -4235,26 +4238,26 @@ top: var(--app-header-total-padding, 20px);
               <!-- 3. 最爱剧集 (Favorites) -->
               <section class="moments-cine-section">
                 <div class="moments-cine-section-title" style="margin-left: 2px;">Favorite shows</div>
-                <div class="moments-cine-favs hide-scrollbar">
-                  <div class="moments-cine-poster">
+                <div class="moments-cine-favs hide-scrollbar" id="momentsFavoritesList">
+                  <div class="moments-cine-poster" data-moments-fav-index="0" data-default-title="Attack on Titan" data-default-src="https://image.tmdb.org/t/p/w500/8CdXR48gWvL5669b9f9uL3h3f0.jpg" role="button" tabindex="0" aria-label="Edit favorite show 1">
                     <img src="https://image.tmdb.org/t/p/w500/8CdXR48gWvL5669b9f9uL3h3f0.jpg" class="moments-cine-img" alt="Poster">
                     <div class="moments-cine-poster-grad">
                       <div class="moments-cine-poster-title">Attack on Titan</div>
                     </div>
                   </div>
-                  <div class="moments-cine-poster">
+                  <div class="moments-cine-poster" data-moments-fav-index="1" data-default-title="Alice in Borderland" data-default-src="https://image.tmdb.org/t/p/w500/2676bo3CMXn434YeOfle9bqxk9f.jpg" role="button" tabindex="0" aria-label="Edit favorite show 2">
                     <img src="https://image.tmdb.org/t/p/w500/2676bo3CMXn434YeOfle9bqxk9f.jpg" class="moments-cine-img" alt="Poster">
                     <div class="moments-cine-poster-grad">
                       <div class="moments-cine-poster-title">Alice in Borderland</div>
                     </div>
                   </div>
-                  <div class="moments-cine-poster">
+                  <div class="moments-cine-poster" data-moments-fav-index="2" data-default-title="The Glory" data-default-src="https://image.tmdb.org/t/p/w500/6j45s2s2d5s2s2.jpg" role="button" tabindex="0" aria-label="Edit favorite show 3">
                     <img src="https://image.tmdb.org/t/p/w500/6j45s2s2d5s2s2.jpg" class="moments-cine-img" alt="Poster">
                     <div class="moments-cine-poster-grad">
                       <div class="moments-cine-poster-title">The Glory</div>
                     </div>
                   </div>
-                  <div class="moments-cine-poster">
+                  <div class="moments-cine-poster" data-moments-fav-index="3" data-default-title="Arcane" data-default-src="https://image.tmdb.org/t/p/w500/fqldf2t8ztc9aiwn3k6mlX3tvRt.jpg" role="button" tabindex="0" aria-label="Edit favorite show 4">
                     <img src="https://image.tmdb.org/t/p/w500/fqldf2t8ztc9aiwn3k6mlX3tvRt.jpg" class="moments-cine-img" alt="Poster">
                     <div class="moments-cine-poster-grad">
                       <div class="moments-cine-poster-title">Arcane</div>
@@ -8783,7 +8786,7 @@ top: var(--app-header-total-padding, 20px);
     <div class="call-floating-pulse"></div>
   </div>
   
-  <script src="ovo-script.js"></script>
+  <script src="ovo-script.js" defer></script>
 
 </body>
 </html>

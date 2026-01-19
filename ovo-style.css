@@ -165,6 +165,8 @@
     html {
       overflow: hidden;
       height: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     body {
@@ -1015,7 +1017,8 @@
       flex: 1;
       padding: 20px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      /* 关键修复：允许网格项在小屏下收缩，避免被小组件/min-content 撑到横向溢出导致“整体右移” */
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       grid-template-rows: repeat(8, auto);
       gap: 16px;
       align-content: start;
@@ -1026,6 +1029,59 @@
       box-sizing: border-box;
       /* 防止加载时闪烁 */
       will-change: contents;
+      min-width: 0;
+    }
+
+    /* 关键修复：Grid/Flex 子项默认 min-width:auto 可能导致撑爆；统一允许收缩 */
+    .app-grid > * {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    /* 🧭 Desktop Pager（双桌面）：默认隐藏，横向滑动/切换时短暂出现（INS / iOS小巧风格） */
+    #desktopPagerIndicator {
+      position: absolute;
+      left: 50%;
+      bottom: 110px; /* Dock上方 */
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(20, 20, 20, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-50%);
+      transition: opacity 180ms ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    #desktopPagerIndicator.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%);
+    }
+
+    /* 覆盖通用 dot 样式：更小更 iOS */
+    #desktopPagerIndicator .tgd-page-dot {
+      width: 6px;
+      height: 6px;
+      opacity: 0.55;
+      background: rgba(255, 255, 255, 0.38);
+      transition: transform 200ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 200ms ease, background 200ms ease;
+    }
+
+    #desktopPagerIndicator .tgd-page-dot.active {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.95);
+      transform: scale(1.35);
     }
 
     .app-grid::-webkit-scrollbar {
@@ -1040,7 +1096,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 80px;
+      min-width: 0;
       width: 100%;
       max-width: 100%;
       transition: background 0.2s ease;
@@ -1062,6 +1118,7 @@
       transition: transform 0.2s ease, opacity 0.2s ease;
       width: 100%;
       max-width: 100%;
+      min-width: 0;
       box-sizing: border-box;
     }
 
@@ -1073,6 +1130,12 @@
     .app-icon:nth-child(6) { animation-delay: 3.0s; }
     .app-icon:nth-child(7) { animation-delay: 3.1s; }
     .app-icon:nth-child(8) { animation-delay: 3.2s; }
+
+    /* 首次开机可用入场动画；后续重渲染/切页不再跑延迟动画（避免切桌面时“消失等待”） */
+    .app-grid.no-entrance .app-icon {
+      animation: none !important;
+      animation-delay: 0s !important;
+    }
 
     /* 编辑模式 */
     .app-grid.edit-mode .app-icon {
@@ -1312,6 +1375,10 @@
       position: relative;
       width: 100%;
       height: 100%;
+      min-width: 0;
+      min-height: 0;
+      max-width: 100%;
+      max-height: 100%;
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -7089,9 +7156,27 @@
         width: 56px;
         height: 56px;
       }
+    }
 
-      .grid-cell {
-        min-height: 70px;
+    /* 更小屏（如 320/360 宽）：进一步收紧间距与图标尺寸，确保四列稳定且不溢出 */
+    @media (max-width: 360px) {
+      .app-grid {
+        gap: 12px;
+        padding: 12px;
+      }
+
+      .app-icon-img {
+        width: 52px;
+        height: 52px;
+      }
+
+      .dock-icon {
+        width: 50px;
+        height: 50px;
+      }
+
+      .app-label {
+        max-width: 64px;
       }
     }
 
@@ -11394,12 +11479,12 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: grayscale(100%);
-      transition: filter 0.5s ease;
+      filter: none;
+      transition: opacity 0.5s ease;
     }
 
     .moments-comment-row:hover .moments-comment-avatar img {
-      filter: grayscale(0%);
+      filter: none;
     }
 
     .moments-comment-body {
@@ -11600,8 +11685,6 @@
       background: var(--moments-cine-shell);
       color: var(--moments-cine-text);
       font-family: 'Inter', sans-serif;
-      border-left: 1px solid var(--moments-cine-border);
-      border-right: 1px solid var(--moments-cine-border);
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
     }
 
@@ -11760,7 +11843,7 @@
     #momentsScreen .moments-settings-sheet {
       position: relative;
       width: min(420px, 100%);
-      max-height: calc(88% - env(safe-area-inset-top, 0px));
+      max-height: calc(92% - env(safe-area-inset-top, 0px));
       background: var(--moments-cine-shell);
       color: var(--moments-cine-text);
       border: 1px solid var(--moments-cine-border);
@@ -11842,7 +11925,7 @@
       padding: 8px 16px 14px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      max-height: calc(88vh - 88px);
+      max-height: calc(92vh - 88px);
     }
 
     #momentsScreen .moments-settings-card {
@@ -12048,7 +12131,7 @@
     #momentsScreen .moments-settings-footer {
       position: sticky;
       bottom: 0;
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+      padding: 10px 16px calc(22px + env(safe-area-inset-bottom, 0px));
       background: linear-gradient(to top, var(--moments-cine-shell), rgba(0, 0, 0, 0));
       display: flex;
       gap: 10px;
@@ -12313,6 +12396,13 @@
       border-radius: 12px;
       background: #111;
       box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.16s ease, box-shadow 0.2s ease;
+    }
+
+    #momentsScreen .moments-cine-poster:active {
+      transform: translateY(1px) scale(0.99);
     }
 
     #momentsScreen .moments-cine-poster img {
