@@ -11694,6 +11694,8 @@
       left: 0;
       right: 0;
       padding: 16px;
+      /* 🔥 同步全局顶栏padding管理系统（避免遮挡系统状态栏/刘海区域） */
+      padding-top: calc(var(--total-top-padding) + 4px);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -12314,6 +12316,12 @@
       border-radius: 18px;
       padding: 18px;
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.2s ease;
+    }
+
+    #momentsScreen .moments-cine-stats-card:active {
+      transform: translateY(1px) scale(0.995);
     }
 
     [data-theme='dark'] #momentsScreen .moments-cine-stats-card {
@@ -27473,6 +27481,10 @@
 }
 
 /* 输入框容器 - 覆盖在end call位置 */
+.phone-call-screen:not(.state-connected) .call-reply-input-container {
+  display: none !important;
+}
+
 .call-reply-input-container {
   position: absolute;
   bottom: 48px;
